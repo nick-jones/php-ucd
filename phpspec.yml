@@ -1,0 +1,5 @@
+extensions:
+  - PhpSpecExtension\MatcherLoader\Extension
+
+matchers:
+  - spec\UCD\SpecHelper\IteratorMatcher

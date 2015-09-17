@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+define('PHPUCD_VERSION', '0.0.0');
+define('PHPUCD_UNICODE_VERSION', '8.0');
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use UCD\Console\Command\SearchCommand;
+use UCD\Console\Command\GenerateDatabaseCommand;
+
+$console = new Application('Unicode Character Database', PHPUCD_VERSION);
+$console->add(new GenerateDatabaseCommand());
+$console->add(new SearchCommand());
+$console->run();

@@ -1,0 +1,142 @@
+<?php
+
+namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
+
+use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+
+use UCD\Entity\Character;
+use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Character\Properties;
+use UCD\Entity\Character\Repository\CharacterNotFoundException;
+use UCD\Entity\Character\WritableRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPRangeFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPRangeFiles;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
+use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
+
+/**
+ * @mixin PHPFileRepository
+ */
+class PHPFileRepositorySpec extends ObjectBehavior
+{
+    const PATH = 'path';
+
+    private $serializer;
+
+    public function let(PHPRangeFiles $files, PHPSerializer $serializer)
+    {
+        $this->serializer = $serializer;
+        $this->beConstructedWith(self::PATH, $files, $serializer);
+    }
+
+    public function it_is_writable()
+    {
+        $this->shouldHaveType(WritableRepository::CLASS);
+    }
+
+    public function it_can_have_characters_added_to_it($files, Character $character, PHPRangeFile $file)
+    {
+        $files->addFromDetails(self::PATH, new Range(0, Codepoint::MAX), 1)
+            ->willReturn($file);
+
+        $this->serializer
+            ->serialize($character)
+            ->willReturn($serialized = ['serialized']);
+
+        $file->write([1 => $serialized])
+            ->shouldBeCalled()
+            ->willReturn(true);
+
+        $this->givenCharacterHasCodepointWithValue($character, 1);
+        $this->addMany([$character]);
+    }
+
+    public function it_can_retrieve_characters_by_codepoint($files, Character $character, PHPRangeFile $file)
+    {
+        $files->getForValue(1)
+            ->willReturn($file);
+
+        $this->givenFileUnserializesTo($file, 1, $character);
+
+        $this->getByCodepoint(Codepoint::fromInt(1))
+            ->shouldReturn($character);
+    }
+
+    public function it_should_throw_CharacterNotFoundException_if_the_requested_character_is_not_found(
+        $files,
+        PHPRangeFile $file,
+        Character $character
+    ) {
+        $files->getForValue(1)
+            ->willReturn($file);
+
+        $this->givenFileUnserializesTo($file, 0, $character);
+
+        $this->shouldThrow(CharacterNotFoundException::CLASS)
+            ->duringGetByCodePoint(Codepoint::fromInt(1));
+    }
+
+    public function it_exposes_all_available_characters(
+        $files,
+        PHPRangeFile $file1,
+        PHPRangeFile $file2,
+        Character $character1,
+        Character $character2
+    ) {
+        $files->getIterator()
+            ->willReturn(new \ArrayIterator([$file1->getWrappedObject(), $file2->getWrappedObject()]));
+
+        $this->givenFileUnserializesTo($file1, 1, $character1);
+        $this->givenFileUnserializesTo($file2, 5, $character2);
+
+        $this->getAll()
+            ->shouldIterateLike([1 => $character1, 5 => $character2]);
+    }
+
+    public function it_exposes_an_empty_array_if_no_characters_are_available($files)
+    {
+        $files->getIterator()
+            ->willReturn(new \ArrayIterator([]));
+
+        $this->getAll()
+            ->shouldIterateLike([]);
+    }
+
+    public function it_exposes_the_number_of_characters_available($files, PHPRangeFile $file1, PHPRangeFile $file2)
+    {
+        $files->getIterator()
+            ->willReturn(new \ArrayIterator([$file1->getWrappedObject(), $file2->getWrappedObject()]));
+
+        $file1->getTotal()
+            ->willReturn(1);
+
+        $file2->getTotal()
+            ->willReturn(2);
+
+        $this->count()
+            ->shouldReturn(3);
+    }
+
+    private function givenFileUnserializesTo(PHPRangeFile $file, $offset, Character $character)
+    {
+        $serialized = sprintf('serialized:%d', $offset);
+
+        $file->read()
+            ->willReturn([$offset => $serialized]);
+
+        $this->serializer
+            ->unserialize($serialized)
+            ->willReturn($character);
+    }
+
+    private function givenCharacterHasCodepointWithValue(Character $character, $value)
+    {
+        $character->getCodepoint()
+            ->willReturn(Codepoint::fromInt($value));
+
+        $character->getCodepointValue()
+            ->willReturn($value);
+    }
+}
