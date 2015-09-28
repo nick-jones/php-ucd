@@ -16,7 +16,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 
 class PHPFileRepository implements WritableRepository
 {
-    const DEFAULT_DB_DIR = __DIR__ . '/../../../../../resources/generated/db';
+    const DEFAULT_DB_DIR = '../../../../../resources/generated/db';
     const DEFAULT_SLICE_SIZE = 1000;
 
     /**
@@ -40,11 +40,11 @@ class PHPFileRepository implements WritableRepository
      * @param PHPSerializer $serializer
      */
     public function __construct(
-        $dbPath = self::DEFAULT_DB_DIR,
+        $dbPath = null,
         PHPRangeFiles $files = null,
         PHPSerializer $serializer = null
     ) {
-        $this->dbPath = $dbPath;
+        $this->dbPath = $dbPath ?: __DIR__ . self::DEFAULT_DB_DIR;
         $this->files = $files ?: PHPRangeFiles::fromDirectory($dbPath);
         $this->serializer = $serializer ?: new PHPSerializer();
     }
