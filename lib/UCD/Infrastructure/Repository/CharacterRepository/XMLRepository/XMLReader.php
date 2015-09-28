@@ -37,9 +37,8 @@ class XMLReader extends \XMLReader
     /**
      * @return bool
      */
-    public function rewind()
+    public function reopen()
     {
-        return $this->close()
-            && parent::open($this->openUri, $this->openEncoding, $this->openOptions);
+        return parent::open($this->openUri, $this->openEncoding, $this->openOptions);
     }
 } 

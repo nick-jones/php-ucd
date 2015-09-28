@@ -26,18 +26,27 @@ final class StreamingCharacterReader implements ElementReader
     {
         $this->preRead();
 
-        while ($element = $this->readNext()) {
-            yield $element;
+        try {
+            while ($element = $this->readNext()) {
+                yield $element;
+            }
+        } finally {
+            $this->postRead();
         }
     }
 
     private function preRead()
     {
-        $this->xmlReader->rewind();
+        $this->xmlReader->reopen();
 
         while ($this->cursorHasCharacter() !== true) {
             $this->xmlReader->read();
         }
+    }
+
+    private function postRead()
+    {
+        $this->xmlReader->close();
     }
 
     /**
