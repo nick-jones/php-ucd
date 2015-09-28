@@ -21,6 +21,10 @@ use UCD\Entity\Character\Properties\Normalization;
 use UCD\Entity\Character\Properties\Numericity;
 use UCD\Entity\Character\Properties\General\Version;
 use UCD\Entity\Character\Properties;
+use UCD\Entity\Character\Properties\Shaping;
+use UCD\Entity\Character\Properties\Shaping\Joining;
+use UCD\Entity\Character\Properties\Shaping\JoiningGroup;
+use UCD\Entity\Character\Properties\Shaping\JoiningType;
 use UCD\Exception\UnexpectedValueException;
 
 class CharacterElementParser implements ElementParser
@@ -44,6 +48,9 @@ class CharacterElementParser implements ElementParser
     const ATTR_DECOMPOSITION_MAPPING = 'dm';
     const ATTR_NUMERIC_TYPE = 'nt';
     const ATTR_NUMERIC_VALUE = 'nv';
+    const ATTR_JOINING_GROUP = 'jg';
+    const ATTR_JOINING_TYPE = 'jt';
+    const ATTR_JOIN_CONTROL = 'Join_C';
 
     /**
      * @var \DOMElement
@@ -85,8 +92,9 @@ class CharacterElementParser implements ElementParser
         $normalization = $this->parseNormalization($codepoint);
         $numericity = $this->parseNumericity();
         $bidirectionality = $this->parseBidirectionality();
+        $shaping = $this->parseShaping();
 
-        return new Properties($general, $numericity, $normalization, $bidirectionality);
+        return new Properties($general, $numericity, $normalization, $bidirectionality, $shaping);
     }
 
     /**
@@ -220,6 +228,28 @@ class CharacterElementParser implements ElementParser
         $numericValue = Numericity\RationalNumber::fromString($numericValue);
 
         return new Numericity\Numeric($numericType, $numericValue);
+    }
+
+    /**
+     * @return Shaping
+     */
+    private function parseShaping()
+    {
+        $joining = $this->parseJoining();
+
+        return new Shaping($joining);
+    }
+
+    /**
+     * @return Joining
+     */
+    private function parseJoining()
+    {
+        $joiningGroup = new JoiningGroup($this->getAttribute(self::ATTR_JOINING_GROUP));
+        $joiningType = new JoiningType($this->getAttribute(self::ATTR_JOINING_TYPE));
+        $joinControl = $this->getBoolAttribute(self::ATTR_JOIN_CONTROL);
+
+        return new Joining($joiningGroup, $joiningType, $joinControl);
     }
 
     /**

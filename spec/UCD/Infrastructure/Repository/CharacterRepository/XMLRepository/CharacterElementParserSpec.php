@@ -53,7 +53,11 @@ XML;
         $numericity = new Properties\Numericity\NonNumeric($numericType);
         $general = new Properties\General($names, $block, $age, $cat);
         $normalization = new Properties\Normalization($combining, $decomp);
-        $properties = new Character\Properties($general, $numericity, $normalization, $bidi);
+        $joiningGroup = new Properties\Shaping\JoiningGroup(Properties\Shaping\JoiningGroup::NO_JOINING_GROUP);
+        $joiningType = new Properties\Shaping\JoiningType(Properties\Shaping\JoiningType::NON_JOINING);
+        $joining = new Properties\Shaping\Joining($joiningGroup, $joiningType, false);
+        $shaping = new Properties\Shaping($joining);
+        $properties = new Character\Properties($general, $numericity, $normalization, $bidi, $shaping);
         $character = new Character(Character\Codepoint::fromInt(0), $properties);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
