@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Entity\Character\Properties;
+namespace UCD\Entity\Character\Properties\Bidirectionality;
 
 use UCD\Entity\Character\Properties\Bidirectionality;
 use UCD\Entity\Character\Properties\Bidirectionality\Bracket;

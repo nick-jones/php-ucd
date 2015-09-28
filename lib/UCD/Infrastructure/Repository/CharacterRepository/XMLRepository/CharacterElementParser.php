@@ -5,19 +5,21 @@ namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 use UCD\Entity\Character;
 use UCD\Entity\Character\Codepoint;
 use UCD\Entity\Character\Properties\Bidirectionality;
-use UCD\Entity\Character\Properties\BracketBidirectionality;
+use UCD\Entity\Character\Properties\Bidirectionality\BracketBidirectionality;
 use UCD\Entity\Character\Properties\Bidirectionality\Bracket;
 use UCD\Entity\Character\Properties\Bidirectionality\Classing;
 use UCD\Entity\Character\Properties\Bidirectionality\Mirroring;
-use UCD\Entity\Character\Properties\Block;
-use UCD\Entity\Character\Properties\Combining;
-use UCD\Entity\Character\Properties\Decomposition;
-use UCD\Entity\Character\Properties\DecompositionType;
-use UCD\Entity\Character\Properties\GeneralCategory;
-use UCD\Entity\Character\Properties\Name;
-use UCD\Entity\Character\Properties\Names;
+use UCD\Entity\Character\Properties\General;
+use UCD\Entity\Character\Properties\General\Block;
+use UCD\Entity\Character\Properties\Normalization\Combining;
+use UCD\Entity\Character\Properties\Normalization\Decomposition;
+use UCD\Entity\Character\Properties\Normalization\DecompositionType;
+use UCD\Entity\Character\Properties\General\GeneralCategory;
+use UCD\Entity\Character\Properties\General\Name;
+use UCD\Entity\Character\Properties\General\Names;
+use UCD\Entity\Character\Properties\Normalization;
 use UCD\Entity\Character\Properties\Numericity;
-use UCD\Entity\Character\Properties\Version;
+use UCD\Entity\Character\Properties\General\Version;
 use UCD\Entity\Character\Properties;
 use UCD\Exception\UnexpectedValueException;
 
@@ -79,33 +81,26 @@ class CharacterElementParser implements ElementParser
      */
     private function parseProperties(Codepoint $codepoint)
     {
-        $age = $this->parseAge();;
-        $names = $this->parseNames($codepoint);
-        $block = $this->parseBlock();
-        $generalCategory = $this->parseGeneralCategory();
-        $combining = $this->parseCombiningClass();
-        $bidirectionality = $this->parseBidirectionality();
-        $decomposition = $this->parseDecomposition($codepoint);
+        $general = $this->parseGeneral($codepoint);
+        $normalization = $this->parseNormalization($codepoint);
         $numericity = $this->parseNumericity();
+        $bidirectionality = $this->parseBidirectionality();
 
-        return new Properties(
-            $age,
-            $names,
-            $block,
-            $generalCategory,
-            $combining,
-            $bidirectionality,
-            $decomposition,
-            $numericity
-        );
+        return new Properties($general, $numericity, $normalization, $bidirectionality);
     }
 
     /**
-     * @return Version
+     * @param Codepoint $codepoint
+     * @return General
      */
-    private function parseAge()
+    private function parseGeneral(Codepoint $codepoint)
     {
-        return new Version($this->getAttribute(self::ATTR_AGE));
+        $names = $this->parseNames($codepoint);
+        $block = $this->parseBlock();
+        $age = $this->parseAge();;
+        $generalCategory = $this->parseGeneralCategory();
+
+        return new General($names, $block, $age, $generalCategory);
     }
 
     /**
@@ -128,6 +123,26 @@ class CharacterElementParser implements ElementParser
     private function parseBlock()
     {
         return new Block($this->getAttribute(self::ATTR_BLOCK));
+    }
+
+    /**
+     * @return Version
+     */
+    private function parseAge()
+    {
+        return new Version($this->getAttribute(self::ATTR_AGE));
+    }
+
+    /**
+     * @param Codepoint $codepoint
+     * @return Normalization
+     */
+    private function parseNormalization(Codepoint $codepoint)
+    {
+        $combining = $this->parseCombiningClass();
+        $decomposition = $this->parseDecomposition($codepoint);
+
+        return new Normalization($combining, $decomposition);
     }
 
     /**

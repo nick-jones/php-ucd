@@ -1,6 +1,8 @@
 <?php
 
-namespace UCD\Entity\Character\Properties;
+namespace UCD\Entity\Character\Properties\General;
+
+use UCD\Entity\Character\Properties\Enumeration;
 
 class Version extends Enumeration
 {

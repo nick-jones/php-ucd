@@ -1,6 +1,8 @@
 <?php
 
-namespace UCD\Entity\Character\Properties;
+namespace UCD\Entity\Character\Properties\Normalization;
+
+use UCD\Entity\Character\Properties\Enumeration;
 
 class Combining extends Enumeration
 {

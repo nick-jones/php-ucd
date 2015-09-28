@@ -36,21 +36,24 @@ XML;
 
     public function it_parses_a_char_element_into_into_a_character()
     {
-        $age = new Properties\Version(Properties\Version::V1_1);
-        $primary = new Properties\Name\Unassigned();
-        $nameV1 = new Properties\Name\Assigned('NULL');
-        $names = new Properties\Names($primary, [], $nameV1);
-        $block = new Properties\Block(Properties\Block::BASIC_LATIN);
-        $cat = new Properties\GeneralCategory(Properties\GeneralCategory::OTHER_CONTROL);
-        $combining = new Properties\Combining(Properties\Combining::NOT_REORDERED);
+        $age = new Properties\General\Version(Properties\General\Version::V1_1);
+        $primary = new Properties\General\Name\Unassigned();
+        $nameV1 = new Properties\General\Name\Assigned('NULL');
+        $names = new Properties\General\Names($primary, [], $nameV1);
+        $block = new Properties\General\Block(Properties\General\Block::BASIC_LATIN);
+        $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::OTHER_CONTROL);
+        $combining = new Properties\Normalization\Combining(Properties\Normalization\Combining::NOT_REORDERED);
         $classing = new Properties\Bidirectionality\Classing(Properties\Bidirectionality\Classing::BOUNDARY_NEUTRAL);
         $mirroring = new Properties\Bidirectionality\Mirroring(false);
         $bidi = new Properties\Bidirectionality($classing, $mirroring, false);
-        $decompositionType = new Properties\DecompositionType(Properties\DecompositionType::NONE);
-        $decomp = new Properties\Decomposition\Void($decompositionType);
+        $dType = Properties\Normalization\DecompositionType::NONE;
+        $decompositionType = new Properties\Normalization\DecompositionType($dType);
+        $decomp = new Properties\Normalization\Decomposition\Void($decompositionType);
         $numericType = new Properties\Numericity\NumericType(Properties\Numericity\NumericType::NONE);
         $numericity = new Properties\Numericity\NonNumeric($numericType);
-        $properties = new Character\Properties($age, $names, $block, $cat, $combining, $bidi, $decomp, $numericity);
+        $general = new Properties\General($names, $block, $age, $cat);
+        $normalization = new Properties\Normalization($combining, $decomp);
+        $properties = new Character\Properties($general, $numericity, $normalization, $bidi);
         $character = new Character(Character\Codepoint::fromInt(0), $properties);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');

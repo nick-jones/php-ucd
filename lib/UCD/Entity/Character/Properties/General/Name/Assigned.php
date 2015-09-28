@@ -1,8 +1,8 @@
 <?php
 
-namespace UCD\Entity\Character\Properties\Name;
+namespace UCD\Entity\Character\Properties\General\Name;
 
-use UCD\Entity\Character\Properties\Name;
+use UCD\Entity\Character\Properties\General\Name;
 use UCD\Exception\InvalidArgumentException;
 
 class Assigned implements Name

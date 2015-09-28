@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Entity\Character\Properties;
+namespace UCD\Entity\Character\Properties\General;
 
 interface Name
 {
