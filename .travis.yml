@@ -19,6 +19,9 @@ before_install:
 install:
   - composer install --dev --no-interaction
 
+before_script:
+  - bash -c 'if [ "$TRAVIS_PHP_VERSION" == "7.0" ]; then wget https://github.com/digitalkaoz/typehint-to-docblock/releases/download/0.2.2/typehint-to-docblock.phar && php typehint-to-docblock.phar transform spec; fi;'
+
 script:
   - ./vendor/bin/phpspec run
   - ./vendor/bin/phpunit
