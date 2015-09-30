@@ -62,6 +62,8 @@ class GenerateDatabaseCommand extends Command
             $output->writeln('<info>Database Generated</info>');
         }
 
+        $output->writeln(sprintf('Memory peak: %.2f MB', memory_get_peak_usage() / 1048576));
+
         return 0;
     }
 
