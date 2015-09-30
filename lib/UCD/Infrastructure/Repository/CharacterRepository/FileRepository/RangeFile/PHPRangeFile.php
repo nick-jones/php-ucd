@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
@@ -8,7 +8,9 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\PrettyPrinter\Standard;
+
 use UCD\Exception\InvalidArgumentException;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 
 class PHPRangeFile extends RangeFile
 {

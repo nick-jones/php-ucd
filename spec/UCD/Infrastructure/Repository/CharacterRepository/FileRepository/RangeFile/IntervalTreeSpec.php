@@ -1,10 +1,11 @@
 <?php
 
-namespace spec\UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+namespace spec\UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 use PhpSpec\ObjectBehavior;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\IntervalTree;
+
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\IntervalTree;
 
 /**
  * @mixin IntervalTree

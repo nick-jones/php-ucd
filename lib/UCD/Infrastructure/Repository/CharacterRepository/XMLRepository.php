@@ -49,7 +49,7 @@ class XMLRepository implements ReadOnlyRepository
     }
 
     /**
-     * @return Character[]|\Traversable
+     * @return Character[]
      */
     public function getAll()
     {
@@ -65,8 +65,8 @@ class XMLRepository implements ReadOnlyRepository
     }
 
     /**
-     * @param object[]|\Traversable $objects
-     * @return Character[]|\Traversable
+     * @param object[] $objects
+     * @return Character[]
      */
     private function filterForCharacters($objects)
     {

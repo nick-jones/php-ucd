@@ -1,8 +1,9 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 use IntervalTree\IntervalTree as BaseIntervalTree;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 
 class IntervalTree extends BaseIntervalTree
 {
@@ -19,7 +20,7 @@ class IntervalTree extends BaseIntervalTree
     {
         $this->ranges = $ranges;
 
-        parent::__construct($ranges, $comparator);
+        BaseIntervalTree::__construct($ranges, $comparator);
     }
 
     /**

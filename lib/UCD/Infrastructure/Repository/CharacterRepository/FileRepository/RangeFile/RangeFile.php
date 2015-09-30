@@ -1,6 +1,8 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 
 abstract class RangeFile
 {

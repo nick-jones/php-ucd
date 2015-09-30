@@ -40,11 +40,12 @@ class SearchCommandTest extends BaseTestCase
         $this->commandTester = new CommandTester($command);
 
         $this->fs = new FileSystem();
-        $this->dbPath = $this->fs->path('/');
+        $this->dbPath = $this->fs->path('/db');
 
+        mkdir($this->dbPath);
         $character = $this->buildCharacterWithCodepoint(Codepoint::fromInt(163));
         $content = sprintf("<?php\nreturn %s;", var_export([163 => serialize($character)], true));
-        file_put_contents($this->fs->path('/00000000-01114111!0001.php'), $content);
+        file_put_contents($this->fs->path('/db/00000000-01114111!0001.php'), $content);
     }
 
     /**

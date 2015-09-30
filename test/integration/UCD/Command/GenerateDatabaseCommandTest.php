@@ -64,7 +64,7 @@ XML;
         $this->commandTester = new CommandTester($command);
 
         $this->fs = new FileSystem();
-        $this->dbPath = $this->fs->path('/db/');
+        $this->dbPath = $this->fs->path('/db');
         $this->ucdXmlPath = $this->fs->path('/ucd.xml');
 
         file_put_contents($this->ucdXmlPath, self::FILE_CONTENT);
@@ -93,7 +93,7 @@ XML;
         ha::assertThat('file name', $files[0]->getBasename(), hm::is(hm::identicalTo('00000000-01114111!0001.php')));
         ha::assertThat('file size', $files[0]->getSize(), hm::is(hm::greaterThan(0)));
 
-        $data = require (string)$files[0];
+        $data = require $files[0]->getPathname();
 
         ha::assertThat('dumped data', $data, hm::is(hm::arrayWithSize(1)));
         ha::assertThat('dumped data', $data, hm::hasKeyInArray(0));

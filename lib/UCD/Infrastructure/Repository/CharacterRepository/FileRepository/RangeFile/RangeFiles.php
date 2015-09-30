@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 use UCD\Exception\UnexpectedValueException;
 

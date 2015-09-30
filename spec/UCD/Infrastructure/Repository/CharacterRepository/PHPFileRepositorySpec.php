@@ -10,10 +10,11 @@ use UCD\Entity\Character\Codepoint;
 use UCD\Entity\Character\Properties;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPRangeFile;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPRangeFiles;
+
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 
 /**
@@ -21,14 +22,12 @@ use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
  */
 class PHPFileRepositorySpec extends ObjectBehavior
 {
-    const PATH = 'path';
-
     private $serializer;
 
-    public function let(PHPRangeFiles $files, PHPSerializer $serializer)
+    public function let(PHPFileDirectory $dir, PHPSerializer $serializer)
     {
         $this->serializer = $serializer;
-        $this->beConstructedWith(self::PATH, $files, $serializer);
+        $this->beConstructedWith($dir, $serializer);
     }
 
     public function it_is_writable()
@@ -36,9 +35,9 @@ class PHPFileRepositorySpec extends ObjectBehavior
         $this->shouldHaveType(WritableRepository::CLASS);
     }
 
-    public function it_can_have_characters_added_to_it($files, Character $character, PHPRangeFile $file)
+    public function it_can_have_characters_added_to_it($dir, Character $character, PHPRangeFile $file)
     {
-        $files->addFromDetails(self::PATH, new Range(0, Codepoint::MAX), 1)
+        $dir->createFileFromDetails(new Range(0, Codepoint::MAX), 1)
             ->willReturn($file);
 
         $this->serializer
@@ -53,9 +52,9 @@ class PHPFileRepositorySpec extends ObjectBehavior
         $this->addMany([$character]);
     }
 
-    public function it_can_retrieve_characters_by_codepoint($files, Character $character, PHPRangeFile $file)
+    public function it_can_retrieve_characters_by_codepoint($dir, Character $character, PHPRangeFile $file)
     {
-        $files->getForValue(1)
+        $dir->getFileFromValue(1)
             ->willReturn($file);
 
         $this->givenFileUnserializesTo($file, 1, $character);
@@ -65,11 +64,11 @@ class PHPFileRepositorySpec extends ObjectBehavior
     }
 
     public function it_should_throw_CharacterNotFoundException_if_the_requested_character_is_not_found(
-        $files,
+        $dir,
         PHPRangeFile $file,
         Character $character
     ) {
-        $files->getForValue(1)
+        $dir->getFileFromValue(1)
             ->willReturn($file);
 
         $this->givenFileUnserializesTo($file, 0, $character);
@@ -79,13 +78,13 @@ class PHPFileRepositorySpec extends ObjectBehavior
     }
 
     public function it_exposes_all_available_characters(
-        $files,
+        $dir,
         PHPRangeFile $file1,
         PHPRangeFile $file2,
         Character $character1,
         Character $character2
     ) {
-        $files->getIterator()
+        $dir->getIterator()
             ->willReturn(new \ArrayIterator([$file1->getWrappedObject(), $file2->getWrappedObject()]));
 
         $this->givenFileUnserializesTo($file1, 1, $character1);
@@ -95,18 +94,18 @@ class PHPFileRepositorySpec extends ObjectBehavior
             ->shouldIterateLike([1 => $character1, 5 => $character2]);
     }
 
-    public function it_exposes_an_empty_array_if_no_characters_are_available($files)
+    public function it_exposes_an_empty_array_if_no_characters_are_available($dir)
     {
-        $files->getIterator()
+        $dir->getIterator()
             ->willReturn(new \ArrayIterator([]));
 
         $this->getAll()
             ->shouldIterateLike([]);
     }
 
-    public function it_exposes_the_number_of_characters_available($files, PHPRangeFile $file1, PHPRangeFile $file2)
+    public function it_exposes_the_number_of_characters_available($dir, PHPRangeFile $file1, PHPRangeFile $file2)
     {
-        $files->getIterator()
+        $dir->getIterator()
             ->willReturn(new \ArrayIterator([$file1->getWrappedObject(), $file2->getWrappedObject()]));
 
         $file1->getTotal()

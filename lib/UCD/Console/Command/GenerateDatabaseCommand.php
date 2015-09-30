@@ -13,6 +13,7 @@ use UCD\Entity\Character\ReadOnlyRepository;
 use UCD\Entity\Character\WritableRepository;
 
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\NULLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
@@ -44,7 +45,7 @@ class GenerateDatabaseCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $ucdXmlLocation = $input->getArgument(self::ARGUMENT_UCDXML_LOCATION);
-        $databaseLocation = $input->getOption(self::OPTION_DB_LOCATION);
+        $databaseLocation = new \SplFileInfo($input->getOption(self::OPTION_DB_LOCATION));
         $debug = $input->getOption(self::OPTION_DEBUG);
 
         $this->prepareDestination($databaseLocation);
@@ -65,11 +66,11 @@ class GenerateDatabaseCommand extends Command
     }
 
     /**
-     * @param string $databaseLocation
+     * @param \SplFileInfo $databaseLocation
      */
     private function prepareDestination($databaseLocation)
     {
-        if (!is_dir($databaseLocation)) {
+        if (!$databaseLocation->isDir()) {
             mkdir($databaseLocation, 0777, true);
         }
     }
@@ -90,7 +91,7 @@ class GenerateDatabaseCommand extends Command
     }
 
     /**
-     * @param string $databaseLocation
+     * @param \SplFileInfo $databaseLocation
      * @param bool $debug
      * @return WritableRepository
      */
@@ -98,7 +99,7 @@ class GenerateDatabaseCommand extends Command
     {
         return ($debug === true)
             ? new DebugWritableRepository(new NULLRepository(), new Echolog())
-            : new PHPFileRepository($databaseLocation);
+            : new PHPFileRepository(new PHPFileDirectory($databaseLocation));
     }
 
     /**

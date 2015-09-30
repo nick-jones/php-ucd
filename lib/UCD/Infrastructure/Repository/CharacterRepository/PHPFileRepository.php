@@ -5,14 +5,14 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 use UCD\Entity\Character;
 use UCD\Entity\Character\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
-
 use UCD\Entity\Character\WritableRepository;
+
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPRangeFile;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPRangeFiles;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
 
 class PHPFileRepository implements WritableRepository
 {
@@ -20,14 +20,9 @@ class PHPFileRepository implements WritableRepository
     const DEFAULT_SLICE_SIZE = 1000;
 
     /**
-     * @var string
+     * @var PHPFileDirectory|PHPRangeFile[]
      */
-    private $dbPath;
-
-    /**
-     * @var PHPRangeFiles|PHPRangeFile[]
-     */
-    private $files;
+    private $directory;
 
     /**
      * @var PHPSerializer
@@ -35,18 +30,23 @@ class PHPFileRepository implements WritableRepository
     private $serializer;
 
     /**
-     * @param string $dbPath
-     * @param PHPRangeFiles $files
-     * @param PHPSerializer $serializer
+     * @param PHPFileDirectory $directory
+     * @param \UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer $serializer
      */
-    public function __construct(
-        $dbPath = null,
-        PHPRangeFiles $files = null,
-        PHPSerializer $serializer = null
-    ) {
-        $this->dbPath = $dbPath ?: __DIR__ . self::DEFAULT_DB_DIR;
-        $this->files = $files ?: PHPRangeFiles::fromDirectory($dbPath);
+    public function __construct(PHPFileDirectory $directory = null, PHPSerializer $serializer = null)
+    {
+        $this->directory = $directory ?: new PHPFileDirectory($this->defaultDbDirectory());
         $this->serializer = $serializer ?: new PHPSerializer();
+    }
+
+    /**
+     * @return \SplFileInfo
+     */
+    private function defaultDbDirectory()
+    {
+        $path = sprintf('%s/%s', __DIR__, self::DEFAULT_DB_DIR);
+
+        return new \SplFileInfo($path);
     }
 
     /**
@@ -74,7 +74,7 @@ class PHPFileRepository implements WritableRepository
      */
     private function getFileByCodepoint(Codepoint $codepoint)
     {
-        $file = $this->files->getForValue($codepoint->getValue());
+        $file = $this->directory->getFileFromValue($codepoint->getValue());
 
         if ($file === null) {
             throw CharacterNotFoundException::withCodepoint($codepoint);
@@ -84,7 +84,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @param Character[]|\Traversable $characters
+     * @param Character[] $characters
      */
     public function addMany($characters)
     {
@@ -92,7 +92,7 @@ class PHPFileRepository implements WritableRepository
 
         foreach ($slices as $range => $chunk) {
             /** @var Range $range */
-            $this->addChunk($range, $chunk);
+            $this->createFileWithCharacters($range, $chunk);
         }
     }
 
@@ -101,11 +101,11 @@ class PHPFileRepository implements WritableRepository
      * @param Character[] $characters
      * @return Character[]
      */
-    private function addChunk(Range $range, array $characters)
+    private function createFileWithCharacters(Range $range, array $characters)
     {
         $characters = $this->flattenCharacters($characters);
 
-        $rangeFile = $this->files->addFromDetails($this->dbPath, $range, count($characters));
+        $rangeFile = $this->directory->createFileFromDetails($range, count($characters));
         $rangeFile->write($characters);
     }
 
@@ -126,11 +126,11 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @return Character[]|\Traversable
+     * @return Character[]
      */
     public function getAll()
     {
-        foreach ($this->files as $file) {
+        foreach ($this->directory as $file) {
             $characters = $file->read();
 
             foreach ($characters as $i => $character) {
@@ -146,7 +146,7 @@ class PHPFileRepository implements WritableRepository
     {
         $tally = 0;
 
-        foreach ($this->files as $file) {
+        foreach ($this->directory as $file) {
             $tally += $file->getTotal();
         }
 

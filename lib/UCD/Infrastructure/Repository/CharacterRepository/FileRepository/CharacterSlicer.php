@@ -8,9 +8,9 @@ use UCD\Entity\Character\Codepoint;
 class CharacterSlicer
 {
     /**
-     * @param Character[]|\Traversable $characters
+     * @param Character[] $characters
      * @param int $size
-     * @return Character[]|\Generator
+     * @return \Traversable<Range,Character[]>
      */
     public static function slice($characters, $size)
     {

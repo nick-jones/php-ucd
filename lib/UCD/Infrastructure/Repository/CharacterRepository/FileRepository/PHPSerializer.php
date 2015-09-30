@@ -2,7 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
-class PHPSerializer implements Serializer
+class PHPSerializer
 {
     /**
      * @param mixed $data

@@ -20,7 +20,7 @@ final class StreamingCharacterReader implements ElementReader
     }
 
     /**
-     * @return \Traversable|\DOMElement[]
+     * @return \DOMElement[]
      */
     public function read()
     {

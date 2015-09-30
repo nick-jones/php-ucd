@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use UCD\Entity\Character\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use UCD\View\CharacterView;
 
@@ -36,8 +37,10 @@ class SearchCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $codepoint = Codepoint::fromInt((int)$input->getArgument(self::ARGUMENT_CODEPOINT));
-        $databaseLocation = $input->getOption(self::OPTION_DB_LOCATION);
-        $repository = new PHPFileRepository($databaseLocation);
+        $databaseLocation = new \SplFileInfo($input->getOption(self::OPTION_DB_LOCATION));
+
+        $directory = new PHPFileDirectory($databaseLocation);
+        $repository = new PHPFileRepository($directory);
 
         try {
             $character = $repository->getByCodepoint($codepoint);

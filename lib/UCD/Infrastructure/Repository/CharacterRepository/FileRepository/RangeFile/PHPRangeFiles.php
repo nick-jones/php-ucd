@@ -1,14 +1,17 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 
 class PHPRangeFiles extends RangeFiles
 {
     /**
-     * @param string $basePath
-     * @return PHPRangeFiles
+     * @param \SplFileInfo $basePath
+     * @return PHPRangeFile
+     * @throws \UCD\Exception\InvalidArgumentException
      */
-    public static function fromDirectory($basePath)
+    public static function fromDirectory(\SplFileInfo $basePath)
     {
         $files = [];
         $fileInfos = self::getFileIterator($basePath);
@@ -22,12 +25,18 @@ class PHPRangeFiles extends RangeFiles
     }
 
     /**
-     * @param string $path
+     * @param \SplFileInfo $path
      * @return \SplFileInfo[]
      */
-    private static function getFileIterator($path)
+    private static function getFileIterator(\SplFileInfo $path)
     {
-        $directory = new \FilesystemIterator($path, \FilesystemIterator::CURRENT_AS_FILEINFO);
+        $pathName = $path->getPathname();
+
+        if (strpos($path, ':') === strlen($pathName) - 1) {
+            $pathName = sprintf('%s//', $pathName);
+        }
+
+        $directory = new \FilesystemIterator($pathName, \FilesystemIterator::CURRENT_AS_FILEINFO);
 
         return new \CallbackFilterIterator($directory, function (\SplFileInfo $file) {
             return $file->isFile();
