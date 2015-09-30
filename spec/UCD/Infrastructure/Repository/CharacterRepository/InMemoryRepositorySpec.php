@@ -19,7 +19,7 @@ class InMemoryRepositorySpec extends ObjectBehavior
 {
     public function it_is_writable()
     {
-        $this->shouldHaveType(WritableRepository::CLASS);
+        $this->shouldHaveType(WritableRepository::class);
     }
 
     public function it_can_have_characters_added_to_it(Character $character)
@@ -39,7 +39,7 @@ class InMemoryRepositorySpec extends ObjectBehavior
 
     public function it_should_throw_CharacterNotFoundException_if_the_requested_character_is_not_found()
     {
-        $this->shouldThrow(CharacterNotFoundException::CLASS)
+        $this->shouldThrow(CharacterNotFoundException::class)
             ->duringGetByCodePoint(Codepoint::fromInt(1));
     }
 

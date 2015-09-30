@@ -56,6 +56,6 @@ class CharacterViewSpec extends ObjectBehavior
     public function it_can_dump_an_export()
     {
         $this->asExport()
-            ->shouldMatch(sprintf('/%s/', preg_quote(Character::CLASS)));
+            ->shouldMatch(sprintf('/%s/', preg_quote(Character::class)));
     }
 }

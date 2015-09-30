@@ -19,7 +19,7 @@ class NULLRepositorySpec extends ObjectBehavior
 {
     public function it_is_writable()
     {
-        $this->shouldHaveType(WritableRepository::CLASS);
+        $this->shouldHaveType(WritableRepository::class);
     }
 
     public function it_can_have_characters_added_to_it(Character $character)
@@ -33,7 +33,7 @@ class NULLRepositorySpec extends ObjectBehavior
         $this->givenCharacterHasCodepointWithValue($character, 1);
         $this->addMany([$character]);
 
-        $this->shouldThrow(CharacterNotFoundException::CLASS)
+        $this->shouldThrow(CharacterNotFoundException::class)
             ->duringGetByCodePoint(Codepoint::fromInt(1));
     }
 

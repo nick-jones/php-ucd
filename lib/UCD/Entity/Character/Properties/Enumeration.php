@@ -66,7 +66,7 @@ abstract class Enumeration implements Comparable
      */
     private static function getConstants()
     {
-        $className = static::CLASS;
+        $className = static::class;
 
         if (!array_key_exists($className, self::$constantsCache)) {
             self::$constantsCache[$className] = self::getConstantsForClass($className);

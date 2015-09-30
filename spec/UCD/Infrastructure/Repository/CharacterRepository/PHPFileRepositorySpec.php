@@ -32,7 +32,7 @@ class PHPFileRepositorySpec extends ObjectBehavior
 
     public function it_is_writable()
     {
-        $this->shouldHaveType(WritableRepository::CLASS);
+        $this->shouldHaveType(WritableRepository::class);
     }
 
     public function it_can_have_characters_added_to_it($dir, Character $character, PHPRangeFile $file)
@@ -73,7 +73,7 @@ class PHPFileRepositorySpec extends ObjectBehavior
 
         $this->givenFileUnserializesTo($file, 0, $character);
 
-        $this->shouldThrow(CharacterNotFoundException::CLASS)
+        $this->shouldThrow(CharacterNotFoundException::class)
             ->duringGetByCodePoint(Codepoint::fromInt(1));
     }
 

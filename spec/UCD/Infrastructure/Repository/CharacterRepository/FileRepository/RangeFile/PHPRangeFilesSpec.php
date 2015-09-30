@@ -19,12 +19,13 @@ class PHPRangeFilesSpec extends ObjectBehavior
     public function it_can_be_constructed_from_a_directory_path()
     {
         $fs = new FileSystem();
-        $dbPath = new \SplFileInfo($fs->path('/'));
+        $dbPath = new \SplFileInfo($fs->path('/db'));
 
-        touch($fs->path('/00000001-00000010!0010.php'));
+        mkdir($fs->path('/db'));
+        touch($fs->path('/db/00000001-00000010!0010.php'));
 
         $this->beConstructedThrough('fromDirectory', [$dbPath]);
-        $this->shouldHaveType(PHPRangeFiles::CLASS);
+        $this->shouldHaveType(PHPRangeFiles::class);
         $this->shouldHaveCount(1);
     }
 

@@ -12,13 +12,13 @@ class EnumerationSpec extends ObjectBehavior
 {
     public function let()
     {
-        $this->beAnInstanceOf(EnumerationFixture::CLASS);
+        $this->beAnInstanceOf(EnumerationFixture::class);
         $this->beConstructedWith(EnumerationFixture::A);
     }
 
     public function it_can_be_instantiated_with_a_value_that_is_defined_as_a_constant()
     {
-        $this->shouldHaveType(EnumerationFixture::CLASS);
+        $this->shouldHaveType(EnumerationFixture::class);
     }
 
     public function it_should_expose_the_original_value()

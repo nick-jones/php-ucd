@@ -16,19 +16,19 @@ class CodepointSpec extends ObjectBehavior
     public function it_should_throw_an_OutOfRangeException_if_the_codepoint_less_than_zero()
     {
         $this->beConstructedThrough('fromInt', [-1]);
-        $this->shouldThrow(OutOfRangeException::CLASS);
+        $this->shouldThrow(OutOfRangeException::class);
     }
 
     public function it_should_throw_an_OutOfRangeException_if_the_codepoint_greater_than_0x10FFFF()
     {
         $this->beConstructedThrough('fromInt', [0x110000]);
-        $this->shouldThrow(OutOfRangeException::CLASS);
+        $this->shouldThrow(OutOfRangeException::class);
     }
 
     public function it_should_throw_an_InvalidArgumentException_if_value_is_a_non_integer()
     {
         $this->beConstructedThrough('fromInt', [0x110000]);
-        $this->shouldThrow(InvalidArgumentException::CLASS);
+        $this->shouldThrow(InvalidArgumentException::class);
     }
 
     public function it_should_expose_its_codepoint_value_as_an_integer()
@@ -50,7 +50,7 @@ class CodepointSpec extends ObjectBehavior
     public function it_should_be_comparable()
     {
         $this->beConstructedThrough('fromInt', [0x10]);
-        $this->shouldHaveType(Comparable::CLASS);
+        $this->shouldHaveType(Comparable::class);
     }
 
     public function it_should_equal_an_instance_with_the_same_value()

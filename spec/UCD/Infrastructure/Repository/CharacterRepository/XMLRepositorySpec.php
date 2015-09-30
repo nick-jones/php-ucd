@@ -44,7 +44,7 @@ class XMLRepositorySpec extends ObjectBehavior
         $reader->read()
             ->willReturn([]);
 
-        $this->shouldThrow(CharacterNotFoundException::CLASS)
+        $this->shouldThrow(CharacterNotFoundException::class)
             ->duringGetByCodePoint(Codepoint::fromInt(1));
     }
 

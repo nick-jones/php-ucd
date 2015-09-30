@@ -33,7 +33,7 @@ abstract class TestCase extends BaseTestCase
         $character = $this->repository->getByCodepoint($codepoint);
         $codepoint = $character->getCodepoint();
 
-        ha::assertThat('character', $character, hm::is(hm::anInstanceOf(Character::CLASS)));
+        ha::assertThat('character', $character, hm::is(hm::anInstanceOf(Character::class)));
         ha::assertThat('codepoint', $codepoint->getValue(), hm::is(hm::identicalTo(0)));
     }
 
@@ -62,7 +62,7 @@ abstract class TestCase extends BaseTestCase
 
         foreach ($characters as $character) {
             $tally++;
-            ha::assertThat('character', $character, hm::is(hm::anInstanceOf(Character::CLASS)));
+            ha::assertThat('character', $character, hm::is(hm::anInstanceOf(Character::class)));
         }
 
         ha::assertThat('count', $tally, hm::is(hm::equalTo(1)));

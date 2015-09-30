@@ -16,7 +16,7 @@ class RangeSpec extends ObjectBehavior
     {
         $this->beConstructedWith('a', 10);
 
-        $this->shouldThrow(InvalidArgumentException::CLASS)
+        $this->shouldThrow(InvalidArgumentException::class)
             ->duringInstantiation();
     }
 
@@ -24,7 +24,7 @@ class RangeSpec extends ObjectBehavior
     {
         $this->beConstructedWith(1, 'a');
 
-        $this->shouldThrow(InvalidArgumentException::CLASS)
+        $this->shouldThrow(InvalidArgumentException::class)
             ->duringInstantiation();
     }
 
@@ -32,7 +32,7 @@ class RangeSpec extends ObjectBehavior
     {
         $this->beConstructedWith(10, 1);
 
-        $this->shouldThrow(InvalidRangeException::CLASS)
+        $this->shouldThrow(InvalidRangeException::class)
             ->duringInstantiation();
     }
 

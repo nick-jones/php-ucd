@@ -26,7 +26,7 @@ class RationalNumberSpec extends ObjectBehavior
     public function it_should_not_permit_a_denominator_of_zero()
     {
         $this->beConstructedWith(1, 0, false);
-        $this->shouldThrow(InvalidArgumentException::CLASS)
+        $this->shouldThrow(InvalidArgumentException::class)
             ->duringInstantiation();
     }
 
