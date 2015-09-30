@@ -36,6 +36,7 @@ class SearchCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $start = microtime(true);
         $codepoint = Codepoint::fromInt((int)$input->getArgument(self::ARGUMENT_CODEPOINT));
         $databaseLocation = new \SplFileInfo($input->getOption(self::OPTION_DB_LOCATION));
 
@@ -54,6 +55,7 @@ class SearchCommand extends Command
         $output->writeln('<info>Character Found</info>');
         $output->writeln(sprintf('Export: %s', $view->asExport()));
         $output->writeln(sprintf('UTF-8: %s', $view->asUTF8()));
+        $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
 
         return 0;
     }

@@ -44,6 +44,7 @@ class GenerateDatabaseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $start = microtime(true);
         $ucdXmlLocation = $input->getArgument(self::ARGUMENT_UCDXML_LOCATION);
         $databaseLocation = new \SplFileInfo($input->getOption(self::OPTION_DB_LOCATION));
         $debug = $input->getOption(self::OPTION_DEBUG);
@@ -62,7 +63,8 @@ class GenerateDatabaseCommand extends Command
             $output->writeln('<info>Database Generated</info>');
         }
 
-        $output->writeln(sprintf('Memory peak: %.2f MB', memory_get_peak_usage() / 1048576));
+        $output->writeln(sprintf('Memory peak: %.5f MB', memory_get_peak_usage() / 1048576));
+        $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
 
         return 0;
     }
