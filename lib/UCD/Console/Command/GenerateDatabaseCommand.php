@@ -2,15 +2,17 @@
 
 namespace UCD\Console\Command;
 
+use Psr\Log\LogLevel;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use UCD\Entity\Character\ReadOnlyRepository;
-use UCD\Entity\Character\WritableRepository;
 
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
@@ -20,8 +22,6 @@ use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CharacterElementParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\StreamingCharacterReader;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\XMLReader;
-
-use fool\echolog\Echolog;
 
 class GenerateDatabaseCommand extends Command
 {
@@ -51,18 +51,16 @@ class GenerateDatabaseCommand extends Command
 
         $this->prepareDestination($databaseLocation);
         $source = $this->getXMLRepository($ucdXmlLocation);
-        $destination = $this->getDestinationRepository($databaseLocation, $debug);
+
+        $destination = ($debug === true)
+            ? $this->getDebugRepository($output)
+            : $this->getPHPFileRepository($databaseLocation);
 
         $destination->addMany(
             $source->getAll()
         );
 
-        if ($debug === true) {
-            $output->writeln('<info>Database Not Generated</info>');
-        } else {
-            $output->writeln('<info>Database Generated</info>');
-        }
-
+        $output->writeln(sprintf('<info>Database %s Generated</info>', ($debug === true) ? 'Not' : 'Was'));
         $output->writeln(sprintf('Memory peak: %.5f MB', memory_get_peak_usage() / 1048576));
         $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
 
@@ -96,14 +94,27 @@ class GenerateDatabaseCommand extends Command
 
     /**
      * @param \SplFileInfo $databaseLocation
-     * @param bool $debug
-     * @return WritableRepository
+     * @return PHPFileRepository
      */
-    private function getDestinationRepository($databaseLocation, $debug = false)
+    private function getPHPFileRepository(\SplFileInfo $databaseLocation)
     {
-        return ($debug === true)
-            ? new DebugWritableRepository(new NULLRepository(), new Echolog())
-            : new PHPFileRepository(new PHPFileDirectory($databaseLocation));
+        $directory = new PHPFileDirectory($databaseLocation);
+
+        return new PHPFileRepository($directory);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @return DebugWritableRepository
+     */
+    private function getDebugRepository(OutputInterface $output)
+    {
+        $logger = new ConsoleLogger($output, [
+            LogLevel::INFO => OutputInterface::VERBOSITY_NORMAL,
+            LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL
+        ]);
+
+        return new DebugWritableRepository(new NULLRepository(), $logger);
     }
 
     /**
@@ -113,8 +124,9 @@ class GenerateDatabaseCommand extends Command
     {
         $ucdXmlLocation = new InputArgument(
             self::ARGUMENT_UCDXML_LOCATION,
-            InputArgument::REQUIRED,
-            'Location of the UCDXML file from which the database will be generated'
+            InputArgument::OPTIONAL,
+            'Location of the UCDXML file from which the database will be generated',
+            __DIR__ . '/../../../../resources/ucd.all.flat.xml'
         );
 
         $databaseLocation = new InputOption(

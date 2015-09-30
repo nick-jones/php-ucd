@@ -84,7 +84,7 @@ XML;
         $output = $this->commandTester->getDisplay();
         $statusCode = $this->commandTester->getStatusCode();
 
-        ha::assertThat('output', $output, hm::containsString('Database Generated'));
+        ha::assertThat('output', $output, hm::containsString('Database Was Generated'));
         ha::assertThat('status code', $statusCode, hm::is(hm::identicalTo(0)));
 
         $files = $this->getDbFiles();
