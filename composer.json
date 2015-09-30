@@ -3,20 +3,20 @@
 
     "require": {
         "php": ">=5.5",
-        "psr/log": "~1.0",
-        "judev/php-intervaltree": "~2.0"
+        "psr/log": "^1.0",
+        "judev/php-intervaltree": "^2.0"
     },
 
     "require-dev": {
-        "symfony/console": "~2.7",
-        "phpspec/phpspec": "~2.0",
+        "symfony/console": "^2.7",
+        "phpspec/phpspec": "^2.0",
         "fool/echolog": "*",
         "nikic/php-parser": "2.0.0alpha1",
         "php-vfs/php-vfs": "1.3.x-dev",
-        "sebastian/exporter": "1.*",
-        "phpunit/phpunit": "4.8.*",
-        "hamcrest/hamcrest-php": "~1.2",
-        "nick-jones/phpspec-matcher-loader-extension": "~1.0"
+        "sebastian/exporter": "^1.0",
+        "phpunit/phpunit": "^4.8",
+        "hamcrest/hamcrest-php": "^1.2",
+        "nick-jones/phpspec-matcher-loader-extension": "^1.0"
     },
 
     "autoload": {
