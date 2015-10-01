@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use UCD\Entity\Character\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 
+use UCD\UCD;
 use UCD\View\CharacterView;
 
 class SearchCommand extends RepositoryUtilisingCommand
@@ -34,12 +35,13 @@ class SearchCommand extends RepositoryUtilisingCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $start = microtime(true);
-        $codepoint = Codepoint::fromInt((int)$input->getArgument(self::ARGUMENT_CODEPOINT));
+        $codepoint = (int)$input->getArgument(self::ARGUMENT_CODEPOINT);
         $from = $input->getOption(self::OPTION_FROM);
         $repository = $this->getRepositoryByName($from);
+        $ucd = new UCD($repository);
 
         try {
-            $character = $repository->getByCodepoint($codepoint);
+            $character = $ucd->locate($codepoint);
         } catch (CharacterNotFoundException $e) {
             $output->writeln('<error>Character Not Found</error>');
             return 1;
