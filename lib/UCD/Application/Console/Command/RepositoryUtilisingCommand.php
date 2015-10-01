@@ -6,6 +6,7 @@ use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
 use UCD\Entity\Character\ReadOnlyRepository;
 use UCD\Entity\Character\WritableRepository;
+use UCD\Exception\InvalidArgumentException;
 
 abstract class RepositoryUtilisingCommand extends Command
 {
@@ -27,13 +28,14 @@ abstract class RepositoryUtilisingCommand extends Command
     /**
      * @param string $name
      * @return ReadOnlyRepository|WritableRepository
+     * @throws InvalidArgumentException
      */
     protected function getRepositoryByName($name)
     {
         $key = $this->keyFromName($name);
 
         if (!isset($this->container[$key])) {
-            throw new \InvalidArgumentException(sprintf('No repository with name: %s', $name));
+            throw new InvalidArgumentException(sprintf('No repository with name: %s', $name));
         }
 
         return $this->container[$key];
