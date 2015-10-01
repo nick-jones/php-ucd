@@ -4,9 +4,7 @@ namespace UCD\Application\Container;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
+
 use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationProvider implements ServiceProviderInterface
@@ -37,8 +35,8 @@ class ConfigurationProvider implements ServiceProviderInterface
     private function defaultConfiguration()
     {
         return [
-            'config.repository.php.database_path' => __DIR__ . '/../../../../resources/generated/db',
-            'config.repository.xml.ucd_file_path' => __DIR__ . '/../../../../resources/ucd.all.flat.xml'
+            'config.repository.php.database_path' => sprintf('%s/../../../../resources/generated/db', __DIR__),
+            'config.repository.xml.ucd_file_path' => sprintf('%s/../../../../resources/ucd.all.flat.xml', __DIR__)
         ];
     }
 
