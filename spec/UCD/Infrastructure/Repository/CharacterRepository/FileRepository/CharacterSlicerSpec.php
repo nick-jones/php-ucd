@@ -46,16 +46,15 @@ class CharacterSlicerSpec extends ObjectBehavior
     {
         return [
             'haveKeys' => function ($subject, $expectedRanges) {
-                $i = 0;
-                $ok = true;
-
                 /** @var Range $range */
                 foreach ($subject as $range => $characters) {
-                    $expected = $expectedRanges[$i++];
-                    $ok = $ok && $range->equals($expected);
+                    /** @var Range $expected */
+                    $expected = array_shift($expectedRanges);
+                    if ($range->getStart() !== $expected->getStart() || $range->getEnd() !== $expected->getEnd()) {
+                        return false;
+                    }
                 }
-
-                return $ok;
+                return count($expectedRanges) === 0;
             },
             'haveValues' => function ($subject, $expected) {
                 return $expected == iterator_to_array($subject, false);

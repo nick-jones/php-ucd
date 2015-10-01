@@ -35,20 +35,4 @@ class RangeSpec extends ObjectBehavior
         $this->shouldThrow(InvalidRangeException::class)
             ->duringInstantiation();
     }
-
-    public function it_should_equal_an_instance_with_the_same_range_values()
-    {
-        $this->beConstructedWith(1, 10);
-
-        $this->equals(new Range(1, 10))
-            ->shouldReturn(true);
-    }
-
-    public function it_should_not_equal_an_instance_with_different_range_values()
-    {
-        $this->beConstructedWith(1, 10);
-
-        $this->equals(new Range(1, 11))
-            ->shouldReturn(false);
-    }
 }

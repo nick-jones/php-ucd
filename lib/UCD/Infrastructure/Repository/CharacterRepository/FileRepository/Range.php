@@ -3,11 +3,11 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
 use IntervalTree\NumericRangeInclusive;
-use UCD\Entity\Comparable;
+
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\InvalidRangeException;
 
-class Range extends NumericRangeInclusive implements Comparable
+class Range extends NumericRangeInclusive
 {
     /**
      * @param int $start
@@ -30,21 +30,5 @@ class Range extends NumericRangeInclusive implements Comparable
         }
 
         parent::__construct($start, $end, 1);
-    }
-
-    /**
-     * @param mixed $other
-     * @return bool
-     */
-    public function equals($other)
-    {
-        if ($this === $other) {
-            return true;
-        }
-
-        return $other instanceof self
-            && $this->start === $other->start
-            && $this->end === $other->end
-            && $this->step === $other->step;
     }
 }
