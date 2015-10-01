@@ -2,8 +2,6 @@
 
 namespace UCD\Entity;
 
-use UCD\Entity\Character\Codepoint;
-
 interface CodepointAssigned
 {
     /**

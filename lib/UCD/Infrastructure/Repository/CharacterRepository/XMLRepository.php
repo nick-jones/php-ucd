@@ -2,10 +2,10 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\ReadOnlyRepository;
-use UCD\Entity\Character;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
+use UCD\Entity\CodepointAssigned;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementReader;
@@ -35,7 +35,7 @@ class XMLRepository implements ReadOnlyRepository
     /**
      * @param Codepoint $codepoint
      * @throws CharacterNotFoundException
-     * @return Character
+     * @return CodepointAssigned
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
@@ -49,7 +49,7 @@ class XMLRepository implements ReadOnlyRepository
     }
 
     /**
-     * @return Character[]
+     * @return CodepointAssigned[]|\Traversable
      */
     public function getAll()
     {
@@ -59,20 +59,22 @@ class XMLRepository implements ReadOnlyRepository
             );
 
             foreach ($characters as $character) {
-                yield $character->getCodepointValue() => $character;
+                $codepoint = $character->getCodepoint();
+                yield $codepoint->getValue() => $character;
             }
         }
     }
 
     /**
      * @param object[] $objects
-     * @return Character[]
+     * @return CodepointAssigned[]
      */
     private function filterForCharacters($objects)
     {
         foreach ($objects as $object) {
-            if ($object instanceof Character) {
-                yield $object->getCodepointValue() => $object;
+            if ($object instanceof CodepointAssigned) {
+                $codepoint = $object->getCodepoint();
+                yield $codepoint->getValue() => $object;
             }
         }
     }

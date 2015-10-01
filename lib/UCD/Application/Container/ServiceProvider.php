@@ -23,8 +23,12 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializ
 use UCD\Infrastructure\Repository\CharacterRepository\NULLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CharacterElementParser;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\StreamingCharacterReader;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\AggregateParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\NonCharacterParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\ReservedParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\SurrogateParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\StreamingElementReader;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\XMLReader;
 
 class ServiceProvider implements ServiceProviderInterface
@@ -94,13 +98,17 @@ class ServiceProvider implements ServiceProviderInterface
     {
         $this->addMany($container, [
             'xr.element_parser' => function () {
-                return new CharacterElementParser();
+                return new AggregateParser([
+                    'char' => new CharacterParser(),
+                    'noncharacter' => new NonCharacterParser(),
+                    'surrogate' => new SurrogateParser()
+                ]);
             },
             'xr.xml_reader' => function (Container $container) {
                 return new XMLReader($container['config.repository.xml.ucd_file_path']);
             },
             'xr.element_reader' => function (Container $container) {
-                return new StreamingCharacterReader($container['xr.xml_reader']);
+                return new StreamingElementReader($container['xr.xml_reader']);
             },
             'repository.xml' => function (Container $container) {
                 return new XMLRepository($container['xr.element_reader'], $container['xr.element_parser']);

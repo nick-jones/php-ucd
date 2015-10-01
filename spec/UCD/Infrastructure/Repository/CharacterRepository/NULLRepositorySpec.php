@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Properties;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;

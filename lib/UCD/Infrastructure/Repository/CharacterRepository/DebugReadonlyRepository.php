@@ -4,9 +4,9 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use Psr\Log\LoggerInterface;
 
-use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\CodepointAssigned;
 
 class DebugReadonlyRepository implements ReadOnlyRepository
 {
@@ -32,7 +32,7 @@ class DebugReadonlyRepository implements ReadOnlyRepository
 
     /**
      * @param Codepoint $codepoint
-     * @return Character
+     * @return CodepointAssigned
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
@@ -43,7 +43,7 @@ class DebugReadonlyRepository implements ReadOnlyRepository
     }
 
     /**
-     * @return Character[]
+     * @return CodepointAssigned[]
      */
     public function getAll()
     {

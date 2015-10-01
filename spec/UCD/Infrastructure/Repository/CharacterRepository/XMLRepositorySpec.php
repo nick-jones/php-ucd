@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Properties;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 
@@ -68,6 +68,7 @@ class XMLRepositorySpec extends ObjectBehavior
 
     public function it_exposes_the_number_of_characters_available(Character $character)
     {
+        $this->givenCharacterHasCodepointWithValue($character, 1);
         $this->givenTheXMLParsesTo($character);
 
         $this->count()

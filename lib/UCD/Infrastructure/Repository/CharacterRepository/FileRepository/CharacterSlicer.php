@@ -2,13 +2,13 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
-use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
+use UCD\Entity\CodepointAssigned;
 
 class CharacterSlicer
 {
     /**
-     * @param Character[] $characters
+     * @param CodepointAssigned[] $characters
      * @param int $size
      * @return \Traversable<Range,Character[]>
      */
@@ -20,7 +20,8 @@ class CharacterSlicer
 
         foreach ($characters as $character) {
             array_push($chunk, $character);
-            $current = $character->getCodepointValue();
+            $codepoint = $character->getCodepoint();
+            $current = $codepoint->getValue();
 
             if ((++$tally % $size) === 0) {
                 yield (new Range($start, $current)) => $chunk;

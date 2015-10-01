@@ -5,7 +5,7 @@ namespace integration\UCD\CharacterRepository;
 use integration\UCD\TestCase as BaseTestCase;
 
 use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\ReadOnlyRepository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;

@@ -2,17 +2,17 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
-use UCD\Entity\Character\Codepoint;
-use UCD\Entity\Character;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
+use UCD\Entity\CodepointAssigned;
 
 class NULLRepository implements WritableRepository
 {
     /**
      * @param Codepoint $codepoint
      * @throws CharacterNotFoundException
-     * @return Character
+     * @return CodepointAssigned
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
@@ -20,7 +20,7 @@ class NULLRepository implements WritableRepository
     }
 
     /**
-     * @param Character[] $characters
+     * @param CodepointAssigned[] $characters
      */
     public function addMany($characters)
     {
@@ -28,7 +28,7 @@ class NULLRepository implements WritableRepository
     }
 
     /**
-     * @return Character[]
+     * @return CodepointAssigned[]
      */
     public function getAll()
     {

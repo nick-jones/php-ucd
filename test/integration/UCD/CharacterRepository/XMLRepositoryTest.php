@@ -39,8 +39,8 @@ XML;
         file_put_contents($path, self::FILE_CONTENT);
 
         $xmlReader = new XMLRepository\XMLReader($path);
-        $elementReader = new XMLRepository\StreamingCharacterReader($xmlReader);
-        $elementParser = new XMLRepository\CharacterElementParser();
+        $elementReader = new XMLRepository\StreamingElementReader($xmlReader);
+        $elementParser = new XMLRepository\ElementParser\CharacterParser();
 
         $this->repository = new XMLRepository($elementReader, $elementParser);
     }

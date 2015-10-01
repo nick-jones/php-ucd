@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\UCD\Entity\Character;
+namespace spec\UCD\Entity;
 
 use PhpSpec\ObjectBehavior;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Comparable;
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\OutOfRangeException;

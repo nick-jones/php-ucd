@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Entity\Character;
+namespace UCD\Entity;
 
 use UCD\Entity\Comparable;
 use UCD\Exception\InvalidArgumentException;

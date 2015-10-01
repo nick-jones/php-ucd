@@ -2,7 +2,7 @@
 
 namespace UCD\Entity\Character\Properties\Bidirectionality;
 
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 
 class Mirroring
 {

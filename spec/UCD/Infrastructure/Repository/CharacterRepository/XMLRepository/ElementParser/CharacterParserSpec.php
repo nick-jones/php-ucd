@@ -1,18 +1,19 @@
 <?php
 
-namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
+namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
 use PhpSpec\ObjectBehavior;
 
 use UCD\Entity\Character;
 use UCD\Entity\Character\Properties;
 
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CharacterElementParser;
+use UCD\Entity\Codepoint;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;
 
 /**
- * @mixin CharacterElementParser
+ * @mixin CharacterParser
  */
-class CharacterElementParserSpec extends ObjectBehavior
+class CharacterParserSpec extends ObjectBehavior
 {
     const XML_DATA = <<<XML
 <ucd xmlns="http://www.unicode.org/ns/2003/ucd/1.0">
@@ -34,7 +35,7 @@ class CharacterElementParserSpec extends ObjectBehavior
 </ucd>
 XML;
 
-    public function it_parses_a_char_element_into_into_a_character()
+    public function it_parses_a_char_element_into_into_a_character_object()
     {
         $age = new Properties\General\Version(Properties\General\Version::V1_1);
         $primary = new Properties\General\Name\Unassigned();
@@ -58,7 +59,7 @@ XML;
         $joining = new Properties\Shaping\Joining($joiningGroup, $joiningType, false);
         $shaping = new Properties\Shaping($joining);
         $properties = new Character\Properties($general, $numericity, $normalization, $bidi, $shaping);
-        $character = new Character(Character\Codepoint::fromInt(0), $properties);
+        $character = new Character(Codepoint::fromInt(0), $properties);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(self::XML_DATA);

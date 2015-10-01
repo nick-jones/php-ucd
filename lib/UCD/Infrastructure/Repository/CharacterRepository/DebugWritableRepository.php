@@ -3,8 +3,9 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use Psr\Log\LoggerInterface;
-use UCD\Entity\Character;
+
 use UCD\Entity\Character\WritableRepository;
+use UCD\Entity\CodepointAssigned;
 
 class DebugWritableRepository extends DebugReadonlyRepository implements WritableRepository
 {
@@ -23,7 +24,7 @@ class DebugWritableRepository extends DebugReadonlyRepository implements Writabl
     }
 
     /**
-     * @param Character[] $characters
+     * @param CodepointAssigned[] $characters
      */
     public function addMany($characters)
     {

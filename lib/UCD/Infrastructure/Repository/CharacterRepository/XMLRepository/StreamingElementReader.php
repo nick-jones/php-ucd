@@ -2,9 +2,20 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 
-final class StreamingCharacterReader implements ElementReader
+final class StreamingElementReader implements ElementReader
 {
-    const ELEMENT_CHAR = 'char';
+    const ELEMENT_CHARACTER = 'char';
+    const ELEMENT_NON_CHARACTER = 'noncharacter';
+    const ELEMENT_SURROGATE = 'surrogate';
+
+    /**
+     * @var array
+     */
+    private static $elements = [
+        self::ELEMENT_CHARACTER => true,
+        self::ELEMENT_NON_CHARACTER => true,
+        self::ELEMENT_SURROGATE => true
+    ];
 
     /**
      * @var XMLReader
@@ -39,7 +50,7 @@ final class StreamingCharacterReader implements ElementReader
     {
         $this->xmlReader->reopen();
 
-        while ($this->cursorHasCharacter() !== true) {
+        while ($this->cursorHasElement() !== true) {
             $this->xmlReader->read();
         }
     }
@@ -52,9 +63,10 @@ final class StreamingCharacterReader implements ElementReader
     /**
      * @return bool
      */
-    private function cursorHasCharacter()
+    private function cursorHasElement()
     {
-        return $this->xmlReader->name === self::ELEMENT_CHAR;
+        return $this->xmlReader->nodeType === XMLReader::ELEMENT
+            && array_key_exists($this->xmlReader->name, self::$elements);
     }
 
     /**
@@ -62,13 +74,22 @@ final class StreamingCharacterReader implements ElementReader
      */
     private function readNext()
     {
-        if ($this->cursorHasCharacter() !== true) {
+        if (!$this->cursorHasElement()) {
             return null;
         }
 
         $element = $this->xmlReader->expand();
-        $this->xmlReader->next(self::ELEMENT_CHAR);
+        $this->moveToNextElement();
 
         return $element;
+    }
+
+    private function moveToNextElement()
+    {
+        while ($this->xmlReader->next() !== false) {
+            if ($this->cursorHasElement()) {
+                break;
+            }
+        }
     }
 }

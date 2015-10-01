@@ -2,7 +2,7 @@
 
 namespace integration\UCD\CharacterRepository;
 
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 
 class InMemoryRepositoryTest extends TestCase

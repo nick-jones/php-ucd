@@ -2,7 +2,7 @@
 
 namespace UCD\Entity\Character\Properties\Normalization\Decomposition;
 
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Properties\Normalization\Decomposition;
 use UCD\Entity\Character\Properties\Normalization\DecompositionType;
 

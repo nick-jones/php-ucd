@@ -2,11 +2,11 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
-use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
 
+use UCD\Entity\CodepointAssigned;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
@@ -50,7 +50,7 @@ class PHPFileRepository implements WritableRepository
 
     /**
      * @param Codepoint $codepoint
-     * @return Character
+     * @return CodepointAssigned
      * @throws CharacterNotFoundException
      */
     public function getByCodepoint(Codepoint $codepoint)
@@ -83,7 +83,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @param Character[] $characters
+     * @param CodepointAssigned[] $characters
      */
     public function addMany($characters)
     {
@@ -97,8 +97,8 @@ class PHPFileRepository implements WritableRepository
 
     /**
      * @param Range $range
-     * @param Character[] $characters
-     * @return Character[]
+     * @param CodepointAssigned[] $characters
+     * @return CodepointAssigned[]
      */
     private function createFileWithCharacters(Range $range, array $characters)
     {
@@ -109,7 +109,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @param Character[] $characters
+     * @param CodepointAssigned[] $characters
      * @return string[]
      */
     private function flattenCharacters(array $characters)
@@ -117,7 +117,8 @@ class PHPFileRepository implements WritableRepository
         $flattened = [];
 
         foreach ($characters as $character) {
-            $key = $character->getCodepointValue();
+            $codepoint = $character->getCodepoint();
+            $key = $codepoint->getValue();
             $flattened[$key] = $this->serializer->serialize($character);;
         }
 
@@ -125,7 +126,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @return Character[]
+     * @return CodepointAssigned[]
      */
     public function getAll()
     {

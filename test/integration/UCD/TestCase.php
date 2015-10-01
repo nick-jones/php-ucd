@@ -3,7 +3,7 @@
 namespace integration\UCD;
 
 use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Properties;
 
 use Hamcrest\MatcherAssert as ha;

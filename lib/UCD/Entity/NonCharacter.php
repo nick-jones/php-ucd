@@ -2,10 +2,9 @@
 
 namespace UCD\Entity;
 
-use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Properties;
+use UCD\Entity\Character\Properties\General;
 
-class Character implements CodepointAssigned, Comparable
+class NonCharacter implements CodepointAssigned, Comparable
 {
     /**
      * @var Codepoint
@@ -13,18 +12,18 @@ class Character implements CodepointAssigned, Comparable
     private $codepoint;
 
     /**
-     * @var Properties
+     * @var General
      */
-    private $properties;
+    private $generalProperties;
 
     /**
      * @param Codepoint $codepoint
-     * @param Properties $properties
+     * @param General $generalProperties
      */
-    public function __construct(Codepoint $codepoint, Properties $properties)
+    public function __construct(Codepoint $codepoint, General $generalProperties)
     {
         $this->codepoint = $codepoint;
-        $this->properties = $properties;
+        $this->generalProperties = $generalProperties;
     }
 
     /**
@@ -33,22 +32,6 @@ class Character implements CodepointAssigned, Comparable
     public function getCodepoint()
     {
         return $this->codepoint;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCodepointValue()
-    {
-        return $this->codepoint->getValue();
-    }
-
-    /**
-     * @return Properties
-     */
-    public function getProperties()
-    {
-        return $this->properties;
     }
 
     /**

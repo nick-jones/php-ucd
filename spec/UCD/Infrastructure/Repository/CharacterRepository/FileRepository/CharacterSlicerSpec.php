@@ -4,7 +4,7 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
 use PhpSpec\ObjectBehavior;
 use UCD\Entity\Character;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 

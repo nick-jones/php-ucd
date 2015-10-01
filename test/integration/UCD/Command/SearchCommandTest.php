@@ -14,7 +14,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use UCD\Application\Console\Command\SearchCommand;
 use UCD\Application\Container\ConfigurationProvider;
 use UCD\Application\Container\ServiceProvider;
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 
 use VirtualFileSystem\FileSystem;
 

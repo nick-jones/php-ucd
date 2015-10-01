@@ -2,7 +2,7 @@
 
 namespace UCD\Entity\Character\Repository;
 
-use UCD\Entity\Character\Codepoint;
+use UCD\Entity\Codepoint;
 use UCD\Exception;
 
 class CharacterNotFoundException extends Exception
