@@ -9,8 +9,11 @@ test:
 clean:
 	rm resources/ucd.all.flat.*
 
-db: resources/ucd.all.flat.xml
-	./bin/ucd generate-database $<
+db: resources/generated/db
+
+resources/generated/db: resources/ucd.all.flat.xml
+	mkdir -p $@
+	./bin/ucd repository-transfer xml php
 
 resources/ucd.all.flat.xml: resources/ucd.all.flat.zip
 	unzip -o -d resources/ $<

@@ -1,8 +1,7 @@
 <?php
 
-namespace UCD\Console\Command;
+namespace UCD\Application\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,20 +11,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use UCD\Entity\Character\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
-use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use UCD\View\CharacterView;
 
-class SearchCommand extends Command
+class SearchCommand extends RepositoryUtilisingCommand
 {
     const COMMAND_NAME = 'search';
     const ARGUMENT_CODEPOINT = 'codepoint';
-    const OPTION_DB_LOCATION = 'db-location';
+    const OPTION_FROM = 'from';
 
     protected function configure()
     {
         $this->setName(self::COMMAND_NAME);
-        $this->setDescription('Search the character database by codepoint');
+        $this->setDescription('Search a character repository by codepoint');
         $this->setDefinition($this->createInputDefinition());
     }
 
@@ -38,10 +35,8 @@ class SearchCommand extends Command
     {
         $start = microtime(true);
         $codepoint = Codepoint::fromInt((int)$input->getArgument(self::ARGUMENT_CODEPOINT));
-        $databaseLocation = new \SplFileInfo($input->getOption(self::OPTION_DB_LOCATION));
-
-        $directory = new PHPFileDirectory($databaseLocation);
-        $repository = new PHPFileRepository($directory);
+        $from = $input->getOption(self::OPTION_FROM);
+        $repository = $this->getRepositoryByName($from);
 
         try {
             $character = $repository->getByCodepoint($codepoint);
@@ -68,20 +63,21 @@ class SearchCommand extends Command
         $codepoint = new InputArgument(
             self::ARGUMENT_CODEPOINT,
             InputArgument::REQUIRED,
-            ''
+            'Character codepoint to search for'
         );
 
-        $databaseLocation = new InputOption(
-            self::OPTION_DB_LOCATION,
+        $repositoryNames = $this->getRepositoryNames();
+        $namesList = implode(', ', $repositoryNames);
+
+        $from = new InputOption(
+            self::OPTION_FROM,
             null,
             InputOption::VALUE_OPTIONAL,
-            'Location of the file database',
-            __DIR__ . '/../../../../resources/generated/db/'
+            sprintf('Repository from which the character should be resolved. Choose from: %s', $namesList),
+            array_shift($repositoryNames)
         );
 
-        return new InputDefinition([
-            $codepoint,
-            $databaseLocation,
-        ]);
+        return new InputDefinition([$codepoint, $from]);
     }
+
 }

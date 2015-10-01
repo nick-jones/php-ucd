@@ -28,8 +28,7 @@ XML;
         $path = $fs->path('/ucd.xml');
         file_put_contents($path, self::XML_DATA);
 
-        $xmlReader = new XMLReader();
-        $xmlReader->open($path);
+        $xmlReader = new XMLReader($path);
 
         $this->beConstructedWith($xmlReader);
 

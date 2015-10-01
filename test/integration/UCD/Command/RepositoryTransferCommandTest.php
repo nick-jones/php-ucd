@@ -4,17 +4,20 @@ namespace integration\UCD\Command;
 
 use integration\UCD\TestCase as BaseTestCase;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
-
-use UCD\Console\Command\GenerateDatabaseCommand;
-
-use VirtualFileSystem\FileSystem;
-
 use Hamcrest\MatcherAssert as ha;
 use Hamcrest\Matchers as hm;
 
-class GenerateDatabaseCommandTest extends BaseTestCase
+use Pimple\Container;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
+
+use UCD\Application\Console\Command\RepositoryTransferCommand;
+
+use UCD\Application\Container\ConfigurationProvider;
+use UCD\Application\Container\ServiceProvider;
+use VirtualFileSystem\FileSystem;
+
+class RepositoryTransferCommandTest extends BaseTestCase
 {
     const FILE_CONTENT = <<<XML
 <ucd xmlns="http://www.unicode.org/ns/2003/ucd/1.0">
@@ -36,6 +39,9 @@ class GenerateDatabaseCommandTest extends BaseTestCase
 </ucd>
 XML;
 
+    const CONFIG_KEY_REPO_PATH = 'config.repository.php.database_path';
+    const CONFIG_KEY_XML_PATH = 'config.repository.xml.ucd_file_path';
+
     /**
      * @var CommandTester
      */
@@ -51,23 +57,25 @@ XML;
      */
     protected $dbPath;
 
-    /**
-     * @var string
-     */
-    protected $ucdXmlPath;
-
     protected function setUp()
     {
-        $application = new Application();
-        $application->add(new GenerateDatabaseCommand());
-        $command = $application->get('generate-database');
-        $this->commandTester = new CommandTester($command);
-
         $this->fs = new FileSystem();
         $this->dbPath = $this->fs->path('/db');
-        $this->ucdXmlPath = $this->fs->path('/ucd.xml');
 
-        file_put_contents($this->ucdXmlPath, self::FILE_CONTENT);
+        $ucdXmlPath = $this->fs->path('/ucd.xml');
+
+        mkdir($this->dbPath);
+        file_put_contents($ucdXmlPath, self::FILE_CONTENT);
+
+        $application = new Application();
+        $container = new Container();
+        $container->register(new ServiceProvider());
+        $container->register(new ConfigurationProvider());
+        $container[self::CONFIG_KEY_REPO_PATH] = $this->dbPath;
+        $container[self::CONFIG_KEY_XML_PATH] = $ucdXmlPath;
+        $application->add(new RepositoryTransferCommand($container));
+        $command = $application->get(RepositoryTransferCommand::COMMAND_NAME);
+        $this->commandTester = new CommandTester($command);
     }
 
     /**
@@ -76,15 +84,15 @@ XML;
     public function it_can_generate_a_file_database()
     {
         $this->commandTester->execute([
-            'command' => GenerateDatabaseCommand::COMMAND_NAME,
-            '--db-location' => $this->dbPath,
-            'ucdxml-location' => $this->ucdXmlPath
+            'command' => RepositoryTransferCommand::COMMAND_NAME,
+            'from' => 'xml',
+            'to' => 'php'
         ]);
 
         $output = $this->commandTester->getDisplay();
         $statusCode = $this->commandTester->getStatusCode();
 
-        ha::assertThat('output', $output, hm::containsString('Database Was Generated'));
+        ha::assertThat('output', $output, hm::containsString('Database Generated'));
         ha::assertThat('status code', $statusCode, hm::is(hm::identicalTo(0)));
 
         $files = $this->getDbFiles();
@@ -97,24 +105,6 @@ XML;
 
         ha::assertThat('dumped data', $data, hm::is(hm::arrayWithSize(1)));
         ha::assertThat('dumped data', $data, hm::hasKeyInArray(0));
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_display_debug_information()
-    {
-        $this->commandTester->execute([
-            'command' => GenerateDatabaseCommand::COMMAND_NAME,
-            '--debug' => true,
-            'ucdxml-location' => $this->ucdXmlPath
-        ]);
-
-        $output = $this->commandTester->getDisplay();
-        $statusCode = $this->commandTester->getStatusCode();
-
-        ha::assertThat('output', $output, hm::containsString('Database Not Generated'));
-        ha::assertThat('status code', $statusCode, hm::is(hm::identicalTo(0)));
     }
 
     /**

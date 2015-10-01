@@ -4,7 +4,9 @@
     "require": {
         "php": ">=5.5",
         "psr/log": "^1.0",
-        "judev/php-intervaltree": "^2.0"
+        "judev/php-intervaltree": "^2.0",
+        "pimple/pimple": "^3.0",
+        "symfony/yaml": "^2.7"
     },
 
     "require-dev": {

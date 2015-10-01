@@ -16,7 +16,6 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\P
 
 class PHPFileRepository implements WritableRepository
 {
-    const DEFAULT_DB_DIR = '../../../../../resources/generated/db';
     const DEFAULT_SLICE_SIZE = 1000;
 
     /**
@@ -30,23 +29,23 @@ class PHPFileRepository implements WritableRepository
     private $serializer;
 
     /**
-     * @param PHPFileDirectory $directory
-     * @param \UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer $serializer
+     * @var int
      */
-    public function __construct(PHPFileDirectory $directory = null, PHPSerializer $serializer = null)
-    {
-        $this->directory = $directory ?: new PHPFileDirectory($this->defaultDbDirectory());
-        $this->serializer = $serializer ?: new PHPSerializer();
-    }
+    private $sliceSize;
 
     /**
-     * @return \SplFileInfo
+     * @param PHPFileDirectory $directory
+     * @param PHPSerializer $serializer
+     * @param int $sliceSize
      */
-    private function defaultDbDirectory()
-    {
-        $path = sprintf('%s/%s', __DIR__, self::DEFAULT_DB_DIR);
-
-        return new \SplFileInfo($path);
+    public function __construct(
+        PHPFileDirectory $directory,
+        PHPSerializer $serializer,
+        $sliceSize = self::DEFAULT_SLICE_SIZE
+    ) {
+        $this->directory = $directory;
+        $this->serializer = $serializer;
+        $this->sliceSize = $sliceSize;
     }
 
     /**
@@ -88,7 +87,7 @@ class PHPFileRepository implements WritableRepository
      */
     public function addMany($characters)
     {
-        $slices = CharacterSlicer::slice($characters, self::DEFAULT_SLICE_SIZE);
+        $slices = CharacterSlicer::slice($characters, $this->sliceSize);
 
         foreach ($slices as $range => $chunk) {
             /** @var Range $range */

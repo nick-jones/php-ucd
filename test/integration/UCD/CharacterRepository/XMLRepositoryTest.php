@@ -38,8 +38,7 @@ XML;
         $path = $this->fs->path('/ucd.xml');
         file_put_contents($path, self::FILE_CONTENT);
 
-        $xmlReader = new XMLRepository\XMLReader();
-        $xmlReader->open($path);
+        $xmlReader = new XMLRepository\XMLReader($path);
         $elementReader = new XMLRepository\StreamingCharacterReader($xmlReader);
         $elementParser = new XMLRepository\CharacterElementParser();
 

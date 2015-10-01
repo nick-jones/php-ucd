@@ -4,6 +4,7 @@ namespace integration\UCD\CharacterRepository;
 
 use UCD\Entity\Character\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use VirtualFileSystem\FileSystem;
 
@@ -27,6 +28,6 @@ class PHPFileRepositoryTest extends TestCase
         file_put_contents($path, $content);
 
         $directory = new PHPFileDirectory(new \SplFileInfo($directoryPath));
-        $this->repository = new PHPFileRepository($directory);
+        $this->repository = new PHPFileRepository($directory, new PHPSerializer());
     }
 }

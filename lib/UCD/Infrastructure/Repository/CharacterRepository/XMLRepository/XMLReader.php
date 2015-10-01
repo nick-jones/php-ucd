@@ -2,6 +2,8 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 
+use UCD\Exception\RuntimeException;
+
 class XMLReader extends \XMLReader
 {
     /**
@@ -18,6 +20,21 @@ class XMLReader extends \XMLReader
      * @var int
      */
     private $openOptions;
+
+    /**
+     * @param string $uri
+     * @param string|null $encoding
+     * @param int $options
+     * @throws RuntimeException
+     */
+    public function __construct($uri, $encoding = null, $options = 0)
+    {
+        $result = $this->open($uri, $encoding, $options);
+
+        if ($result !== true) {
+            throw new RuntimeException(sprintf('Could not open %s', $uri));
+        }
+    }
 
     /**
      * @param string $uri

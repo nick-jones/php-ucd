@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 use UCD\Entity\Character;
 use UCD\Entity\Character\WritableRepository;
 
-class DebugWritableRepository extends DebugReadonlyRepository
+class DebugWritableRepository extends DebugReadonlyRepository implements WritableRepository
 {
     /**
      * @var WritableRepository

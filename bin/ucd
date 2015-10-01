@@ -6,11 +6,12 @@ define('PHPUCD_UNICODE_VERSION', '8.0');
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
-use UCD\Console\Command\SearchCommand;
-use UCD\Console\Command\GenerateDatabaseCommand;
+$container = new Pimple\Container();
+$container->register(new \UCD\Application\Container\ServiceProvider());
+$container->register(new \UCD\Application\Container\ConfigurationProvider());
 
-$console = new Application('Unicode Character Database', PHPUCD_VERSION);
-$console->add(new GenerateDatabaseCommand());
-$console->add(new SearchCommand());
-$console->run();
+$application = $container['application.ucd'];
+$input = $container['symfony.input'];
+$output = $container['symfony.output'];
+
+$application->run($input, $output);

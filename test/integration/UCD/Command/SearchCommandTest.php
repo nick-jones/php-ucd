@@ -4,19 +4,24 @@ namespace integration\UCD\Command;
 
 use integration\UCD\TestCase as BaseTestCase;
 
+use Hamcrest\MatcherAssert as ha;
+use Hamcrest\Matchers as hm;
+
+use Pimple\Container;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-use UCD\Console\Command\SearchCommand;
+use UCD\Application\Console\Command\SearchCommand;
+use UCD\Application\Container\ConfigurationProvider;
+use UCD\Application\Container\ServiceProvider;
 use UCD\Entity\Character\Codepoint;
 
 use VirtualFileSystem\FileSystem;
 
-use Hamcrest\MatcherAssert as ha;
-use Hamcrest\Matchers as hm;
-
 class SearchCommandTest extends BaseTestCase
 {
+    const CONFIG_KEY_REPO_PATH = 'config.repository.php.database_path';
+
     /**
      * @var CommandTester
      */
@@ -27,25 +32,24 @@ class SearchCommandTest extends BaseTestCase
      */
     protected $fs;
 
-    /**
-     * @var string
-     */
-    protected $dbPath;
-
     protected function setUp()
     {
-        $application = new Application();
-        $application->add(new SearchCommand());
-        $command = $application->get('search');
-        $this->commandTester = new CommandTester($command);
-
         $this->fs = new FileSystem();
-        $this->dbPath = $this->fs->path('/db');
 
-        mkdir($this->dbPath);
+        $dbPath = $this->fs->path('/db');
+        mkdir($dbPath);
         $character = $this->buildCharacterWithCodepoint(Codepoint::fromInt(163));
         $content = sprintf("<?php\nreturn %s;", var_export([163 => serialize($character)], true));
         file_put_contents($this->fs->path('/db/00000000-01114111!0001.php'), $content);
+
+        $application = new Application();
+        $container = new Container();
+        $container->register(new ServiceProvider());
+        $container->register(new ConfigurationProvider());
+        $container[self::CONFIG_KEY_REPO_PATH] = $dbPath;
+        $application->add(new SearchCommand($container));
+        $command = $application->get(SearchCommand::COMMAND_NAME);
+        $this->commandTester = new CommandTester($command);
     }
 
     /**
@@ -55,7 +59,7 @@ class SearchCommandTest extends BaseTestCase
     {
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
-            '--db-location' => $this->dbPath,
+            '--from' => 'php',
             'codepoint' => '163'
         ]);
 
@@ -75,7 +79,7 @@ class SearchCommandTest extends BaseTestCase
     {
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
-            '--db-location' => $this->dbPath,
+            '--from' => 'php',
             'codepoint' => '1'
         ]);
 
