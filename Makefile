@@ -7,9 +7,10 @@ test:
 	./vendor/bin/phpunit
 
 clean:
-	rm resources/ucd.all.flat.*
+	rm -f resources/ucd.all.flat.*
+	rm -rf resources/generated/db
 
-db: resources/generated/db
+db: clean resources/generated/db
 
 resources/generated/db: resources/ucd.all.flat.xml
 	mkdir -p $@
