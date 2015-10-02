@@ -17,17 +17,22 @@ Simply create an instance of `\UCD\UCD`, and utilise the methods on its interfac
 dump all numeric characters, you could use something similar to:
 
 ```php
-$filter = function (\UCD\Entity\Character $character) {
-    $numericity = $character->getProperties()
-        ->getNumericity();
+use UCD\Entity\Character;
+use UCD\Entity\Character\Properties\Numericity\Numeric;
+use UCD\View\CharacterView;
+use UCD\UCD;
 
-    return $numericity instanceof \UCD\Entity\Character\Properties\Numericity\Numeric;
+$filter = function (Character $character) {
+    $properties = $character->getProperties();
+    $numericity = $properties->getNumericity();
+
+    return $numericity instanceof Numeric;
 };
 
-$ucd = new \UCD\UCD();
+$ucd = new UCD();
 
 foreach ($ucd->filterCharacters($filter) as $character) {
-    $view = new \UCD\View\CharacterView($character);
+    $view = new CharacterView($character);
     printf("%s: %s\n", $character->getCodepoint(), $view->asUTF8());
 }
 ```
