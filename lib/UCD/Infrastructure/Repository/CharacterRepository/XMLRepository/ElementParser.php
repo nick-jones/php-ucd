@@ -6,7 +6,7 @@ interface ElementParser
 {
     /**
      * @param \DOMElement $element
-     * @return object[]
+     * @return mixed
      */
     public function parseElement(\DOMElement $element);
 }

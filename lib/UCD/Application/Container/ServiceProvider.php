@@ -25,6 +25,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\AggregateParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointCountParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\NonCharacterParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\ReservedParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\SurrogateParser;
@@ -104,6 +105,9 @@ class ServiceProvider implements ServiceProviderInterface
                     'surrogate' => new SurrogateParser()
                 ]);
             },
+            'xr.codepoint_parser' => function () {
+                return new CodepointCountParser();
+            },
             'xr.xml_reader' => function (Container $container) {
                 return new XMLReader($container['config.repository.xml.ucd_file_path']);
             },
@@ -111,7 +115,11 @@ class ServiceProvider implements ServiceProviderInterface
                 return new StreamingElementReader($container['xr.xml_reader']);
             },
             'repository.xml' => function (Container $container) {
-                return new XMLRepository($container['xr.element_reader'], $container['xr.element_parser']);
+                return new XMLRepository(
+                    $container['xr.element_reader'],
+                    $container['xr.element_parser'],
+                    $container['xr.codepoint_parser']
+                );
             }
         ]);
     }

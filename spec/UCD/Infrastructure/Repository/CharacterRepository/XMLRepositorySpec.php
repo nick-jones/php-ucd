@@ -11,6 +11,7 @@ use UCD\Entity\Character\Properties;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointCountParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementReader;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
@@ -21,13 +22,15 @@ class XMLRepositorySpec extends ObjectBehavior
 {
     private $reader;
     private $parser;
+    private $countParser;
 
-    public function let(ElementReader $reader, ElementParser $parser)
+    public function let(ElementReader $reader, ElementParser $parser, CodepointCountParser $countParser)
     {
         $this->reader = $reader;
         $this->parser = $parser;
+        $this->countParser = $countParser;
 
-        $this->beConstructedWith($reader, $parser);
+        $this->beConstructedWith($reader, $parser, $countParser);
     }
 
     public function it_can_retrieve_characters_by_codepoint(Character $character)
@@ -66,13 +69,21 @@ class XMLRepositorySpec extends ObjectBehavior
             ->shouldIterateLike([]);
     }
 
-    public function it_exposes_the_number_of_characters_available(Character $character)
+    public function it_exposes_the_number_of_characters_available()
     {
-        $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->givenTheXMLParsesTo($character);
+        $element = new \DOMElement('char');
+        (new \DOMDocument())->appendChild($element);
+
+        $this->reader
+            ->read()
+            ->willReturn([$element]);
+
+        $this->countParser
+            ->parseElement($element)
+            ->willReturn(5);
 
         $this->count()
-            ->shouldReturn(1);
+            ->shouldReturn(5);
     }
 
     private function givenCharacterHasCodepointWithValue(Character $character, $value)

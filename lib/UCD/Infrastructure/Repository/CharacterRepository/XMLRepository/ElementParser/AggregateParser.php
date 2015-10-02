@@ -10,14 +10,14 @@ class AggregateParser implements ElementParser
     /**
      * @var ElementParser[]
      */
-    private $parsers;
+    private $delegates;
 
     /**
-     * @param array $parsers
+     * @param array $delegates
      */
-    public function __construct(array $parsers)
+    public function __construct(array $delegates)
     {
-        $this->parsers = $parsers;
+        $this->delegates = $delegates;
     }
 
     /**
@@ -38,10 +38,10 @@ class AggregateParser implements ElementParser
      */
     private function getParserForParser(\DOMElement $element)
     {
-        if (!array_key_exists($element->tagName, $this->parsers)) {
+        if (!array_key_exists($element->tagName, $this->delegates)) {
             throw new RuntimeException();
         }
 
-        return $this->parsers[$element->tagName];
+        return $this->delegates[$element->tagName];
     }
 }

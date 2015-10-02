@@ -8,6 +8,9 @@ use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\CodepointAssigned;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\AggregateParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointCountParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementReader;
 
 class XMLRepository implements Repository
@@ -15,21 +18,31 @@ class XMLRepository implements Repository
     /**
      * @var ElementReader
      */
-    private $elementReader;
+    private $characterReader;
 
     /**
      * @var ElementParser
      */
-    private $elementParser;
+    private $characterParser;
 
     /**
-     * @param ElementReader $elementReader
-     * @param ElementParser $elementParser
+     * @var CodepointCountParser
      */
-    public function __construct(ElementReader $elementReader, ElementParser $elementParser)
-    {
-        $this->elementReader = $elementReader;
-        $this->elementParser = $elementParser;
+    private $codepointParser;
+
+    /**
+     * @param ElementReader $characterReader
+     * @param ElementParser $characterParser
+     * @param CodepointCountParser $codepointParser
+     */
+    public function __construct(
+        ElementReader $characterReader,
+        ElementParser $characterParser,
+        CodepointCountParser $codepointParser
+    ) {
+        $this->characterReader = $characterReader;
+        $this->characterParser = $characterParser;
+        $this->codepointParser = $codepointParser;
     }
 
     /**
@@ -53,12 +66,8 @@ class XMLRepository implements Repository
      */
     public function getAll()
     {
-        foreach ($this->elementReader->read() as $element) {
-            $characters = $this->filterForCharacters(
-                $this->elementParser->parseElement($element)
-            );
-
-            foreach ($characters as $character) {
+        foreach ($this->characterReader->read() as $element) {
+            foreach ($this->parseCharacters($element) as $character) {
                 $codepoint = $character->getCodepoint();
                 yield $codepoint->getValue() => $character;
             }
@@ -66,17 +75,12 @@ class XMLRepository implements Repository
     }
 
     /**
-     * @param object[] $objects
+     * @param \DOMElement $element
      * @return CodepointAssigned[]
      */
-    private function filterForCharacters($objects)
+    private function parseCharacters(\DOMElement $element)
     {
-        foreach ($objects as $object) {
-            if ($object instanceof CodepointAssigned) {
-                $codepoint = $object->getCodepoint();
-                yield $codepoint->getValue() => $object;
-            }
-        }
+        return $this->characterParser->parseElement($element);
     }
 
     /**
@@ -84,6 +88,12 @@ class XMLRepository implements Repository
      */
     public function count()
     {
-        return iterator_count($this->getAll());
+        $tally = 0;
+
+        foreach ($this->characterReader->read() as $element) {
+            $tally += $this->codepointParser->parseElement($element);
+        }
+
+        return $tally;
     }
 }

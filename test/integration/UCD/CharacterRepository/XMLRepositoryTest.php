@@ -41,7 +41,8 @@ XML;
         $xmlReader = new XMLRepository\XMLReader($path);
         $elementReader = new XMLRepository\StreamingElementReader($xmlReader);
         $elementParser = new XMLRepository\ElementParser\CharacterParser();
+        $codepointParser = new XMLRepository\ElementParser\CodepointCountParser();
 
-        $this->repository = new XMLRepository($elementReader, $elementParser);
+        $this->repository = new XMLRepository($elementReader, $elementParser, $codepointParser);
     }
 }
