@@ -27,7 +27,7 @@ abstract class RepositoryUtilisingCommand extends Command
 
     /**
      * @param string $name
-     * @return Repository|WritableRepository
+     * @return Repository
      * @throws InvalidArgumentException
      */
     protected function getRepositoryByName($name)
@@ -39,6 +39,22 @@ abstract class RepositoryUtilisingCommand extends Command
         }
 
         return $this->container[$key];
+    }
+
+    /**
+     * @param string $name
+     * @return WritableRepository
+     * @throws InvalidArgumentException
+     */
+    protected function getWritableRepositoryByName($name)
+    {
+        $repository = $this->getRepositoryByName($name);
+
+        if ($repository instanceof WritableRepository) {
+            return $repository;
+        }
+
+        throw new InvalidArgumentException(sprintf('No writable repository with name: %s', $name));
     }
 
     /**

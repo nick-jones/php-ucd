@@ -5,8 +5,8 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
-
 use UCD\Entity\CodepointAssigned;
+
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
@@ -16,6 +16,8 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\P
 
 class PHPFileRepository implements WritableRepository
 {
+    use Capability\Observerable;
+
     const DEFAULT_SLICE_SIZE = 1000;
 
     /**
@@ -92,6 +94,7 @@ class PHPFileRepository implements WritableRepository
         foreach ($slices as $range => $chunk) {
             /** @var Range $range */
             $this->createFileWithCharacters($range, $chunk);
+            $this->notify();
         }
     }
 

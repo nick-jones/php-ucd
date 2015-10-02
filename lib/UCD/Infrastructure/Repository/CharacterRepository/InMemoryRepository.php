@@ -9,6 +9,8 @@ use UCD\Entity\CodepointAssigned;
 
 class InMemoryRepository implements WritableRepository
 {
+    use Capability\Observerable;
+
     /**
      * @var array
      */
@@ -40,6 +42,7 @@ class InMemoryRepository implements WritableRepository
             $codepoint = $character->getCodepoint();
             $index = $this->indexFromCodepoint($codepoint);
             $this->characters[$index] = $character;
+            $this->notify();
         }
     }
 

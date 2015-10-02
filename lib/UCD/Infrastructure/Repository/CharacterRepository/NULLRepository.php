@@ -9,6 +9,8 @@ use UCD\Entity\CodepointAssigned;
 
 class NULLRepository implements WritableRepository
 {
+    use Capability\Observerable;
+
     /**
      * @param Codepoint $codepoint
      * @throws CharacterNotFoundException
@@ -24,7 +26,7 @@ class NULLRepository implements WritableRepository
      */
     public function addMany($characters)
     {
-
+        $this->notify();
     }
 
     /**

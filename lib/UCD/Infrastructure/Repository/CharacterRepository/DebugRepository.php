@@ -8,7 +8,7 @@ use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository;
 use UCD\Entity\CodepointAssigned;
 
-class DebugReadonlyRepository implements Repository
+class DebugRepository implements Repository
 {
     /**
      * @var Repository

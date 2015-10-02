@@ -10,12 +10,12 @@ use Psr\Log\LoggerInterface;
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository;
-use UCD\Infrastructure\Repository\CharacterRepository\DebugReadonlyRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\DebugRepository;
 
 /**
- * @mixin DebugReadonlyRepository
+ * @mixin DebugRepository
  */
-class DebugReadonlyRepositorySpec extends ObjectBehavior
+class DebugRepositorySpec extends ObjectBehavior
 {
     public function let(Repository $repository, LoggerInterface $logger)
     {

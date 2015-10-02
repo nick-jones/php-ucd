@@ -2,18 +2,27 @@
 
 namespace UCD\Application\Console\Command;
 
+use SplSubject;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use UCD\Entity\Character\Repository;
+use UCD\Entity\Character\WritableRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 
-class RepositoryTransferCommand extends RepositoryUtilisingCommand
+class RepositoryTransferCommand extends RepositoryUtilisingCommand implements \SplObserver
 {
     const COMMAND_NAME = 'repository-transfer';
     const ARGUMENT_FROM = 'from';
     const ARGUMENT_TO = 'to';
+
+    /**
+     * @var ProgressBar
+     */
+    protected $progress;
 
     protected function configure()
     {
@@ -34,17 +43,39 @@ class RepositoryTransferCommand extends RepositoryUtilisingCommand
         $to = $input->getArgument(self::ARGUMENT_TO);
 
         $source = $this->getRepositoryByName($from);
-        $destination = $this->getRepositoryByName($to);
+        $this->setupProgressBar($output, $source);
+
+        $destination = $this->getWritableRepositoryByName($to);
+        $destination->attach($this);
 
         $destination->addMany(
             $source->getAll()
         );
 
+        $this->tearDownProgressBar();
+
+        $output->writeln('');
         $output->writeln('<info>Database Generated</info>');
         $output->writeln(sprintf('Memory peak: %.5f MB', memory_get_peak_usage() / 1048576));
         $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
 
         return 0;
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param Repository $source
+     */
+    private function setupProgressBar(OutputInterface $output, Repository $source)
+    {
+        $this->progress = new ProgressBar($output, count($source));
+        $this->progress->setMessage('Generating database...');
+        $this->progress->start();
+    }
+
+    private function tearDownProgressBar()
+    {
+        $this->progress->finish();
     }
 
     /**
@@ -68,5 +99,15 @@ class RepositoryTransferCommand extends RepositoryUtilisingCommand
         );
 
         return new InputDefinition([$from, $to]);
+    }
+
+    /**
+     * @param SplSubject $subject
+     */
+    public function update(SplSubject $subject)
+    {
+        if ($subject instanceof WritableRepository) {
+            $this->progress->setProgress(count($subject));
+        }
     }
 }

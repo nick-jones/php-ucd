@@ -7,8 +7,10 @@ use Psr\Log\LoggerInterface;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\CodepointAssigned;
 
-class DebugWritableRepository extends DebugReadonlyRepository implements WritableRepository
+class DebugWritableRepository extends DebugRepository implements WritableRepository
 {
+    use Capability\Observerable;
+
     /**
      * @var WritableRepository
      */
@@ -34,5 +36,6 @@ class DebugWritableRepository extends DebugReadonlyRepository implements Writabl
         }
 
         $this->delegate->addMany($characters);
+        $this->notify();
     }
 }
