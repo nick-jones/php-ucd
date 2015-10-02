@@ -4,7 +4,7 @@ namespace UCD\Application\Console\Command;
 
 use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
-use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Exception\InvalidArgumentException;
 
@@ -27,7 +27,7 @@ abstract class RepositoryUtilisingCommand extends Command
 
     /**
      * @param string $name
-     * @return ReadOnlyRepository|WritableRepository
+     * @return Repository|WritableRepository
      * @throws InvalidArgumentException
      */
     protected function getRepositoryByName($name)

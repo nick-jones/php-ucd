@@ -5,7 +5,7 @@ namespace UCD\Entity\Character;
 use UCD\Entity\Character\Repository\AddCharacterException;
 use UCD\Entity\CodepointAssigned;
 
-interface WritableRepository extends ReadOnlyRepository
+interface WritableRepository extends Repository
 {
     /**
      * @param CodepointAssigned[] $characters

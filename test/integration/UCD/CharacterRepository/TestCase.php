@@ -6,7 +6,7 @@ use integration\UCD\TestCase as BaseTestCase;
 
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
-use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
 
@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
      * character assigned to codepoint U+0. Since all repositories should behave the same, there
      * isn't any great reason why additional tests be covered in addition to these.
      *
-     * @var ReadOnlyRepository
+     * @var Repository
      */
     protected $repository;
 

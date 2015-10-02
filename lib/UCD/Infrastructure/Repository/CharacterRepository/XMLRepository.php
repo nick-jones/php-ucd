@@ -3,14 +3,14 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use UCD\Entity\Codepoint;
-use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\CodepointAssigned;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementReader;
 
-class XMLRepository implements ReadOnlyRepository
+class XMLRepository implements Repository
 {
     /**
      * @var ElementReader

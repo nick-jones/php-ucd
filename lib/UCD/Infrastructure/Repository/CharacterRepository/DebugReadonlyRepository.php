@@ -5,13 +5,13 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 use Psr\Log\LoggerInterface;
 
 use UCD\Entity\Codepoint;
-use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\CodepointAssigned;
 
-class DebugReadonlyRepository implements ReadOnlyRepository
+class DebugReadonlyRepository implements Repository
 {
     /**
-     * @var ReadOnlyRepository
+     * @var Repository
      */
     protected $delegate;
 
@@ -21,10 +21,10 @@ class DebugReadonlyRepository implements ReadOnlyRepository
     private $logger;
 
     /**
-     * @param ReadOnlyRepository $delegate
+     * @param Repository $delegate
      * @param LoggerInterface $logger
      */
-    public function __construct(ReadOnlyRepository $delegate, LoggerInterface $logger)
+    public function __construct(Repository $delegate, LoggerInterface $logger)
     {
         $this->delegate = $delegate;
         $this->logger = $logger;

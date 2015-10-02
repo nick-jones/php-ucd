@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
-use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\Character\Repository;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugReadonlyRepository;
 
 /**
@@ -17,7 +17,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\DebugReadonlyRepository;
  */
 class DebugReadonlyRepositorySpec extends ObjectBehavior
 {
-    public function let(ReadOnlyRepository $repository, LoggerInterface $logger)
+    public function let(Repository $repository, LoggerInterface $logger)
     {
         $this->beConstructedWith($repository, $logger);
     }

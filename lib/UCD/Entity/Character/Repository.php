@@ -6,7 +6,7 @@ use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Codepoint;
 use UCD\Entity\CodepointAssigned;
 
-interface ReadOnlyRepository extends \Countable
+interface Repository extends \Countable
 {
     /**
      * @param Codepoint $codepoint

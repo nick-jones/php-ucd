@@ -4,7 +4,7 @@ namespace UCD;
 
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
-use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 
 use UCD\Entity\CodepointAssigned;
@@ -18,14 +18,14 @@ use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 class UCD
 {
     /**
-     * @var ReadOnlyRepository
+     * @var Repository
      */
     private $repository;
 
     /**
-     * @param ReadOnlyRepository|null $repository
+     * @param Repository|null $repository
      */
-    public function __construct(ReadOnlyRepository $repository = null)
+    public function __construct(Repository $repository = null)
     {
         $this->repository = $repository ?: $this->defaultRepository();
     }
@@ -144,7 +144,7 @@ class UCD
     }
 
     /**
-     * @return ReadOnlyRepository
+     * @return Repository
      */
     private function defaultRepository()
     {

@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 use UCD\Entity\Character;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Codepoint;
-use UCD\Entity\Character\ReadOnlyRepository;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\CodepointAssigned;
 use UCD\UCD;
 
@@ -15,7 +15,7 @@ use UCD\UCD;
  */
 class UCDSpec extends ObjectBehavior
 {
-    public function let(ReadOnlyRepository $repository)
+    public function let(Repository $repository)
     {
         $this->beConstructedWith($repository);
     }
