@@ -21,7 +21,7 @@ abstract class Enumeration implements Comparable
      * @param mixed $value
      * @throws InvalidArgumentException
      */
-    public final function __construct($value)
+    final public function __construct($value)
     {
         if ($this->isKnown($value) !== true) {
             throw new InvalidArgumentException(sprintf('"%s" is not recognised', var_export($value, true)));
@@ -33,7 +33,7 @@ abstract class Enumeration implements Comparable
     /**
      * @return mixed
      */
-    public final function getValue()
+    final public function getValue()
     {
         return $this->value;
     }
