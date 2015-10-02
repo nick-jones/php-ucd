@@ -2,7 +2,6 @@
 
 namespace UCD\Entity;
 
-use UCD\Entity\Comparable;
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\OutOfRangeException;
 

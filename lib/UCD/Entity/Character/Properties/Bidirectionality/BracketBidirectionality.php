@@ -26,4 +26,12 @@ class BracketBidirectionality extends Bidirectionality
 
         parent::__construct($class, $mirroring, $isControl);
     }
+
+    /**
+     * @return Bracket
+     */
+    public function getBracket()
+    {
+        return $this->bracket;
+    }
 }

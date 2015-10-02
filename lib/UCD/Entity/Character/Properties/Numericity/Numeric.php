@@ -21,4 +21,12 @@ class Numeric extends Numericity
 
         parent::__construct($type);
     }
+
+    /**
+     * @return RationalNumber
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
 }

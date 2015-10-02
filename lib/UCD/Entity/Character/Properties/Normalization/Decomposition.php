@@ -16,4 +16,12 @@ abstract class Decomposition
     {
         $this->type = $type;
     }
+
+    /**
+     * @return DecompositionType
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

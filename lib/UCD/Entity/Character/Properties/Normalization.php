@@ -26,4 +26,20 @@ class Normalization
         $this->combining = $combining;
         $this->decomposition = $decomposition;
     }
+
+    /**
+     * @return Combining
+     */
+    public function getCombining()
+    {
+        return $this->combining;
+    }
+
+    /**
+     * @return Decomposition
+     */
+    public function getDecomposition()
+    {
+        return $this->decomposition;
+    }
 }

@@ -21,15 +21,15 @@ class RationalNumber
     /**
      * @var bool
      */
-    private $isNegative;
+    private $negative;
 
     /**
      * @param int $numerator
      * @param int $denominator
-     * @param bool $isNegative
+     * @param bool $negative
      * @throws InvalidArgumentException
      */
-    public function __construct($numerator, $denominator, $isNegative)
+    public function __construct($numerator, $denominator, $negative)
     {
         if ($denominator === 0) {
             throw new InvalidArgumentException('Zero denominator');
@@ -37,7 +37,7 @@ class RationalNumber
 
         $this->numerator = $numerator;
         $this->denominator = $denominator;
-        $this->isNegative = $isNegative;
+        $this->negative = $negative;
     }
 
     /**
@@ -46,6 +46,30 @@ class RationalNumber
     public function isFraction()
     {
         return $this->denominator !== 1;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumerator()
+    {
+        return $this->numerator;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDenominator()
+    {
+        return $this->denominator;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNegative()
+    {
+        return $this->negative;
     }
 
     /**

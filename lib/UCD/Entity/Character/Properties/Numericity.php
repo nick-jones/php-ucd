@@ -18,4 +18,12 @@ abstract class Numericity
     {
         $this->type = $type;
     }
+
+    /**
+     * @return NumericType
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 }

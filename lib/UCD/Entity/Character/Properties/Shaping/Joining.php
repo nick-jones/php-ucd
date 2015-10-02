@@ -29,4 +29,28 @@ class Joining
         $this->type = $type;
         $this->joinControl = $joinControl;
     }
+
+    /**
+     * @return JoiningGroup
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @return JoiningType
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isJoinControl()
+    {
+        return $this->joinControl;
+    }
 }

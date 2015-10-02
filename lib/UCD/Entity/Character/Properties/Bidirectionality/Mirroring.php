@@ -9,7 +9,7 @@ class Mirroring
     /**
      * @var bool
      */
-    private $isMirrored;
+    private $mirrored;
 
     /**
      * @var Codepoint
@@ -17,12 +17,28 @@ class Mirroring
     private $mirroredBy;
 
     /**
-     * @param bool $isMirrored
+     * @param bool $mirrored
      * @param Codepoint $mirroredBy
      */
-    public function __construct($isMirrored, Codepoint $mirroredBy = null)
+    public function __construct($mirrored, Codepoint $mirroredBy = null)
     {
         $this->mirroredBy = $mirroredBy;
-        $this->isMirrored = $isMirrored;
+        $this->mirrored = $mirrored;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMirrored()
+    {
+        return $this->mirrored;
+    }
+
+    /**
+     * @return Codepoint
+     */
+    public function getMirroredBy()
+    {
+        return $this->mirroredBy;
     }
 }

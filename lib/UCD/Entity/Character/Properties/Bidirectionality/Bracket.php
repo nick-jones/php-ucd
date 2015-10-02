@@ -20,6 +20,14 @@ abstract class Bracket
     }
 
     /**
+     * @return Codepoint
+     */
+    public function getPairedWith()
+    {
+        return $this->pairedWith;
+    }
+
+    /**
      * @param Codepoint $pairedWith
      * @return OpenBracket
      */

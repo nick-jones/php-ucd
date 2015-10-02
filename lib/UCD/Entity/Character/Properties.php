@@ -56,4 +56,44 @@ class Properties
         $this->bidirectionality = $bidirectionality;
         $this->shaping = $shaping;
     }
+
+    /**
+     * @return General
+     */
+    public function getGeneral()
+    {
+        return $this->general;
+    }
+
+    /**
+     * @return Numericity
+     */
+    public function getNumericity()
+    {
+        return $this->numericity;
+    }
+
+    /**
+     * @return Normalization
+     */
+    public function getNormalization()
+    {
+        return $this->normalization;
+    }
+
+    /**
+     * @return Bidirectionality
+     */
+    public function getBidirectionality()
+    {
+        return $this->bidirectionality;
+    }
+
+    /**
+     * @return Shaping
+     */
+    public function getShaping()
+    {
+        return $this->shaping;
+    }
 }

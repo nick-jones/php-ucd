@@ -42,4 +42,36 @@ class General
         $this->age = $age;
         $this->generalCategory = $generalCategory;
     }
+
+    /**
+     * @return Names
+     */
+    public function getNames()
+    {
+        return $this->names;
+    }
+
+    /**
+     * @return Block
+     */
+    public function getBlock()
+    {
+        return $this->block;
+    }
+
+    /**
+     * @return Version
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    /**
+     * @return GeneralCategory
+     */
+    public function getGeneralCategory()
+    {
+        return $this->generalCategory;
+    }
 }

@@ -27,4 +27,20 @@ class Bidirectionality
         $this->class = $class;
         $this->mirroring = $mirroring;
     }
+
+    /**
+     * @return Classing
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @return Mirroring
+     */
+    public function getMirroring()
+    {
+        return $this->mirroring;
+    }
 }

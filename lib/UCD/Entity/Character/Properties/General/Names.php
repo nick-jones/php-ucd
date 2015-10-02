@@ -30,4 +30,28 @@ class Names
         $this->aliases = $aliases;
         $this->version1 = $version1;
     }
+
+    /**
+     * @return Name
+     */
+    public function getPrimary()
+    {
+        return $this->primary;
+    }
+
+    /**
+     * @return Name[]
+     */
+    public function getAliases()
+    {
+        return $this->aliases;
+    }
+
+    /**
+     * @return Name
+     */
+    public function getVersion1()
+    {
+        return $this->version1;
+    }
 }

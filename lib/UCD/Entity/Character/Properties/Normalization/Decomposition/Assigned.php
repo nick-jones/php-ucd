@@ -23,4 +23,12 @@ class Assigned extends Decomposition
 
         parent::__construct($type);
     }
+
+    /**
+     * @return Codepoint[]
+     */
+    public function getMappedTo()
+    {
+        return $this->mappedTo;
+    }
 }

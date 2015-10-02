@@ -18,4 +18,12 @@ class Shaping
     {
         $this->joining = $joining;
     }
+
+    /**
+     * @return Joining
+     */
+    public function getJoining()
+    {
+        return $this->joining;
+    }
 }
