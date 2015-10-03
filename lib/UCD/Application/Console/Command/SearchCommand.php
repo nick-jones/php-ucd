@@ -50,6 +50,7 @@ class SearchCommand extends RepositoryUtilisingCommand
         $output->writeln('<info>Character Found</info>');
         $output->writeln(sprintf('Export: %s', $view->asExport()));
         $output->writeln(sprintf('UTF-8: %s', $view->asUTF8()));
+        $output->writeln(sprintf('Memory peak: %.5f MB', memory_get_peak_usage() / 1048576));
         $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
 
         return 0;

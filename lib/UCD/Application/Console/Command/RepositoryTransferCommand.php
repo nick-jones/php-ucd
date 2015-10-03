@@ -2,7 +2,6 @@
 
 namespace UCD\Application\Console\Command;
 
-use SplSubject;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -43,9 +42,9 @@ class RepositoryTransferCommand extends RepositoryUtilisingCommand implements \S
         $to = $input->getArgument(self::ARGUMENT_TO);
 
         $source = $this->getRepositoryByName($from);
-        $this->setupProgressBar($output, $source);
-
         $destination = $this->getWritableRepositoryByName($to);
+
+        $this->setupProgressBar($output, $source);
         $destination->attach($this);
 
         $destination->addMany(
@@ -102,9 +101,9 @@ class RepositoryTransferCommand extends RepositoryUtilisingCommand implements \S
     }
 
     /**
-     * @param SplSubject $subject
+     * @param \SplSubject $subject
      */
-    public function update(SplSubject $subject)
+    public function update(\SplSubject $subject)
     {
         if ($subject instanceof WritableRepository) {
             $this->progress->setProgress(count($subject));

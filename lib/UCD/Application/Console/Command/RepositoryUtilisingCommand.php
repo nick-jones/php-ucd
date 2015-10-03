@@ -32,7 +32,7 @@ abstract class RepositoryUtilisingCommand extends Command
      */
     protected function getRepositoryByName($name)
     {
-        $key = $this->keyFromName($name);
+        $key = $this->containerKeyFromName($name);
 
         if (!isset($this->container[$key])) {
             throw new InvalidArgumentException(sprintf('No repository with name: %s', $name));
@@ -102,7 +102,7 @@ abstract class RepositoryUtilisingCommand extends Command
      * @param string $name
      * @return string
      */
-    private function keyFromName($name)
+    private function containerKeyFromName($name)
     {
         return sprintf('repository.%s', $name);
     }
