@@ -1,6 +1,16 @@
 {
     "name": "nick-jones/php-ucd",
 
+    "description": "Interface into the Unicode Character Database",
+
+    "keywords": ["ucd", "unicode", "character", "database"],
+
+    "authors": [{
+        "name": "Nicholas Jones"
+    }],
+
+    "license": "MIT",
+
     "require": {
         "php": ">=5.5",
         "psr/log": "^1.0",
