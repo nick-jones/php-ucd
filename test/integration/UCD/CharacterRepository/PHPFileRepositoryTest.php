@@ -2,23 +2,13 @@
 
 namespace integration\UCD\CharacterRepository;
 
+use UCD\Application\Container\ConfigurationProvider;
 use UCD\Entity\Codepoint;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
-use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
-use VirtualFileSystem\FileSystem;
 
 class PHPFileRepositoryTest extends TestCase
 {
-    /**
-     * @var FileSystem
-     */
-    protected $fs;
-
     protected function setUp()
     {
-        $this->fs = new FileSystem();
-
         $directoryPath = $this->fs->path('/db');
         mkdir($directoryPath);
 
@@ -27,7 +17,7 @@ class PHPFileRepositoryTest extends TestCase
         $content = sprintf("<?php\nreturn %s;", var_export([0 => serialize($character)], true));
         file_put_contents($path, $content);
 
-        $directory = new PHPFileDirectory(new \SplFileInfo($directoryPath));
-        $this->repository = new PHPFileRepository($directory, new PHPSerializer());
+        $this->container[ConfigurationProvider::CONFIG_KEY_DB_PATH] = $directoryPath;
+        $this->repository = $this->container['repository.php'];
     }
 }

@@ -39,18 +39,11 @@ class RepositoryTransferCommandTest extends BaseTestCase
 </ucd>
 XML;
 
-    const CONFIG_KEY_REPO_PATH = 'config.repository.php.database_path';
-    const CONFIG_KEY_XML_PATH = 'config.repository.xml.ucd_file_path';
 
     /**
      * @var CommandTester
      */
     protected $commandTester;
-
-    /**
-     * @var FileSystem
-     */
-    protected $fs;
 
     /**
      * @var string
@@ -67,13 +60,11 @@ XML;
         mkdir($this->dbPath);
         file_put_contents($ucdXmlPath, self::FILE_CONTENT);
 
+        $this->container[ConfigurationProvider::CONFIG_KEY_DB_PATH] = $this->dbPath;
+        $this->container[ConfigurationProvider::CONFIG_KEY_XML_PATH] = $ucdXmlPath;
+
         $application = new Application();
-        $container = new Container();
-        $container->register(new ServiceProvider());
-        $container->register(new ConfigurationProvider());
-        $container[self::CONFIG_KEY_REPO_PATH] = $this->dbPath;
-        $container[self::CONFIG_KEY_XML_PATH] = $ucdXmlPath;
-        $application->add(new RepositoryTransferCommand($container));
+        $application->add(new RepositoryTransferCommand($this->container));
         $command = $application->get(RepositoryTransferCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($command);
     }

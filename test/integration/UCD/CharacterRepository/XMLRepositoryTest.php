@@ -2,8 +2,8 @@
 
 namespace integration\UCD\CharacterRepository;
 
+use UCD\Application\Container\ConfigurationProvider;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
-use VirtualFileSystem\FileSystem;
 
 class XMLRepositoryTest extends TestCase
 {
@@ -27,22 +27,12 @@ class XMLRepositoryTest extends TestCase
 </ucd>
 XML;
 
-    /**
-     * @var FileSystem
-     */
-    protected $fs;
-
     protected function setUp()
     {
-        $this->fs = new FileSystem();
         $path = $this->fs->path('/ucd.xml');
         file_put_contents($path, self::FILE_CONTENT);
 
-        $xmlReader = new XMLRepository\XMLReader($path);
-        $elementReader = new XMLRepository\StreamingElementReader($xmlReader);
-        $elementParser = new XMLRepository\ElementParser\CharacterParser();
-        $codepointParser = new XMLRepository\ElementParser\CodepointCountParser();
-
-        $this->repository = new XMLRepository($elementReader, $elementParser, $codepointParser);
+        $this->container[ConfigurationProvider::CONFIG_KEY_XML_PATH] = $path;
+        $this->repository = $this->container['repository.xml'];
     }
 }

@@ -20,17 +20,10 @@ use VirtualFileSystem\FileSystem;
 
 class SearchCommandTest extends BaseTestCase
 {
-    const CONFIG_KEY_REPO_PATH = 'config.repository.php.database_path';
-
     /**
      * @var CommandTester
      */
     protected $commandTester;
-
-    /**
-     * @var FileSystem
-     */
-    protected $fs;
 
     protected function setUp()
     {
@@ -42,12 +35,10 @@ class SearchCommandTest extends BaseTestCase
         $content = sprintf("<?php\nreturn %s;", var_export([163 => serialize($character)], true));
         file_put_contents($this->fs->path('/db/00000000-01114111!0001.php'), $content);
 
+        $this->container[ConfigurationProvider::CONFIG_KEY_DB_PATH] = $dbPath;
+
         $application = new Application();
-        $container = new Container();
-        $container->register(new ServiceProvider());
-        $container->register(new ConfigurationProvider());
-        $container[self::CONFIG_KEY_REPO_PATH] = $dbPath;
-        $application->add(new SearchCommand($container));
+        $application->add(new SearchCommand($this->container));
         $command = $application->get(SearchCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($command);
     }

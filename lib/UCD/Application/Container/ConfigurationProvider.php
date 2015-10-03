@@ -9,6 +9,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationProvider implements ServiceProviderInterface
 {
+    const CONFIG_KEY_DB_PATH = 'config.repository.php.database_path';
+    const CONFIG_KEY_XML_PATH = 'config.repository.xml.ucd_file_path';
+
     /**
      * @param Container $pimple
      */
@@ -35,8 +38,8 @@ class ConfigurationProvider implements ServiceProviderInterface
     private function defaultConfiguration()
     {
         return [
-            'config.repository.php.database_path' => sprintf('%s/../../../../resources/generated/db', __DIR__),
-            'config.repository.xml.ucd_file_path' => sprintf('%s/../../../../resources/ucd.all.flat.xml', __DIR__)
+            self::CONFIG_KEY_DB_PATH => sprintf('%s/../../../../resources/generated/db', __DIR__),
+            self::CONFIG_KEY_XML_PATH => sprintf('%s/../../../../resources/ucd.all.flat.xml', __DIR__)
         ];
     }
 

@@ -2,14 +2,42 @@
 
 namespace integration\UCD;
 
+use UCD\Application\Container\ConfigurationProvider;
+use UCD\Application\Container\ServiceProvider;
+
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Properties;
 
 use Hamcrest\MatcherAssert as ha;
+use Pimple\Container;
+use VirtualFileSystem\FileSystem;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var FileSystem
+     */
+    protected $fs;
+
+    /**
+     * @param string|null $name
+     * @param array $data
+     * @param string $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        $this->fs = new FileSystem();
+        $this->container = new Container();
+        $this->container->register(new ServiceProvider());
+        $this->container->register(new ConfigurationProvider());
+
+        parent::__construct($name, $data, $dataName);
+    }
+
+    /**
+     * Adds Hamcrest assertion counts to PHPUnit
+     */
     public function runBare()
     {
         $e = null;
