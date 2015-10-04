@@ -12,12 +12,12 @@ class CodepointCountParser implements ElementParser
      */
     public function parseElement(\DOMElement $element)
     {
-        if ($element->hasAttribute(CharacterParser::ATTR_CODEPOINT)) {
+        if ($element->hasAttribute(CodepointAssignedParser::ATTR_CODEPOINT)) {
             return 1;
         }
 
-        $first = hexdec($element->getAttribute(CharacterParser::ATTR_CODEPOINT_FIRST));
-        $last = hexdec($element->getAttribute(CharacterParser::ATTR_CODEPOINT_LAST));
+        $first = hexdec($element->getAttribute(CodepointAssignedParser::ATTR_CODEPOINT_FIRST));
+        $last = hexdec($element->getAttribute(CodepointAssignedParser::ATTR_CODEPOINT_LAST));
 
         return $last - $first + 1;
     }

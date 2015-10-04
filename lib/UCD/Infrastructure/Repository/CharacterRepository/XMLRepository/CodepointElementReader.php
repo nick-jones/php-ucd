@@ -2,7 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 
-interface ElementReader
+interface CodepointElementReader
 {
     /**
      * @return \DOMElement[]

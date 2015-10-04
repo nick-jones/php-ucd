@@ -23,13 +23,17 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializ
 use UCD\Infrastructure\Repository\CharacterRepository\NULLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\AggregateParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader\StreamingReader;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointAssignedParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointCountParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\NonCharacterParser;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\ReservedParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\BidirectionalityParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\GeneralParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\NormalizationParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\NumericityParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\ShapingParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\SurrogateParser;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\StreamingElementReader;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\XMLReader;
 
 class ServiceProvider implements ServiceProviderInterface
@@ -98,12 +102,42 @@ class ServiceProvider implements ServiceProviderInterface
     private function setupXMLRepository(Container $container)
     {
         $this->addMany($container, [
-            'xr.element_parser' => function () {
-                return new AggregateParser([
-                    'char' => new CharacterParser(),
-                    'noncharacter' => new NonCharacterParser(),
-                    'surrogate' => new SurrogateParser()
-                ]);
+            'xr.element_parser.properties.general' => function () {
+                return new GeneralParser();
+            },
+            'xr.element_parser.properties.normalization' => function () {
+                return new NormalizationParser();
+            },
+            'xr.element_parser.properties.numericity' => function () {
+                return new NumericityParser();
+            },
+            'xr.element_parser.properties.bidirectionality' => function () {
+                return new BidirectionalityParser();
+            },
+            'xr.element_parser.properties.shaping' => function () {
+                return new ShapingParser();
+            },
+            'xr.element_parser.character' => function (Container $container) {
+                return new CharacterParser(
+                    $container['xr.element_parser.properties.general'],
+                    $container['xr.element_parser.properties.normalization'],
+                    $container['xr.element_parser.properties.numericity'],
+                    $container['xr.element_parser.properties.bidirectionality'],
+                    $container['xr.element_parser.properties.shaping']
+                );
+            },
+            'xr.element_parser.non_character' => function (Container $container) {
+                return new NonCharacterParser($container['xr.element_parser.properties.general']);
+            },
+            'xr.element_parser.surrogate' => function (Container $container) {
+                return new SurrogateParser($container['xr.element_parser.properties.general']);
+            },
+            'xr.element_parser' => function (Container $container) {
+                return new CodepointAssignedParser(
+                    $container['xr.element_parser.character'],
+                    $container['xr.element_parser.non_character'],
+                    $container['xr.element_parser.surrogate']
+                );
             },
             'xr.codepoint_parser' => function () {
                 return new CodepointCountParser();
@@ -112,7 +146,7 @@ class ServiceProvider implements ServiceProviderInterface
                 return new XMLReader($container['config.repository.xml.ucd_file_path']);
             },
             'xr.element_reader' => function (Container $container) {
-                return new StreamingElementReader($container['xr.xml_reader']);
+                return new StreamingReader($container['xr.xml_reader']);
             },
             'repository.xml' => function (Container $container) {
                 return new XMLRepository(

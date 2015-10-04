@@ -11,8 +11,9 @@ use UCD\Entity\Character\Properties;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointAssignedParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointCountParser;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementReader;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
 /**
@@ -24,7 +25,7 @@ class XMLRepositorySpec extends ObjectBehavior
     private $parser;
     private $countParser;
 
-    public function let(ElementReader $reader, ElementParser $parser, CodepointCountParser $countParser)
+    public function let(CodepointElementReader $reader, CodepointAssignedParser $parser, CodepointCountParser $countParser)
     {
         $this->reader = $reader;
         $this->parser = $parser;

@@ -1,16 +1,16 @@
 <?php
 
-namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
+namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader;
 
 use PhpSpec\ObjectBehavior;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\StreamingElementReader;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader\StreamingReader;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\XMLReader;
 use VirtualFileSystem\FileSystem;
 
 /**
- * @mixin StreamingElementReader
+ * @mixin StreamingReader
  */
-class StreamingElementReaderSpec extends ObjectBehavior
+class StreamingReaderSpec extends ObjectBehavior
 {
     const XML_DATA = <<<XML
 <ucd xmlns="http://www.unicode.org/ns/2003/ucd/1.0">

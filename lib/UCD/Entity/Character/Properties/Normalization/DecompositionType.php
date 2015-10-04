@@ -21,7 +21,7 @@ class DecompositionType extends Enumeration
     const SMALL = 'sml';
     const SQUARE = 'sqr';
     const SUB = 'sub';
-    const SUPER = 'sup';
+    const SUP = 'sup';
     const VERTICAL = 'vert';
     const WIDE = 'wide';
 }

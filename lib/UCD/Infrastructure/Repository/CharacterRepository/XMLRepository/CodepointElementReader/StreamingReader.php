@@ -1,8 +1,11 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
+namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader;
 
-final class StreamingElementReader implements ElementReader
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\XMLReader;
+
+final class StreamingReader implements CodepointElementReader
 {
     const ELEMENT_CHARACTER = 'char';
     const ELEMENT_NON_CHARACTER = 'noncharacter';

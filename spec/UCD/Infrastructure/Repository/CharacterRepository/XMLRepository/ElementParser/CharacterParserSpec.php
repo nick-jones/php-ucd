@@ -9,6 +9,11 @@ use UCD\Entity\Character\Properties;
 
 use UCD\Entity\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\BidirectionalityParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\GeneralParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\NormalizationParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\NumericityParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\ShapingParser;
 
 /**
  * @mixin CharacterParser
@@ -35,6 +40,17 @@ class CharacterParserSpec extends ObjectBehavior
 </ucd>
 XML;
 
+    public function let()
+    {
+        $this->beConstructedWith(
+            new GeneralParser(),
+            new NormalizationParser(),
+            new NumericityParser(),
+            new BidirectionalityParser(),
+            new ShapingParser()
+        );
+    }
+
     public function it_parses_a_char_element_into_into_a_character_object()
     {
         $age = new Properties\General\Version(Properties\General\Version::V1_1);
@@ -59,13 +75,14 @@ XML;
         $joining = new Properties\Shaping\Joining($joiningGroup, $joiningType, false);
         $shaping = new Properties\Shaping($joining);
         $properties = new Character\Properties($general, $numericity, $normalization, $bidi, $shaping);
-        $character = new Character(Codepoint::fromInt(0), $properties);
+        $codepoint = Codepoint::fromInt(0);
+        $character = new Character($codepoint, $properties);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(self::XML_DATA);
         $element = $dom->getElementsByTagName('char')->item(0);
 
-        $characters = $this->parseElement($element);
-        $characters->shouldIterateLike([$character]);
+        $this->parseElement($element, $codepoint)
+            ->shouldBeLike($character);
     }
 }

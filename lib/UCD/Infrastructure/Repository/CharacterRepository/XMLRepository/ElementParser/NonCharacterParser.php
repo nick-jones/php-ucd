@@ -3,24 +3,34 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
 use UCD\Entity\Codepoint;
-use UCD\Entity\CodepointAssigned;
 use UCD\Entity\NonCharacter;
 
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\GeneralParser;
 
-class NonCharacterParser extends Base
+class NonCharacterParser implements CodepointAwareParser
 {
     /**
-     * @return CodepointAssigned[]
+     * @var GeneralParser
      */
-    protected function parse()
-    {
-        $codepointValues = $this->extractCodepoints();
+    private $generalParser;
 
-        foreach ($codepointValues as $codepointValue) {
-            $codepoint = Codepoint::fromInt($codepointValue);
-            $properties = $this->parseGeneral($codepoint);
-            yield new NonCharacter($codepoint, $properties);
-        }
+    /**
+     * @param GeneralParser $generalParser
+     */
+    public function __construct(GeneralParser $generalParser)
+    {
+        $this->generalParser = $generalParser;
+    }
+
+    /**
+     * @param \DOMElement $element
+     * @param Codepoint $codepoint
+     * @return mixed
+     */
+    public function parseElement(\DOMElement $element, Codepoint $codepoint = null)
+    {
+        $general = $this->generalParser->parseElement($element, $codepoint);
+
+        return new NonCharacter($codepoint, $general);
     }
 }

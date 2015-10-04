@@ -22,8 +22,8 @@ class Mirroring
      */
     public function __construct($mirrored, Codepoint $mirroredBy = null)
     {
-        $this->mirroredBy = $mirroredBy;
         $this->mirrored = $mirrored;
+        $this->mirroredBy = $mirroredBy;
     }
 
     /**
