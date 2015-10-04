@@ -48,12 +48,9 @@ class GeneralParser extends BaseParser
      */
     private function parsePrimaryName()
     {
-        $attributeValue = $this->getOptionalAttribute(self::ATTR_NAME);
-        $primaryNameValue = $this->parsePlaceholders($attributeValue, $this->codepoint);
-
-        return ($primaryNameValue === null)
-            ? new Unassigned()
-            : new Assigned($primaryNameValue);
+        return $this->parseNameWithValue(
+            $this->getOptionalAttribute(self::ATTR_NAME)
+        );
     }
 
     /**
@@ -61,12 +58,24 @@ class GeneralParser extends BaseParser
      */
     private function parseVersion1Name()
     {
-        $attributeValue = $this->getOptionalAttribute(self::ATTR_NAME_VERSION_1);
-        $version1NameValue = $this->parsePlaceholders($attributeValue, $this->codepoint);
+        return $this->parseNameWithValue(
+            $this->getOptionalAttribute(self::ATTR_NAME_VERSION_1)
+        );
+    }
 
-        return ($version1NameValue === null)
-            ? new Unassigned()
-            : new Assigned($version1NameValue);
+    /**
+     * @param $value
+     * @return Assigned|Unassigned
+     */
+    private function parseNameWithValue($value)
+    {
+        $version1NameValue = $this->parsePlaceholders($value, $this->codepoint);
+
+        if ($version1NameValue === null) {
+            return new Unassigned();
+        }
+
+        return new Assigned($version1NameValue);
     }
 
     /**
