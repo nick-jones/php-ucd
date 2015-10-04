@@ -25,7 +25,7 @@ class NonCharacterParser implements CodepointAwareParser
     /**
      * @param \DOMElement $element
      * @param Codepoint $codepoint
-     * @return mixed
+     * @return NonCharacter
      */
     public function parseElement(\DOMElement $element, Codepoint $codepoint = null)
     {

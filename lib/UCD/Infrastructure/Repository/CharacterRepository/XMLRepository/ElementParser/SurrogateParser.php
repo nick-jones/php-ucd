@@ -25,7 +25,7 @@ class SurrogateParser implements CodepointAwareParser
     /**
      * @param \DOMElement $element
      * @param Codepoint $codepoint
-     * @return mixed
+     * @return Surrogate
      */
     public function parseElement(\DOMElement $element, Codepoint $codepoint = null)
     {

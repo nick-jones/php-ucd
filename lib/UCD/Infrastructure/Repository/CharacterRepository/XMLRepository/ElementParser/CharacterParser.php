@@ -64,7 +64,7 @@ class CharacterParser implements CodepointAwareParser
     /**
      * @param \DOMElement $element
      * @param Codepoint $codepoint
-     * @return mixed
+     * @return Character
      */
     public function parseElement(\DOMElement $element, Codepoint $codepoint = null)
     {
