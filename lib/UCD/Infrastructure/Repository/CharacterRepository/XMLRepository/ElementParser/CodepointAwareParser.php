@@ -5,12 +5,12 @@ namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\Elemen
 use UCD\Entity\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
-interface CodepointAwareParser extends ElementParser
+interface CodepointAwareParser
 {
     /**
      * @param \DOMElement $element
      * @param Codepoint $codepoint
      * @return mixed
      */
-    public function parseElement(\DOMElement $element, Codepoint $codepoint = null);
+    public function parseElement(\DOMElement $element, Codepoint $codepoint);
 }

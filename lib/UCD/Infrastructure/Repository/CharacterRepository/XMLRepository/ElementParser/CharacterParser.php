@@ -66,7 +66,7 @@ class CharacterParser implements CodepointAwareParser
      * @param Codepoint $codepoint
      * @return Character
      */
-    public function parseElement(\DOMElement $element, Codepoint $codepoint = null)
+    public function parseElement(\DOMElement $element, Codepoint $codepoint)
     {
         $general = $this->generalParser->parseElement($element, $codepoint);
         $normalization = $this->normalizationParser->parseElement($element, $codepoint);

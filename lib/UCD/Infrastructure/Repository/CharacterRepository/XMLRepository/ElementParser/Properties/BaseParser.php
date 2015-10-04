@@ -32,7 +32,7 @@ abstract class BaseParser implements CodepointAwareParser
      * @param Codepoint $codepoint
      * @return mixed
      */
-    public function parseElement(\DOMElement $element, Codepoint $codepoint = null)
+    public function parseElement(\DOMElement $element, Codepoint $codepoint)
     {
         $this->element = $element;
         $this->codepoint = $codepoint;

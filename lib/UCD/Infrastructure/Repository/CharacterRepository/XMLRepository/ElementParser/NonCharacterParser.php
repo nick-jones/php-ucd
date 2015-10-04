@@ -27,7 +27,7 @@ class NonCharacterParser implements CodepointAwareParser
      * @param Codepoint $codepoint
      * @return NonCharacter
      */
-    public function parseElement(\DOMElement $element, Codepoint $codepoint = null)
+    public function parseElement(\DOMElement $element, Codepoint $codepoint)
     {
         $general = $this->generalParser->parseElement($element, $codepoint);
 
