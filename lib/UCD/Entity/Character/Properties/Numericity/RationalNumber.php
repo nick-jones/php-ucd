@@ -89,4 +89,28 @@ class RationalNumber
 
         return new self($numerator, $denominator, $isNegative);
     }
+
+    /**
+     * @param RationalNumber $number
+     * @return string
+     */
+    public static function toString(self $number)
+    {
+        $string = $number->isNegative() ? '-' : '';
+        $string .= $number->getNumerator();
+
+        if ($number->isFraction()) {
+            $string .= sprintf('/%d', $number->getDenominator());
+        }
+
+        return $string;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return self::toString($this);
+    }
 }

@@ -53,4 +53,32 @@ class RationalNumberSpec extends ObjectBehavior
         $this->beConstructedThrough('fromString', ['-1/5']);
         $this->shouldBeLike(new RationalNumber(1, 5, true));
     }
+
+    public function it_can_be_converted_to_a_string_representation_of_a_positive_int_value()
+    {
+        $this->beConstructedWith(1, 1, false);
+        $this->__toString()
+            ->shouldReturn('1');
+    }
+
+    public function it_can_be_converted_to_a_string_representation_of_a_negative_int_value()
+    {
+        $this->beConstructedWith(1, 1, true);
+        $this->__toString()
+            ->shouldReturn('-1');
+    }
+
+    public function it_can_be_converted_to_a_string_representation_of_a_positive_fractional_value()
+    {
+        $this->beConstructedWith(1, 5, false);
+        $this->__toString()
+            ->shouldReturn('1/5');
+    }
+
+    public function it_can_be_converted_to_a_string_representation_of_a_negative_fractional_value()
+    {
+        $this->beConstructedWith(1, 5, true);
+        $this->__toString()
+            ->shouldReturn('-1/5');
+    }
 }
