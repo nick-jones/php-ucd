@@ -51,7 +51,7 @@ class CharacterSpec extends ObjectBehavior
             ->shouldReturn($codepoint);
     }
 
-    public function it_should_exposes_its_properties($properties)
+    public function it_should_expose_its_properties($properties)
     {
         $this->getProperties()
             ->shouldReturn($properties);

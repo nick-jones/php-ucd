@@ -4,6 +4,7 @@ namespace spec\UCD\Entity\Character\Properties;
 
 use PhpSpec\ObjectBehavior;
 use UCD\Entity\Character\Properties\Enumeration;
+use UCD\Exception\InvalidArgumentException;
 
 /**
  * @mixin Enumeration
@@ -19,6 +20,14 @@ class EnumerationSpec extends ObjectBehavior
     public function it_can_be_instantiated_with_a_value_that_is_defined_as_a_constant()
     {
         $this->shouldHaveType(EnumerationFixture::class);
+    }
+
+    public function it_cannot_be_instantiated_with_a_value_not_defined_as_a_constant()
+    {
+        $this->beConstructedWith('xyz');
+
+        $this->shouldThrow(InvalidArgumentException::class)
+            ->duringInstantiation();
     }
 
     public function it_should_expose_the_original_value()
