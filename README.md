@@ -82,7 +82,6 @@ foreach ($ucd->filterCharacters($filter) as $character) {
 //  <snip>
 ```
 
-
 Furthermore, locating an individual character by its codepoint value is just as trivial:
 
 ```php
@@ -92,7 +91,7 @@ $codepoint = $character->getCodepoint();
 echo $codepoint;
 
 // outputting:
-//  gU+2603
+//  U+2603
 ```
 
 ### Executable
