@@ -1,6 +1,8 @@
 # PHP UCD
 
-[![Build Status](https://travis-ci.org/nick-jones/php-ucd.svg?branch=master)](https://travis-ci.org/nick-jones/php-ucd) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nick-jones/php-ucd/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nick-jones/php-ucd/?branch=master)
+[![Travis](https://img.shields.io/travis/nick-jones/php-ucd.svg?style=flat-square)](https://travis-ci.org/nick-jones/php-ucd)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/nick-jones/php-ucd.svg?style=flat-square)](https://scrutinizer-ci.com/g/nick-jones/php-ucd/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat-square)](https://php.net/)
 
 This project aims to provide a PHP interface into the [Unicode Character Database](http://unicode.org/ucd/) (UCD).
 It provides a means to lookup, filter, and interrogate the metadata of characters that reside within the UCD.
