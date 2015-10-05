@@ -31,6 +31,15 @@ abstract class Enumeration implements Comparable
     }
 
     /**
+     * @param string $value
+     * @return static
+     */
+    final public static function fromValue($value)
+    {
+        return new static($value);
+    }
+
+    /**
      * @return mixed
      */
     final public function getValue()
