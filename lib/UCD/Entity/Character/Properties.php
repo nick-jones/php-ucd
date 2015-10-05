@@ -74,6 +74,14 @@ class Properties
     }
 
     /**
+     * @return bool
+     */
+    public function isNumeric()
+    {
+        return $this->numericity instanceof Numericity\Numeric;
+    }
+
+    /**
      * @return Normalization
      */
     public function getNormalization()
