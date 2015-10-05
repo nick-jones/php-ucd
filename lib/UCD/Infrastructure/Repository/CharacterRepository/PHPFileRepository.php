@@ -10,9 +10,9 @@ use UCD\Entity\CodepointAssigned;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
 
 class PHPFileRepository implements WritableRepository
 {
@@ -26,7 +26,7 @@ class PHPFileRepository implements WritableRepository
     private $directory;
 
     /**
-     * @var PHPSerializer
+     * @var Serializer
      */
     private $serializer;
 
@@ -37,12 +37,12 @@ class PHPFileRepository implements WritableRepository
 
     /**
      * @param PHPFileDirectory $directory
-     * @param PHPSerializer $serializer
+     * @param Serializer $serializer
      * @param int $sliceSize
      */
     public function __construct(
         PHPFileDirectory $directory,
-        PHPSerializer $serializer,
+        Serializer $serializer,
         $sliceSize = self::DEFAULT_SLICE_SIZE
     ) {
         $this->directory = $directory;
