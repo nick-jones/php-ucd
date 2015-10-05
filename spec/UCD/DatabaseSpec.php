@@ -3,17 +3,17 @@
 namespace spec\UCD;
 
 use PhpSpec\ObjectBehavior;
+use UCD\Database;
 use UCD\Entity\Character;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository;
 use UCD\Entity\CodepointAssigned;
-use UCD\UCD;
 
 /**
- * @mixin UCD
+ * @mixin Database
  */
-class UCDSpec extends ObjectBehavior
+class DatabaseSpec extends ObjectBehavior
 {
     public function let(Repository $repository)
     {

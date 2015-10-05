@@ -15,7 +15,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDire
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 
-class UCD
+class Database
 {
     /**
      * @var Repository
@@ -80,32 +80,32 @@ class UCD
     }
 
     /**
-     * @param callable $callback
+     * @param callable $filter
      * @return CodepointAssigned[]
      */
-    public function filter(callable $callback)
+    public function filter(callable $filter)
     {
-        return $this->filterWith($this->all(), $callback);
+        return $this->filterWith($this->all(), $filter);
     }
 
     /**
-     * @param callable $callback
+     * @param callable $filter
      * @return Character[]
      */
-    public function filterCharacters(callable $callback)
+    public function filterCharacters(callable $filter)
     {
-        return $this->filterWith($this->allCharacters(), $callback);
+        return $this->filterWith($this->allCharacters(), $filter);
     }
 
     /**
      * @param CodepointAssigned[]|\Traversable $characters
-     * @param callable $callback
+     * @param callable $filter
      * @return CodepointAssigned[]|\Generator
      */
-    private function filterWith($characters, callable $callback)
+    private function filterWith($characters, callable $filter)
     {
         foreach ($characters as $character) {
-            if (call_user_func($callback, $character) === true) {
+            if (call_user_func($filter, $character) === true) {
                 yield $character;
             }
         }
