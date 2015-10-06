@@ -21,6 +21,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected $fs;
 
     /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * @param string|null $name
      * @param array $data
      * @param string $dataName
@@ -29,10 +34,17 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     {
         $this->fs = new FileSystem();
         $this->container = new Container();
-        $this->container->register(new ServiceProvider());
-        $this->container->register(new ConfigurationProvider());
 
         parent::__construct($name, $data, $dataName);
+    }
+
+    /**
+     * The providers are not loaded by default.
+     */
+    protected function registerContainerProviders()
+    {
+        $this->container->register(new ServiceProvider());
+        $this->container->register(new ConfigurationProvider());
     }
 
     /**

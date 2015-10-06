@@ -17,6 +17,7 @@ use UCD\Application\Container\ServiceProvider;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\Codepoint;
 
+use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 use VirtualFileSystem\FileSystem;
 
 class SearchCommandTest extends BaseTestCase
@@ -28,6 +29,7 @@ class SearchCommandTest extends BaseTestCase
 
     protected function setUp()
     {
+        $this->container = new Container();
         $application = new Application();
         $application->add(new SearchCommand($this->container));
         $command = $application->get(SearchCommand::COMMAND_NAME);
@@ -39,14 +41,16 @@ class SearchCommandTest extends BaseTestCase
      */
     public function it_displays_details_for_resolved_characters()
     {
-        $repository = $this->container['repository.in-memory'];
+        $repository = new InMemoryRepository();
         $codepoint = Codepoint::fromInt(163);
         $character = $this->buildCharacterWithCodepoint($codepoint);
         $repository->addMany([$character]);
 
+        $this->container['repository.test'] = $repository;
+
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
-            '--from' => 'in-memory',
+            '--from' => 'test',
             'codepoint' => $codepoint->getValue()
         ]);
 
@@ -64,9 +68,11 @@ class SearchCommandTest extends BaseTestCase
      */
     public function it_displays_an_error_for_unresolved_characters()
     {
+        $this->container['repository.test'] = new InMemoryRepository();
+
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
-            '--from' => 'in-memory',
+            '--from' => 'test',
             'codepoint' => '1'
         ]);
 
