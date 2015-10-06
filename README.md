@@ -61,11 +61,14 @@ $filter = function (Character $character) {
 $ucd = new Database();
 
 foreach ($ucd->filterCharacters($filter) as $character) {
+    $codepoint = $character->getCodepoint();
     $properties = $character->getProperties();
     $numerity = $properties->getNumericity();
+    $number = $numerity->getNumber();
     $view = new CharacterView($character);
+    $utf8 = $view->asUTF8();
 
-    printf("%s: %s (equivalent to %s)\n", $character->getCodepoint(), $view->asUTF8(), $numerity->getNumber());
+    printf("%s: %s (equivalent to %s)\n", $codepoint, $utf8, $number);
 }
 
 // outputting:
