@@ -9,7 +9,7 @@ use UCD\Entity\CodepointAssigned;
 
 class DebugWritableRepository extends DebugRepository implements WritableRepository
 {
-    use Capability\Observerable;
+    use Capability\Notify;
 
     /**
      * @var WritableRepository

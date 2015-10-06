@@ -28,6 +28,15 @@ class NULLRepositorySpec extends ObjectBehavior
         $this->addMany([$character]);
     }
 
+    public function it_notifies_observers_when_characters_are_added(\SplObserver $observer, Character $character)
+    {
+        $observer->update($this)
+            ->shouldBeCalled();
+
+        $this->attach($observer);
+        $this->addMany([$character]);
+    }
+
     public function it_should_always_throw_CharacterNotFoundException_when_looking_up_a_character(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);

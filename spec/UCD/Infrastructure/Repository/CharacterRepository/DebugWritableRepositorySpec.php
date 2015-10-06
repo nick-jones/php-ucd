@@ -38,4 +38,13 @@ class DebugWritableRepositorySpec extends ObjectBehavior
 
         $this->addMany($characters);
     }
+
+    public function it_notifies_observers_when_characters_are_added(\SplObserver $observer, Character $character)
+    {
+        $observer->update($this)
+            ->shouldBeCalled();
+
+        $this->attach($observer);
+        $this->addMany([$character]);
+    }
 }

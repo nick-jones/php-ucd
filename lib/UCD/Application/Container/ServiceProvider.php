@@ -20,6 +20,7 @@ use UCD\Application\Console\Command\SearchCommand;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
+use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\NULLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
@@ -56,6 +57,7 @@ class ServiceProvider implements ServiceProviderInterface
         $this->setupXMLRepository($container);
         $this->setupNULLRepository($container);
         $this->setupDisplayRepository($container);
+        $this->setupInMemoryRepository($container);
         $this->setupCommands($container);
         $this->setupApplication($container);
     }
@@ -184,6 +186,18 @@ class ServiceProvider implements ServiceProviderInterface
             },
             'repository.display' => function (Container $container) {
                 return new DebugWritableRepository($container['repository.null'], $container['dr.logger']);
+            }
+        ]);
+    }
+
+    /**
+     * @param Container $container
+     */
+    private function setupInMemoryRepository(Container $container)
+    {
+        $this->addMany($container, [
+            'repository.in-memory' => function () {
+                return new InMemoryRepository();
             }
         ]);
     }

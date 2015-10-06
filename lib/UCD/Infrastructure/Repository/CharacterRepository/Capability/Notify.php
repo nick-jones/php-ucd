@@ -2,7 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\Capability;
 
-trait Observerable
+trait Notify
 {
     /**
      * @var \SplObjectStorage|\SplObserver[]

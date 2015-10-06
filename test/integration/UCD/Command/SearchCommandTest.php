@@ -14,6 +14,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use UCD\Application\Console\Command\SearchCommand;
 use UCD\Application\Container\ConfigurationProvider;
 use UCD\Application\Container\ServiceProvider;
+use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\Codepoint;
 
 use VirtualFileSystem\FileSystem;
@@ -27,16 +28,6 @@ class SearchCommandTest extends BaseTestCase
 
     protected function setUp()
     {
-        $this->fs = new FileSystem();
-
-        $dbPath = $this->fs->path('/db');
-        mkdir($dbPath);
-        $character = $this->buildCharacterWithCodepoint(Codepoint::fromInt(163));
-        $content = sprintf("<?php\nreturn %s;", var_export([163 => serialize($character)], true));
-        file_put_contents($this->fs->path('/db/00000000-01114111!0001.php'), $content);
-
-        $this->container[ConfigurationProvider::CONFIG_KEY_DB_PATH] = $dbPath;
-
         $application = new Application();
         $application->add(new SearchCommand($this->container));
         $command = $application->get(SearchCommand::COMMAND_NAME);
@@ -48,10 +39,15 @@ class SearchCommandTest extends BaseTestCase
      */
     public function it_displays_details_for_resolved_characters()
     {
+        $repository = $this->container['repository.in-memory'];
+        $codepoint = Codepoint::fromInt(163);
+        $character = $this->buildCharacterWithCodepoint($codepoint);
+        $repository->addMany([$character]);
+
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
-            '--from' => 'php',
-            'codepoint' => '163'
+            '--from' => 'in-memory',
+            'codepoint' => $codepoint->getValue()
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -70,7 +66,7 @@ class SearchCommandTest extends BaseTestCase
     {
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
-            '--from' => 'php',
+            '--from' => 'in-memory',
             'codepoint' => '1'
         ]);
 

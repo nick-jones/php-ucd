@@ -9,7 +9,7 @@ use UCD\Entity\CodepointAssigned;
 
 class NULLRepository implements WritableRepository
 {
-    use Capability\Observerable;
+    use Capability\Notify;
 
     /**
      * @param Codepoint $codepoint

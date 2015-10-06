@@ -52,6 +52,23 @@ class PHPFileRepositorySpec extends ObjectBehavior
         $this->addMany([$character]);
     }
 
+    public function it_notifies_observers_when_characters_are_added(
+        $dir,
+        \SplObserver $observer,
+        Character $character,
+        PHPRangeFile $file
+    ) {
+        $dir->createFileFromDetails(Argument::cetera())
+            ->willReturn($file);
+
+        $observer->update($this)
+            ->shouldBeCalled();
+
+        $this->attach($observer);
+        $this->givenCharacterHasCodepointWithValue($character, 1);
+        $this->addMany([$character]);
+    }
+
     public function it_can_retrieve_characters_by_codepoint($dir, Character $character, PHPRangeFile $file)
     {
         $dir->getFileFromValue(1)

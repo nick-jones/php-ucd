@@ -28,6 +28,16 @@ class InMemoryRepositorySpec extends ObjectBehavior
         $this->addMany([$character]);
     }
 
+    public function it_notifies_observers_when_characters_are_added(\SplObserver $observer, Character $character)
+    {
+        $observer->update($this)
+            ->shouldBeCalled();
+
+        $this->attach($observer);
+        $this->givenCharacterHasCodepointWithValue($character, 1);
+        $this->addMany([$character]);
+    }
+
     public function it_can_retrieve_characters_by_codepoint(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);

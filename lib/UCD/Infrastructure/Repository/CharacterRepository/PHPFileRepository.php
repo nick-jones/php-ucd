@@ -16,7 +16,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
 
 class PHPFileRepository implements WritableRepository
 {
-    use Capability\Observerable;
+    use Capability\Notify;
 
     const DEFAULT_SLICE_SIZE = 1000;
 

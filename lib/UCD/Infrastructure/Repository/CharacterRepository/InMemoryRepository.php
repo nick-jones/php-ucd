@@ -9,7 +9,7 @@ use UCD\Entity\CodepointAssigned;
 
 class InMemoryRepository implements WritableRepository
 {
-    use Capability\Observerable;
+    use Capability\Notify;
 
     /**
      * @var array
