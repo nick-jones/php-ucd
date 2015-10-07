@@ -38,7 +38,7 @@ class ConfigurationProvider implements ServiceProviderInterface
     private function defaultConfiguration()
     {
         return [
-            self::CONFIG_KEY_DB_PATH => sprintf('%s/../../../../resources/generated/db', __DIR__),
+            self::CONFIG_KEY_DB_PATH => sprintf('%s/../../../../resources/generated/ucd', __DIR__),
             self::CONFIG_KEY_XML_PATH => sprintf('%s/../../../../resources/ucd.all.flat.xml', __DIR__)
         ];
     }

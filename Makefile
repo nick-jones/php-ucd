@@ -8,11 +8,11 @@ test:
 
 clean:
 	rm -f resources/ucd.all.flat.*
-	rm -rf resources/generated/db
+	rm -rf resources/generated/ucd
 
-db: clean resources/generated/db
+db: clean resources/generated/ucd
 
-resources/generated/db: resources/ucd.all.flat.xml
+resources/generated/ucd: resources/ucd.all.flat.xml
 	mkdir -p $@
 	./bin/ucd repository-transfer xml php
 

@@ -28,7 +28,7 @@ entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that resi
 - `::walkCharacters(callable $callback)` - as above, but only walking over `Character` instances
 
 The `UCD\Database` class defaults to using a generated dump of the UCD located within
-[`resources/generated/db`](resources/generated/db). This, whilst not the most efficient access the dataset, does
+[`resources/generated/ucd`](resources/generated/ucd). This, whilst not the most efficient access the dataset, does
 provide the most reasonable means to provide out of the box functionality. It is possible to leverage different
 repository implementations by providing an instance of `UCD\Entity\Character\Repository` to the constructor of
 `UCD\Database`.

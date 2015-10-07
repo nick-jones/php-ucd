@@ -148,7 +148,7 @@ class Database
      */
     private function defaultRepository()
     {
-        $dbPath = sprintf('%s/../../resources/generated/db', __DIR__);
+        $dbPath = sprintf('%s/../../resources/generated/ucd', __DIR__);
         $dbPathInfo = new \SplFileInfo($dbPath);
         $directory = new PHPFileDirectory($dbPathInfo);
         $serializer = new PHPSerializer();
