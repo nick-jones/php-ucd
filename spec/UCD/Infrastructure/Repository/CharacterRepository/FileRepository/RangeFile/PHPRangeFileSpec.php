@@ -3,12 +3,13 @@
 namespace spec\UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 use PhpSpec\ObjectBehavior;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
 use VirtualFileSystem\FileSystem;
 
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 
 /**
- * @mixin \UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile
+ * @mixin PHPRangeFile
  */
 class PHPRangeFileSpec extends ObjectBehavior
 {
@@ -20,7 +21,7 @@ class PHPRangeFileSpec extends ObjectBehavior
             ->willReturn('00000001-00000010!0010.php');
 
         $this->beConstructedThrough('fromFileInfo', [$fileInfo]);
-        $this->shouldHaveType(\UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile::class);
+        $this->shouldHaveType(PHPRangeFile::class);
 
         $this->getRange()
             ->shouldBeLike(new Range(1, 10));
@@ -36,7 +37,7 @@ class PHPRangeFileSpec extends ObjectBehavior
         $total = 10;
 
         $this->beConstructedThrough('fromRange', [$dbPath, $range, $total]);
-        $this->shouldHaveType(\UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile::class);
+        $this->shouldHaveType(PHPRangeFile::class);
 
         $this->getFileInfo()
             ->getBasename()
