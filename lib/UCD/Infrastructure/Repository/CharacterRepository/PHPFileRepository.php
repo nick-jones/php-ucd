@@ -6,6 +6,7 @@ use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\CodepointAssigned;
+use UCD\Entity\Character\Repository;
 
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
@@ -16,7 +17,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
 
 class PHPFileRepository implements WritableRepository
 {
-    use Capability\Notify;
+    use Repository\Capability\Notify;
 
     const DEFAULT_SLICE_SIZE = 1000;
 

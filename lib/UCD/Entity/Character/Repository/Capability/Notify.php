@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\Capability;
+namespace UCD\Entity\Character\Repository\Capability;
 
 trait Notify
 {

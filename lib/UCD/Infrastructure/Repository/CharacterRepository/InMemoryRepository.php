@@ -6,10 +6,11 @@ use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\CodepointAssigned;
+use UCD\Entity\Character\Repository;
 
 class InMemoryRepository implements WritableRepository
 {
-    use Capability\Notify;
+    use Repository\Capability\Notify;
 
     /**
      * @var array

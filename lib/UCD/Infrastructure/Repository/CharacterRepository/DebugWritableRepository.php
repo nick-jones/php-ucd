@@ -6,10 +6,11 @@ use Psr\Log\LoggerInterface;
 
 use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\CodepointAssigned;
+use UCD\Entity\Character\Repository;
 
 class DebugWritableRepository extends DebugRepository implements WritableRepository
 {
-    use Capability\Notify;
+    use Repository\Capability\Notify;
 
     /**
      * @var WritableRepository
