@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use UCD\Database;
+use UCD\Collection;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\View\CharacterView;
 
@@ -36,10 +36,10 @@ class SearchCommand extends RepositoryUtilisingCommand
         $codepoint = (int)$input->getArgument(self::ARGUMENT_CODEPOINT);
         $from = $input->getOption(self::OPTION_FROM);
         $repository = $this->getRepositoryByName($from);
-        $ucd = new Database($repository);
+        $collection = new Collection($repository);
 
         try {
-            $character = $ucd->locateCharacter($codepoint);
+            $character = $collection->getCharacterByCodepoint($codepoint);
         } catch (CharacterNotFoundException $e) {
             $output->writeln('<error>Character Not Found</error>');
             return 1;
