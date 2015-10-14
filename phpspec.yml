@@ -1,3 +1,7 @@
+suites:
+  default:
+    src_path: lib/
+
 extensions:
   - PhpSpecExtension\MatcherLoader\Extension
 
