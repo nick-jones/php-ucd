@@ -121,7 +121,7 @@ class DatabaseSpec extends ObjectBehavior
             $hits++;
         };
 
-        $this->walk($callback)
+        $this->traverse($callback)
             ->shouldReturn(true);
 
         if ($hits !== 2) {
@@ -144,7 +144,7 @@ class DatabaseSpec extends ObjectBehavior
             $hits++;
         };
 
-        $this->walkCharacters($callback)
+        $this->traverseCharacters($callback)
             ->shouldReturn(true);
 
         if ($hits !== 2) {

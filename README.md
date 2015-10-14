@@ -24,8 +24,8 @@ entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that resi
 - `::allCharacters()` - as above, but only iterating over `Character` instances
 - `::filter(callable $filter)` - filters the database by using the return value of the supplied callable
 - `::filterCharacters(callable $filter)` - as above, but only filtering over `Character` instances
-- `::walk(callable $callback)` - walks the entire database, calling into the supplied callback with each entity
-- `::walkCharacters(callable $callback)` - as above, but only walking over `Character` instances
+- `::traverse(callable $callback)` - traverses the entire database, calling into the supplied callback with each entity
+- `::traverseCharacters(callable $callback)` - as above, but only traversing over `Character` instances
 
 The `UCD\Database` class defaults to using a generated dump of the UCD located within
 [`resources/generated/ucd`](resources/generated/ucd). This, whilst not the most efficient access the dataset, does

@@ -115,18 +115,18 @@ class Database
      * @param callable $callback
      * @return bool
      */
-    public function walk(callable $callback)
+    public function traverse(callable $callback)
     {
-        return $this->walkWith($this->all(), $callback);
+        return $this->traverseWith($this->all(), $callback);
     }
 
     /**
      * @param callable $callback
      * @return bool
      */
-    public function walkCharacters(callable $callback)
+    public function traverseCharacters(callable $callback)
     {
-        return $this->walkWith($this->allCharacters(), $callback);
+        return $this->traverseWith($this->allCharacters(), $callback);
     }
 
     /**
@@ -134,7 +134,7 @@ class Database
      * @param callable $callback
      * @return bool
      */
-    private function walkWith($characters, callable $callback)
+    private function traverseWith($characters, callable $callback)
     {
         foreach ($characters as $character) {
             call_user_func($callback, $character);
