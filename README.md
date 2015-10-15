@@ -20,10 +20,10 @@ entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that resi
 
 - `::getByCodepoint(int $codepoint)` - resolves a codepoint assigned entity
 - `::getCharacterByCodepoint(int $codepoint)` - as above, but will only return `Character` instances
-- `::allCharacters()` - returns an iterator for all `Character` instances
-- `::allNonCharacters()` - returns an iterator for all `NonCharacter` instances
-- `::allSurrogates()` - returns an iterator for all `Surrogate` instances
-- `::filterWith(callable $filter)` - filters the collection, using the return value of the supplied callable
+- `::allCharacters()` - returns a `Collection` instance containing only `Character` instances
+- `::allNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
+- `::allSurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
+- `::filterWith(callable $filter)` - filters the `Collection`, using the return value of the supplied callable
 - `::traverseWith(callable $filter)` - traverses the entire dataset, calling into the supplied callback with each entity
 
 All but the codepoint resolving methods return an instance of `Collection`, allowing you to chain. It is likely that
