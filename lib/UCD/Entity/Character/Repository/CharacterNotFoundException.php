@@ -31,13 +31,4 @@ class CharacterNotFoundException extends Exception
 
         return $exception;
     }
-
-    /**
-     * @param int $value
-     * @return CharacterNotFoundException
-     */
-    public static function withCodepointValue($value)
-    {
-        return self::withCodepoint(Codepoint::fromInt($value));
-    }
 }

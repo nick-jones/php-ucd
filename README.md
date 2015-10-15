@@ -18,8 +18,8 @@ This will be added to Packagist once initial development is complete.
 The primary interface to utilise is `UCD\Collection`. This provides a number of methods to interrogate "codepoint assigned"
 entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that reside within the UCD:
 
-- `::getByCodepoint(int $codepoint)` - resolves a codepoint assigned entity
-- `::getCharacterByCodepoint(int $codepoint)` - as above, but will only return `Character` instances
+- `::getByCodepoint(Codepoint $codepoint)` - resolves a codepoint assigned entity
+- `::getCharacterByCodepoint(Codepoint $codepoint)` - as above, but will only return `Character` instances
 - `::allCharacters()` - returns a `Collection` instance containing only `Character` instances
 - `::allNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
 - `::allSurrogates()` - returns a `Collection` instance containing only `Surrogate` instances

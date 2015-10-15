@@ -42,25 +42,23 @@ class Collection implements \IteratorAggregate
     }
 
     /**
-     * @param int $codepoint
+     * @param Codepoint $codepoint
      * @return CodepointAssigned
      * @throws CharacterNotFoundException
      * @throws InvalidArgumentException
      * @throws OutOfRangeException
      */
-    public function getByCodepoint($codepoint)
+    public function getByCodepoint(Codepoint $codepoint)
     {
-        $codepoint = Codepoint::fromInt($codepoint);
-
         return $this->sourceRepository->getByCodepoint($codepoint);
     }
 
     /**
-     * @param int $codepoint
+     * @param Codepoint $codepoint
      * @return Character
      * @throws CharacterNotFoundException
      */
-    public function getCharacterByCodepoint($codepoint)
+    public function getCharacterByCodepoint(Codepoint $codepoint)
     {
         $assigned = $this->getByCodepoint($codepoint);
 
@@ -68,7 +66,7 @@ class Collection implements \IteratorAggregate
             return $assigned;
         }
 
-        throw CharacterNotFoundException::withCodepointValue($codepoint);
+        throw CharacterNotFoundException::withCodepoint($codepoint);
     }
 
     /**

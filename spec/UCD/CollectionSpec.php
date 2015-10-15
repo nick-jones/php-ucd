@@ -42,7 +42,7 @@ class CollectionSpec extends ObjectBehavior
             ->getByCodepoint(Codepoint::fromInt(1))
             ->willReturn($entity);
 
-        $this->getByCodepoint(1)
+        $this->getByCodepoint(Codepoint::fromInt(1))
             ->shouldReturn($entity);
     }
 
@@ -53,7 +53,7 @@ class CollectionSpec extends ObjectBehavior
             ->willThrow(CharacterNotFoundException::class);
 
         $this->shouldThrow(CharacterNotFoundException::class)
-            ->duringGetByCodepoint(1);
+            ->duringGetByCodepoint(Codepoint::fromInt(1));
     }
 
     public function it_can_locate_a_character_by_codepoint_value(Character $character)
@@ -62,7 +62,7 @@ class CollectionSpec extends ObjectBehavior
             ->getByCodepoint(Codepoint::fromInt(1))
             ->willReturn($character);
 
-        $this->getCharacterByCodepoint(1)
+        $this->getCharacterByCodepoint(Codepoint::fromInt(1))
             ->shouldReturn($character);
     }
 
@@ -73,7 +73,7 @@ class CollectionSpec extends ObjectBehavior
             ->willThrow(CharacterNotFoundException::class);
 
         $this->shouldThrow(CharacterNotFoundException::class)
-            ->duringGetCharacterByCodepoint(1);
+            ->duringGetCharacterByCodepoint(Codepoint::fromInt(1));
     }
 
     public function it_throws_CharacterNotFoundException_if_something_other_than_a_character_is_assigned_to_a_codepoint_value(
@@ -84,7 +84,7 @@ class CollectionSpec extends ObjectBehavior
             ->willReturn($surrogate);
 
         $this->shouldThrow(CharacterNotFoundException::class)
-            ->duringGetCharacterByCodepoint(1);
+            ->duringGetCharacterByCodepoint(Codepoint::fromInt(1));
     }
 
     public function it_can_provide_all_known_characters(CodepointAssigned $c1, Character $c2)
