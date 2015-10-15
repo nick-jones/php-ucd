@@ -51,6 +51,7 @@ class SearchCommandTest extends BaseTestCase
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
             '--from' => 'test',
+            '--enc' => SearchCommand::ENCODING_DECIMAL,
             'codepoint' => $codepoint->getValue()
         ]);
 

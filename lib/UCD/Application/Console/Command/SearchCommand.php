@@ -10,6 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use UCD\Collection;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
+use UCD\Entity\Codepoint;
+use UCD\Exception\InvalidArgumentException;
 use UCD\View\CharacterView;
 
 class SearchCommand extends RepositoryUtilisingCommand
@@ -17,6 +19,10 @@ class SearchCommand extends RepositoryUtilisingCommand
     const COMMAND_NAME = 'search';
     const ARGUMENT_CODEPOINT = 'codepoint';
     const OPTION_FROM = 'from';
+    const OPTION_ENCODING = 'enc';
+    const OPTION_UTF8 = 'utf8';
+    const ENCODING_DECIMAL = 'decimal';
+    const ENCODING_HEXADECIMAL = 'hex';
 
     protected function configure()
     {
@@ -33,7 +39,9 @@ class SearchCommand extends RepositoryUtilisingCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $start = microtime(true);
-        $codepoint = (int)$input->getArgument(self::ARGUMENT_CODEPOINT);
+        $encoding = $input->getOption(self::OPTION_ENCODING);
+        $codepointValue = $input->getArgument(self::ARGUMENT_CODEPOINT);
+        $codepoint = $this->valueToCodepoint($codepointValue, $encoding);
         $from = $input->getOption(self::OPTION_FROM);
         $repository = $this->getRepositoryByName($from);
         $collection = new Collection($repository);
@@ -54,6 +62,25 @@ class SearchCommand extends RepositoryUtilisingCommand
         $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
 
         return 0;
+    }
+
+    /**
+     * @param string $value
+     * @param string $encoding
+     * @return Codepoint
+     * @throws InvalidArgumentException
+     */
+    private function valueToCodepoint($value, $encoding)
+    {
+        if ($encoding === self::ENCODING_DECIMAL) {
+            return Codepoint::fromInt((int)$value);
+        }
+
+        if ($encoding === self::ENCODING_HEXADECIMAL) {
+            return Codepoint::fromHex($value);
+        }
+
+        throw new InvalidArgumentException(sprintf('Unknown encoding: %s', $encoding));
     }
 
     /**
@@ -78,7 +105,15 @@ class SearchCommand extends RepositoryUtilisingCommand
             array_shift($repositoryNames)
         );
 
-        return new InputDefinition([$codepoint, $from]);
+        $isHex = new InputOption(
+            self::OPTION_ENCODING,
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Encoding of the supplied value',
+            self::ENCODING_HEXADECIMAL
+        );
+
+        return new InputDefinition([$codepoint, $from, $isHex]);
     }
 
 }
