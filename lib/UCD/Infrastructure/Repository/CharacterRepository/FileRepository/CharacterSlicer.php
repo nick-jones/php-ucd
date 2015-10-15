@@ -10,7 +10,7 @@ class CharacterSlicer
     /**
      * @param CodepointAssigned[] $characters
      * @param int $size
-     * @return \Traversable<Range,Character[]>
+     * @return CodepointAssigned[]
      */
     public static function slice($characters, $size)
     {
