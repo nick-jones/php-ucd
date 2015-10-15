@@ -20,7 +20,7 @@ class IntervalTree extends BaseIntervalTree
     {
         $this->ranges = $ranges;
 
-        BaseIntervalTree::__construct($ranges, $comparator);
+        parent::__construct($ranges, $comparator);
     }
 
     /**
