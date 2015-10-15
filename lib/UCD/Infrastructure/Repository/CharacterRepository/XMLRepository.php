@@ -14,6 +14,8 @@ use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointEle
 
 class XMLRepository implements Repository
 {
+    use Repository\Capability\SearchByIteration;
+
     /**
      * @var CodepointElementReader
      */
@@ -42,22 +44,6 @@ class XMLRepository implements Repository
         $this->elementReader = $characterReader;
         $this->elementParser = $characterParser;
         $this->countParser = $codepointParser;
-    }
-
-    /**
-     * @param Codepoint $codepoint
-     * @throws CharacterNotFoundException
-     * @return CodepointAssigned
-     */
-    public function getByCodepoint(Codepoint $codepoint)
-    {
-        foreach ($this->getAll() as $character) {
-            if ($codepoint->equals($character->getCodepoint())) {
-                return $character;
-            }
-        }
-
-        throw CharacterNotFoundException::withCodepoint($codepoint);
     }
 
     /**

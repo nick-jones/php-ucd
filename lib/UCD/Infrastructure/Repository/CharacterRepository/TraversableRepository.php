@@ -9,6 +9,8 @@ use UCD\Entity\CodepointAssigned;
 
 class TraversableRepository implements Repository
 {
+    use Repository\Capability\SearchByIteration;
+
     /**
      * @var \Traversable|CodepointAssigned[]
      */
@@ -20,22 +22,6 @@ class TraversableRepository implements Repository
     public function __construct(\Traversable $traversable)
     {
         $this->traversable = $traversable;
-    }
-
-    /**
-     * @param Codepoint $codepoint
-     * @return CodepointAssigned
-     * @throws CharacterNotFoundException
-     */
-    public function getByCodepoint(Codepoint $codepoint)
-    {
-        foreach ($this->traversable as $assigned) {
-            if ($codepoint->equals($assigned->getCodepoint())) {
-                return $assigned;
-            }
-        }
-
-        throw CharacterNotFoundException::withCodepoint($codepoint);
     }
 
     /**
