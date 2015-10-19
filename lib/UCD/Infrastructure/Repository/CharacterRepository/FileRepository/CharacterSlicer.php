@@ -8,7 +8,7 @@ use UCD\Entity\CodepointAssigned;
 class CharacterSlicer
 {
     /**
-     * @param CodepointAssigned[] $characters
+     * @param CodepointAssigned[]|\Traversable $characters
      * @param int $size
      * @return CodepointAssigned[]
      */

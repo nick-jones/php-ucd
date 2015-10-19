@@ -91,7 +91,7 @@ class RationalNumber
     }
 
     /**
-     * @param RationalNumber $number
+     * @param self $number
      * @return string
      */
     public static function toString(self $number)
