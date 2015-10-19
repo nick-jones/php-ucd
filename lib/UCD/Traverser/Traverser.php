@@ -9,7 +9,7 @@ abstract class Traverser
     /**
      * @param CodepointAssigned $entity
      */
-    protected abstract function consume(CodepointAssigned $entity);
+    abstract protected function consume(CodepointAssigned $entity);
 
     /**
      * @param CodepointAssigned $entity
