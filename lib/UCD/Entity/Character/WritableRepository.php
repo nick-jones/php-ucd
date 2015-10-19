@@ -8,7 +8,7 @@ use UCD\Entity\CodepointAssigned;
 interface WritableRepository extends Repository, \SplSubject
 {
     /**
-     * @param CodepointAssigned[] $characters
+     * @param CodepointAssigned[]|\Traversable $characters
      * @throws AddCharacterException
      */
     public function addMany($characters);

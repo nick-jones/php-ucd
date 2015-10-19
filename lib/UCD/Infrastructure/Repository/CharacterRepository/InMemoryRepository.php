@@ -18,9 +18,7 @@ class InMemoryRepository implements WritableRepository
     private $characters = [];
 
     /**
-     * @param Codepoint $codepoint
-     * @throws CharacterNotFoundException
-     * @return CodepointAssigned
+     * {@inheritDoc}
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
@@ -34,8 +32,7 @@ class InMemoryRepository implements WritableRepository
     }
 
     /**
-     * @param CodepointAssigned[] $characters
-     * @return bool
+     * {@inheritDoc}
      */
     public function addMany($characters)
     {
@@ -48,7 +45,7 @@ class InMemoryRepository implements WritableRepository
     }
 
     /**
-     * @return CodepointAssigned[]
+     * {@inheritDoc}
      */
     public function getAll()
     {
@@ -56,7 +53,7 @@ class InMemoryRepository implements WritableRepository
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
     public function count()
     {

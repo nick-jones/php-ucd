@@ -25,7 +25,7 @@ class CodepointAggregator extends Traverser
     private $rangeStart;
 
     /**
-     * @param CodepointAssigned $entity
+     * {@inheritDoc}
      */
     protected function consume(CodepointAssigned $entity)
     {

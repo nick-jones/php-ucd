@@ -52,9 +52,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @param Codepoint $codepoint
-     * @return CodepointAssigned
-     * @throws CharacterNotFoundException
+     * {@inheritDoc}
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
@@ -86,7 +84,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @param CodepointAssigned[] $characters
+     * {@inheritDoc}
      */
     public function addMany($characters)
     {
@@ -130,7 +128,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @return CodepointAssigned[]
+     * {@inheritDoc}
      */
     public function getAll()
     {
@@ -144,7 +142,7 @@ class PHPFileRepository implements WritableRepository
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
     public function count()
     {

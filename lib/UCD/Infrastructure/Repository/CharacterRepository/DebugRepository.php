@@ -31,8 +31,7 @@ class DebugRepository implements Repository
     }
 
     /**
-     * @param Codepoint $codepoint
-     * @return CodepointAssigned
+     * {@inheritDoc}
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
@@ -43,7 +42,7 @@ class DebugRepository implements Repository
     }
 
     /**
-     * @return CodepointAssigned[]
+     * {@inheritDoc}
      */
     public function getAll()
     {
@@ -54,7 +53,7 @@ class DebugRepository implements Repository
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
     public function count()
     {

@@ -34,7 +34,7 @@ final class StreamingReader implements CodepointElementReader
     }
 
     /**
-     * @return \DOMElement[]
+     * {@inheritDoc}
      */
     public function read()
     {

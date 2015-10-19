@@ -27,7 +27,7 @@ class DebugWritableRepository extends DebugRepository implements WritableReposit
     }
 
     /**
-     * @param CodepointAssigned[] $characters
+     * {@inheritDoc}
      */
     public function addMany($characters)
     {

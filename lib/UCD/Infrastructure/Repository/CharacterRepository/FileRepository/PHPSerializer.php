@@ -5,8 +5,7 @@ namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 class PHPSerializer implements Serializer
 {
     /**
-     * @param mixed $data
-     * @return string
+     * {@inheritDoc}
      */
     public function serialize($data)
     {
@@ -14,8 +13,7 @@ class PHPSerializer implements Serializer
     }
 
     /**
-     * @param string $data
-     * @return mixed
+     * {@inheritDoc}
      */
     public function unserialize($data)
     {

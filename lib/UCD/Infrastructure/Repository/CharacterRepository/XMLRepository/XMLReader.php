@@ -37,10 +37,7 @@ class XMLReader extends \XMLReader
     }
 
     /**
-     * @param string $uri
-     * @param string|null $encoding
-     * @param int $options
-     * @return bool
+     * {@inheritDoc}
      */
     public function open($uri, $encoding = null, $options = 0)
     {

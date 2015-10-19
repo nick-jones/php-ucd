@@ -13,9 +13,7 @@ class NULLRepository implements WritableRepository
     use Repository\Capability\Notify;
 
     /**
-     * @param Codepoint $codepoint
-     * @throws CharacterNotFoundException
-     * @return CodepointAssigned
+     * {@inheritDoc}
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
@@ -23,7 +21,7 @@ class NULLRepository implements WritableRepository
     }
 
     /**
-     * @param CodepointAssigned[] $characters
+     * {@inheritDoc}
      */
     public function addMany($characters)
     {
@@ -31,7 +29,7 @@ class NULLRepository implements WritableRepository
     }
 
     /**
-     * @return CodepointAssigned[]
+     * {@inheritDoc}
      */
     public function getAll()
     {
@@ -39,7 +37,7 @@ class NULLRepository implements WritableRepository
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
     public function count()
     {

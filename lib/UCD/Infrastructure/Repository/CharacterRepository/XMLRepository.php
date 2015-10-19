@@ -47,7 +47,7 @@ class XMLRepository implements Repository
     }
 
     /**
-     * @return CodepointAssigned[]|\Traversable
+     * {@inheritDoc}
      */
     public function getAll()
     {
@@ -71,7 +71,7 @@ class XMLRepository implements Repository
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
     public function count()
     {

@@ -69,7 +69,7 @@ class RangeFiles implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return \Iterator
+     * {@inheritDoc}
      */
     public function getIterator()
     {
@@ -93,7 +93,7 @@ class RangeFiles implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
     public function count()
     {

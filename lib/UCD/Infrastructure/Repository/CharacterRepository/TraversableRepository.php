@@ -25,7 +25,7 @@ class TraversableRepository implements Repository
     }
 
     /**
-     * @return CodepointAssigned[]
+     * {@inheritDoc}
      */
     public function getAll()
     {
@@ -33,7 +33,7 @@ class TraversableRepository implements Repository
     }
 
     /**
-     * @return int
+     * {@inheritDoc}
      */
     public function count()
     {
