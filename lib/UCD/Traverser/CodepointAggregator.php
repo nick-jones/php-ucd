@@ -100,9 +100,14 @@ class CodepointAggregator extends Traverser
 
     /**
      * @return Range
+     * @throws UnexpectedValueException
      */
     private function getCurrentRange()
     {
+        if ($this->rangeStart === null || $this->previous === null) {
+            throw new UnexpectedValueException('Range values cannot be NULL');
+        }
+
         return new Range($this->rangeStart, $this->previous);
     }
 
