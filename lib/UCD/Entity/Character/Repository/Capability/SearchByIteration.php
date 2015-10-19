@@ -23,4 +23,9 @@ trait SearchByIteration
 
         throw CharacterNotFoundException::withCodepoint($codepoint);
     }
+
+    /**
+     * @return CodepointAssigned[]
+     */
+    abstract public function getAll();
 }
