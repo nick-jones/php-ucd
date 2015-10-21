@@ -4,7 +4,7 @@ namespace spec\UCD\Traverser;
 
 use PhpSpec\ObjectBehavior;
 
-use UCD\Entity\Character;
+use UCD\Entity\CodepointAssigned;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Codepoint\Range;
 
@@ -27,25 +27,21 @@ class CodepointAggregatorSpec extends ObjectBehavior
     }
 
     public function it_can_aggregate_mixtures_of_ranges_and_individual_codepoints(
-        Character $c1,
-        Character $c2,
-        Character $c3,
-        Character $c4,
-        Character $c5,
-        Character $c6,
-        Character $c7,
-        Character $c8
+        CodepointAssigned $c1,
+        CodepointAssigned $c2,
+        CodepointAssigned $c3,
+        CodepointAssigned $c4,
+        CodepointAssigned $c5,
+        CodepointAssigned $c6
     ) {
-        $this->givenCharacterHasCodepointWithValue($c1, 1);
-        $this->givenCharacterHasCodepointWithValue($c2, 2);
-        $this->givenCharacterHasCodepointWithValue($c3, 3);
-        $this->givenCharacterHasCodepointWithValue($c4, 10);
-        $this->givenCharacterHasCodepointWithValue($c5, 11);
-        $this->givenCharacterHasCodepointWithValue($c6, 20);
-        $this->givenCharacterHasCodepointWithValue($c7, 30);
-        $this->givenCharacterHasCodepointWithValue($c8, 31);
+        $this->givenEntityHasCodepointWithValue($c1, 1);
+        $this->givenEntityHasCodepointWithValue($c2, 2);
+        $this->givenEntityHasCodepointWithValue($c3, 3);
+        $this->givenEntityHasCodepointWithValue($c4, 10);
+        $this->givenEntityHasCodepointWithValue($c5, 11);
+        $this->givenEntityHasCodepointWithValue($c6, 20);
 
-        foreach ([$c1, $c2, $c3, $c4, $c5, $c6, $c7, $c8] as $character) {
+        foreach ([$c1, $c2, $c3, $c4, $c5, $c6] as $character) {
             $this($character);
         }
 
@@ -53,26 +49,13 @@ class CodepointAggregatorSpec extends ObjectBehavior
             ->shouldBeLike([
                 new Range(Codepoint::fromInt(1), Codepoint::fromInt(3)),
                 new Range(Codepoint::fromInt(10), Codepoint::fromInt(11)),
-                new Range(Codepoint::fromInt(20), Codepoint::fromInt(20)),
-                new Range(Codepoint::fromInt(30), Codepoint::fromInt(31))
+                new Range(Codepoint::fromInt(20), Codepoint::fromInt(20))
             ]);
     }
 
-    public function getMatchers()
+    private function givenEntityHasCodepointWithValue(CodepointAssigned $entity, $value)
     {
-        return [
-            'beInvokable' => function ($subject) {
-                return is_callable([$subject, '__invoke']);
-            }
-        ];
-    }
-
-    private function givenCharacterHasCodepointWithValue(Character $character, $value)
-    {
-        $character->getCodepoint()
+        $entity->getCodepoint()
             ->willReturn(Codepoint::fromInt($value));
-
-        $character->getCodepointValue()
-            ->willReturn($value);
     }
 }
