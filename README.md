@@ -93,13 +93,15 @@ Collection::fromFullDatabase()
 Locating an individual character by its codepoint value is trivial:
 
 ```php
-$collection = Collection::fromFullDatabase();
-$character = $collection->getCharacterByCodepoint(9731);
-$codepoint = $character->getCodepoint();
-echo $codepoint;
+use UCD\Collection;
+use UCD\Entity\Codepoint;
 
-// outputting:
-//  U+2603
+$collection = Collection::fromFullDatabase();
+$codepoint = Codepoint::fromInt(9731);
+$character = $collection->getCharacterByCodepoint($codepoint);
+$codepoint = $character->getCodepoint();
+
+echo $codepoint;
 ```
 
 #### Regex Building
