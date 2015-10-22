@@ -75,16 +75,16 @@ Collection::fromFullDatabase()
     ->traverseWith($dumper);
 
 // outputting:
-//  U+B2: ² (equivalent to 2)
-//  U+B3: ³ (equivalent to 3)
-//  U+B9: ¹ (equivalent to 1)
-//  U+BC: ¼ (equivalent to 1/4)
-//  U+BD: ½ (equivalent to 1/2)
-//  U+BE: ¾ (equivalent to 3/4)
-//  U+660: ٠ (equivalent to 0)
-//  U+661: ١ (equivalent to 1)
-//  U+662: ٢ (equivalent to 2)
-//  U+663: ٣ (equivalent to 3)
+//  U+B2: ² (~ 2)
+//  U+B3: ³ (~ 3)
+//  U+B9: ¹ (~ 1)
+//  U+BC: ¼ (~ 1/4)
+//  U+BD: ½ (~ 1/2)
+//  U+BE: ¾ (~ 3/4)
+//  U+660: ٠ (~ 0)
+//  U+661: ١ (~ 1)
+//  U+662: ٢ (~ 2)
+//  U+663: ٣ (~ 3)
 //  <snip>
 ```
 
