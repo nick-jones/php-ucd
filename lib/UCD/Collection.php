@@ -72,7 +72,7 @@ class Collection implements \IteratorAggregate
     /**
      * @return self
      */
-    public function allCharacters()
+    public function onlyCharacters()
     {
         return $this->filterWith(function (CodepointAssigned $assigned) {
             return $assigned instanceof Character;
@@ -82,7 +82,7 @@ class Collection implements \IteratorAggregate
     /**
      * @return self
      */
-    public function allNonCharacters()
+    public function onlyNonCharacters()
     {
         return $this->filterWith(function (CodepointAssigned $assigned) {
             return $assigned instanceof NonCharacter;
@@ -92,7 +92,7 @@ class Collection implements \IteratorAggregate
     /**
      * @return self
      */
-    public function allSurrogates()
+    public function onlySurrogates()
     {
         return $this->filterWith(function (CodepointAssigned $assigned) {
             return $assigned instanceof Surrogate;

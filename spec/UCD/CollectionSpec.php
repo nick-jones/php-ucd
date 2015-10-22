@@ -87,27 +87,27 @@ class CollectionSpec extends ObjectBehavior
             ->duringGetCharacterByCodepoint(Codepoint::fromInt(1));
     }
 
-    public function it_can_provide_all_known_characters(CodepointAssigned $c1, Character $c2)
+    public function it_can_filter_for_characters(CodepointAssigned $c1, Character $c2)
     {
         $this->givenTheRepositoryContains([$c1, $c2]);
 
-        $this->allCharacters()
+        $this->onlyCharacters()
             ->shouldIterateLike([$c2]);
     }
 
-    public function it_can_provide_all_known_non_characters(CodepointAssigned $c1, NonCharacter $c2)
+    public function it_can_filter_for_non_characters(CodepointAssigned $c1, NonCharacter $c2)
     {
         $this->givenTheRepositoryContains([$c1, $c2]);
 
-        $this->allNonCharacters()
+        $this->onlyNonCharacters()
             ->shouldIterateLike([$c2]);
     }
 
-    public function it_can_provide_all_known_surrogates(CodepointAssigned $c1, Surrogate $c2)
+    public function it_can_filter_for_surrogates(CodepointAssigned $c1, Surrogate $c2)
     {
         $this->givenTheRepositoryContains([$c1, $c2]);
 
-        $this->allSurrogates()
+        $this->onlySurrogates()
             ->shouldIterateLike([$c2]);
     }
 

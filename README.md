@@ -20,9 +20,9 @@ entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that resi
 
 - `::getByCodepoint(Codepoint $codepoint)` - resolves a codepoint assigned entity
 - `::getCharacterByCodepoint(Codepoint $codepoint)` - as above, but will only return `Character` instances
-- `::allCharacters()` - returns a `Collection` instance containing only `Character` instances
-- `::allNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
-- `::allSurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
+- `::onlyCharacters()` - returns a `Collection` instance containing only `Character` instances
+- `::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
+- `::onlySurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
 - `::filterWith(callable $filter)` - filters the `Collection`, using the return value of the supplied callable
 - `::traverseWith(callable $filter)` - traverses the entire dataset, calling into the supplied callback with each entity
 
@@ -68,7 +68,7 @@ $dumper = function (Character $character) {
 };
 
 Collection::fromFullDatabase()
-    ->allCharacters()
+    ->onlyCharacters()
     ->filterWith($filter)
     ->traverseWith($dumper);
 
