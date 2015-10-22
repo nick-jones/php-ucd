@@ -14,6 +14,9 @@ class IteratorMatcher implements MatchersProviderInterface
         return [
             'iterateLike' => function ($subject, $expected) {
                 return $expected == iterator_to_array($subject);
+            },
+            'beInvokable' => function ($subject) {
+                return is_callable([$subject, '__invoke']);
             }
         ];
     }
