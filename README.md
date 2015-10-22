@@ -36,10 +36,12 @@ the dataset is fairly nominal.
 
 ### Examples
 
-Say you wished to dump all characters that are numeric and reside outside of the Basic Latin (ASCII) block. You could
-simply leverage the `::filterWith(callable $filter)` method, as described above, to interrogate the properties of each
-`Character` instance. You could then perhaps dump their latin equivalent representation by calling `::getNumber()` on
-the `Numericity` property. For example:
+#### Manual Filtering + Traversal
+
+Say you wish to dump all characters that hold a numeric property and reside outside of the Basic Latin (ASCII) block. 
+You could simply leverage the `::filterWith(callable $filter)` method, as described above, to interrogate the 
+properties of each `Character` instance. You could then perhaps dump their latin equivalent representation by calling
+`::getNumber()` on the `Numericity` property. For example:
 
 ```php
 use UCD\Entity\Character;
@@ -64,7 +66,7 @@ $dumper = function (Character $character) {
     $view = new CharacterView($character);
     $utf8 = $view->asUTF8();
 
-    printf("%s: %s (equivalent to %s)\n", $codepoint, $utf8, $number);
+    printf("%s: %s (~ %s)\n", $codepoint, $utf8, $number);
 };
 
 Collection::fromFullDatabase()
@@ -86,7 +88,9 @@ Collection::fromFullDatabase()
 //  <snip>
 ```
 
-Furthermore, locating an individual character by its codepoint value is just as trivial:
+#### Codepoint Lookup
+
+Locating an individual character by its codepoint value is trivial:
 
 ```php
 $collection = Collection::fromFullDatabase();
@@ -96,6 +100,43 @@ echo $codepoint;
 
 // outputting:
 //  U+2603
+```
+
+#### Regex Building
+
+A traverser is available to help build regular expressions based on codepoints within the `Collection`. For example,
+if you wanted to produce a regular expression that matched numeric flavour bengali characters, then you could run
+something along the lines of:
+
+```php
+use UCD\Entity\Character;
+use UCD\Entity\Character\Properties\General\Block;
+use UCD\Collection;
+use UCD\Traverser\CodepointAggregator;
+use UCD\Traverser\RegexBuilder;
+
+$filter = function (Character $character) {
+    $properties = $character->getProperties();
+    $general = $properties->getGeneral();
+    $block = $general->getBlock();
+
+    return $properties->isNumeric()
+        && $block->equals(Block::fromValue(Block::BENGALI));
+};
+
+$regexBuilder = new RegexBuilder(new CodepointAggregator());
+
+Collection::fromFullDatabase()
+    ->onlyCharacters()
+    ->filterWith($filter)
+    ->traverseWith($regexBuilder);
+
+$cc = $regexBuilder->getCharacterClass();
+$regex = sprintf('/^%s$/u', $cc);
+
+var_dump($regex); // string(37) "/^[\x{9E6}-\x{9EF}\x{9F4}-\x{9F9}]$/u"
+var_dump(preg_match($regex, '১')); // int(1)
+var_dump(preg_match($regex, '1')); // int(0)
 ```
 
 ### Executable
