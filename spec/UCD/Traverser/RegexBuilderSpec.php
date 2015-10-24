@@ -6,8 +6,13 @@ use PhpSpec\ObjectBehavior;
 
 use UCD\Entity\Codepoint;
 use UCD\Entity\CodepointAssigned;
-use UCD\Traverser\CodepointAggregator;
 
+use UCD\Traverser\CodepointAggregator;
+use UCD\Traverser\RegexBuilder;
+
+/**
+ * @mixin RegexBuilder
+ */
 class RegexBuilderSpec extends ObjectBehavior
 {
     public function let()
