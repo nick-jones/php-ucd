@@ -4,6 +4,7 @@ suites:
 
 extensions:
   - PhpSpecExtension\MatcherLoader\Extension
+  - PhpSpecExtension\Git\Extension
 
 matchers:
   - spec\UCD\SpecHelper\IteratorMatcher

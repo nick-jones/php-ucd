@@ -27,7 +27,8 @@
         "sebastian/exporter": "^1.0",
         "phpunit/phpunit": "^4.8",
         "hamcrest/hamcrest-php": "^1.2",
-        "nick-jones/phpspec-matcher-loader-extension": "^1.0"
+        "nick-jones/phpspec-matcher-loader-extension": "^1.0",
+        "nick-jones/phpspec-git-extension": "^1.0"
     },
 
     "autoload": {
