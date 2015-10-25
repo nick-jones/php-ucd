@@ -1,13 +1,13 @@
 <?php
 
-namespace UCD\Traverser;
+namespace UCD\Consumer;
 
 use UCD\Entity\Codepoint;
 use UCD\Entity\Codepoint\Range;
 use UCD\Entity\CodepointAssigned;
 use UCD\Exception\UnexpectedValueException;
 
-class CodepointAggregator extends Traverser
+class CodepointAggregatingConsumer implements Consumer
 {
     /**
      * @var Range[]
@@ -27,7 +27,7 @@ class CodepointAggregator extends Traverser
     /**
      * {@inheritDoc}
      */
-    protected function consume(CodepointAssigned $entity)
+    public function consume(CodepointAssigned $entity)
     {
         $codepoint = $entity->getCodepoint();
         $shouldCloseCurrentRange = $this->shouldCloseCurrentRangeWith($codepoint);

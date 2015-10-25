@@ -6,6 +6,8 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use UCD\Collection;
+use UCD\Consumer\Consumer;
+
 use UCD\Entity\Character;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Codepoint;
@@ -125,12 +127,11 @@ class CollectionSpec extends ObjectBehavior
     }
 
     public function it_can_be_traversed_by_providing_a_callback(
-        CodepointAssigned $c1,
-        CodepointAssigned $c2
+        CodepointAssigned $character
     ) {
         // TODO: use a prediction on an invokable class once phpspec __invoke fix is tagged.
 
-        $this->givenTheRepositoryContains([$c1, $c2]);
+        $this->givenTheRepositoryContains([$character]);
         $count = 0;
 
         $callback = function (CodepointAssigned $c) use (&$count) {
@@ -139,9 +140,21 @@ class CollectionSpec extends ObjectBehavior
 
         $this->traverseWith($callback);
 
-        if ($count !== 2) {
+        if ($count !== 1) {
             throw new \RuntimeException();
         }
+    }
+
+    public function it_can_be_traversed_by_providing_a_consumer(
+        Consumer $consumer,
+        CodepointAssigned $character
+    ) {
+        $this->givenTheRepositoryContains([$character]);
+
+        $this->traverseWithConsumer($consumer);
+
+        $consumer->consume($character)
+            ->shouldHaveBeenCalled();
     }
 
     private function givenTheRepositoryContains(array $items)

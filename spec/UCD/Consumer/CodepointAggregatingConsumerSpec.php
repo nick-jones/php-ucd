@@ -1,37 +1,33 @@
 <?php
 
-namespace spec\UCD\Traverser;
+namespace spec\UCD\Consumer;
 
 use PhpSpec\ObjectBehavior;
 
-use UCD\Entity\Codepoint;
+use UCD\Consumer\Consumer;
 use UCD\Entity\CodepointAssigned;
+use UCD\Entity\Codepoint;
+use UCD\Entity\Codepoint\Range;
 
-use UCD\Traverser\CodepointAggregator;
-use UCD\Traverser\RegexBuilder;
+use UCD\Consumer\CodepointAggregatingConsumer;
 
 /**
- * @mixin RegexBuilder
+ * @mixin CodepointAggregatingConsumer
  */
-class RegexBuilderSpec extends ObjectBehavior
+class CodepointAggregatingConsumerSpec extends ObjectBehavior
 {
-    public function let()
+    public function it_is_a_consumer()
     {
-        $this->beConstructedWith(new CodepointAggregator());
+        $this->shouldHaveType(Consumer::class);
     }
 
-    public function it_is_invokable()
+    public function it_exposes_an_empty_array_if_no_characters_have_been_provided()
     {
-        $this->shouldBeInvokable();
+        $this->getAggregated()
+            ->shouldReturn([]);
     }
 
-    public function it_returns_an_empty_string_if_no_characters_have_been_provided()
-    {
-        $this->getCharacterClass()
-            ->shouldReturn('');
-    }
-
-    public function it_returns_character_class_including_ranges_for_provided_characters(
+    public function it_can_aggregate_mixtures_of_ranges_and_individual_codepoints(
         CodepointAssigned $c1,
         CodepointAssigned $c2,
         CodepointAssigned $c3,
@@ -47,11 +43,15 @@ class RegexBuilderSpec extends ObjectBehavior
         $this->givenEntityHasCodepointWithValue($c6, 20);
 
         foreach ([$c1, $c2, $c3, $c4, $c5, $c6] as $character) {
-            $this($character);
+            $this->consume($character);
         }
 
-        $this->getCharacterClass()
-            ->shouldEqual('[\x{1}-\x{3}\x{A}-\x{B}\x{14}]');
+        $this->getAggregated()
+            ->shouldBeLike([
+                new Range(Codepoint::fromInt(1), Codepoint::fromInt(3)),
+                new Range(Codepoint::fromInt(10), Codepoint::fromInt(11)),
+                new Range(Codepoint::fromInt(20), Codepoint::fromInt(20))
+            ]);
     }
 
     private function givenEntityHasCodepointWithValue(CodepointAssigned $entity, $value)

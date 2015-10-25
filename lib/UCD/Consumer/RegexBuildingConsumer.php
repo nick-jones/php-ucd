@@ -1,21 +1,21 @@
 <?php
 
-namespace UCD\Traverser;
+namespace UCD\Consumer;
 
 use UCD\Entity\Codepoint\Range;
 use UCD\Entity\CodepointAssigned;
 
-class RegexBuilder extends Traverser
+class RegexBuildingConsumer implements Consumer
 {
     /**
-     * @var CodepointAggregator
+     * @var CodepointAggregatingConsumer
      */
     private $aggregator;
 
     /**
-     * @param CodepointAggregator $aggregator
+     * @param CodepointAggregatingConsumer $aggregator
      */
-    public function __construct(CodepointAggregator $aggregator)
+    public function __construct(CodepointAggregatingConsumer $aggregator)
     {
         $this->aggregator = $aggregator;
     }
@@ -23,9 +23,9 @@ class RegexBuilder extends Traverser
     /**
      * @param CodepointAssigned $entity
      */
-    protected function consume(CodepointAssigned $entity)
+    public function consume(CodepointAssigned $entity)
     {
-        $this->aggregator->__invoke($entity);
+        $this->aggregator->consume($entity);
     }
 
     /**

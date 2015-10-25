@@ -25,6 +25,7 @@ entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that resi
 - `::onlySurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
 - `::filterWith(callable $filter)` - filters the `Collection`, using the return value of the supplied callable
 - `::traverseWith(callable $filter)` - traverses the entire dataset, calling into the supplied callback with each entity
+- `::traverseWithConsumer(Consumer $consumer)` - as above, but with an implementation of `Consumer`
 
 All but the codepoint resolving methods return an instance of `Collection`, allowing you to chain. It is likely that
 you will want to leverage the default `Character\Repository` for resolution of characters, etc, in which case, calling
@@ -99,9 +100,8 @@ use UCD\Entity\Codepoint;
 $collection = Collection::fromFullDatabase();
 $codepoint = Codepoint::fromInt(9731);
 $character = $collection->getCharacterByCodepoint($codepoint);
-$codepoint = $character->getCodepoint();
 
-echo $codepoint;
+echo $character->getCodepoint(); // U+2603
 ```
 
 #### Regex Building
@@ -114,8 +114,8 @@ something along the lines of:
 use UCD\Entity\Character;
 use UCD\Entity\Character\Properties\General\Block;
 use UCD\Collection;
-use UCD\Traverser\CodepointAggregator;
-use UCD\Traverser\RegexBuilder;
+use UCD\Consumer\CodepointAggregatingConsumer;
+use UCD\Consumer\RegexBuildingConsumer;
 
 $filter = function (Character $character) {
     $properties = $character->getProperties();
@@ -126,12 +126,14 @@ $filter = function (Character $character) {
         && $block->equals(Block::fromValue(Block::BENGALI));
 };
 
-$regexBuilder = new RegexBuilder(new CodepointAggregator());
+$regexBuilder = new RegexBuildingConsumer(
+    new CodepointAggregatingConsumer()
+);
 
 Collection::fromFullDatabase()
     ->onlyCharacters()
     ->filterWith($filter)
-    ->traverseWith($regexBuilder);
+    ->traverseWithConsumer($regexBuilder);
 
 $cc = $regexBuilder->getCharacterClass();
 $regex = sprintf('/^%s$/u', $cc);

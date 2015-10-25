@@ -1,11 +1,11 @@
 <?php
 
-namespace UCD\Traverser;
+namespace UCD\Consumer;
 
 use UCD\Entity\Codepoint;
 use UCD\Entity\CodepointAssigned;
 
-class CodepointAccumulator extends Traverser
+class CodepointAccumulatingConsumer implements Consumer
 {
     /**
      * @var Codepoint[]
@@ -15,7 +15,7 @@ class CodepointAccumulator extends Traverser
     /**
      * @param CodepointAssigned $entity
      */
-    protected function consume(CodepointAssigned $entity)
+    public function consume(CodepointAssigned $entity)
     {
         $this->addCodepoint($entity->getCodepoint());
     }

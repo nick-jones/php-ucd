@@ -2,6 +2,9 @@
 
 namespace UCD;
 
+use UCD\Consumer\Consumer;
+use UCD\Consumer\ConsumerInvoker;
+
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository;
@@ -136,6 +139,17 @@ class Collection implements \IteratorAggregate
         }
 
         return $this;
+    }
+
+    /**
+     * @param Consumer $consumer
+     * @return self
+     */
+    public function traverseWithConsumer(Consumer $consumer)
+    {
+        return $this->traverseWith(
+            new ConsumerInvoker($consumer)
+        );
     }
 
     /**

@@ -1,32 +1,38 @@
 <?php
 
-namespace spec\UCD\Traverser;
+namespace spec\UCD\Consumer;
 
 use PhpSpec\ObjectBehavior;
 
-use UCD\Entity\CodepointAssigned;
+use UCD\Consumer\Consumer;
 use UCD\Entity\Codepoint;
-use UCD\Entity\Codepoint\Range;
+use UCD\Entity\CodepointAssigned;
 
-use UCD\Traverser\CodepointAggregator;
+use UCD\Consumer\CodepointAggregatingConsumer;
+use UCD\Consumer\RegexBuildingConsumer;
 
 /**
- * @mixin CodepointAggregator
+ * @mixin RegexBuildingConsumer
  */
-class CodepointAggregatorSpec extends ObjectBehavior
+class RegexBuildingConsumerSpec extends ObjectBehavior
 {
-    public function it_is_invokable()
+    public function let()
     {
-        $this->shouldBeInvokable();
+        $this->beConstructedWith(new CodepointAggregatingConsumer());
     }
 
-    public function it_exposes_an_empty_array_if_no_characters_have_been_provided()
+    public function it_is_a_consumer()
     {
-        $this->getAggregated()
-            ->shouldReturn([]);
+        $this->shouldHaveType(Consumer::class);
     }
 
-    public function it_can_aggregate_mixtures_of_ranges_and_individual_codepoints(
+    public function it_returns_an_empty_string_if_no_characters_have_been_provided()
+    {
+        $this->getCharacterClass()
+            ->shouldReturn('');
+    }
+
+    public function it_returns_character_class_including_ranges_for_provided_characters(
         CodepointAssigned $c1,
         CodepointAssigned $c2,
         CodepointAssigned $c3,
@@ -42,15 +48,11 @@ class CodepointAggregatorSpec extends ObjectBehavior
         $this->givenEntityHasCodepointWithValue($c6, 20);
 
         foreach ([$c1, $c2, $c3, $c4, $c5, $c6] as $character) {
-            $this($character);
+            $this->consume($character);
         }
 
-        $this->getAggregated()
-            ->shouldBeLike([
-                new Range(Codepoint::fromInt(1), Codepoint::fromInt(3)),
-                new Range(Codepoint::fromInt(10), Codepoint::fromInt(11)),
-                new Range(Codepoint::fromInt(20), Codepoint::fromInt(20))
-            ]);
+        $this->getCharacterClass()
+            ->shouldEqual('[\x{1}-\x{3}\x{A}-\x{B}\x{14}]');
     }
 
     private function givenEntityHasCodepointWithValue(CodepointAssigned $entity, $value)
