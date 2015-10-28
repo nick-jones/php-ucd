@@ -10,6 +10,7 @@ use UCD\Database;
 use UCD\Consumer\Consumer;
 
 use UCD\Entity\Character;
+use UCD\Entity\Character\Collection;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository;
@@ -117,6 +118,6 @@ class DatabaseSpec extends ObjectBehavior
 
         $this->repository
             ->getAll()
-            ->willReturn(new \ArrayIterator($unwrapped));
+            ->willReturn(new Collection(new \ArrayIterator($unwrapped)));
     }
 }

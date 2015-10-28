@@ -76,9 +76,7 @@ class Database
      */
     public function all()
     {
-        return new Collection(
-            $this->sourceRepository->getAll()
-        );
+        return $this->sourceRepository->getAll();
     }
 
     /**
