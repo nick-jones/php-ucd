@@ -111,7 +111,7 @@ class PHPFileRepositorySpec extends ObjectBehavior
             ->shouldIterateLike([1 => $character1, 5 => $character2]);
     }
 
-    public function it_exposes_an_empty_array_if_no_characters_are_available($dir)
+    public function it_exposes_nothing_if_no_characters_are_available($dir)
     {
         $dir->getIterator()
             ->willReturn(new \ArrayIterator([]));

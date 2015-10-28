@@ -61,7 +61,7 @@ class XMLRepositorySpec extends ObjectBehavior
             ->shouldIterateLike([1 => $character]);
     }
 
-    public function it_exposes_an_empty_array_if_no_characters_are_available($reader)
+    public function it_exposes_nothing_if_no_characters_are_available($reader)
     {
         $reader->read()
             ->willReturn([]);

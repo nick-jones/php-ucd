@@ -2,9 +2,9 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
+use UCD\Entity\Character\Collection;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository;
-use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\CodepointAssigned;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
@@ -50,6 +50,16 @@ class XMLRepository implements Repository
      * {@inheritDoc}
      */
     public function getAll()
+    {
+        return new Collection(
+            $this->readAll()
+        );
+    }
+
+    /**
+     * @return \Generator
+     */
+    private function readAll()
     {
         foreach ($this->elementReader->read() as $element) {
             $characters = $this->parseElementForCharacters($element);

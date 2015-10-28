@@ -2,6 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
+use UCD\Entity\Character\Collection;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
@@ -131,6 +132,16 @@ class PHPFileRepository implements WritableRepository
      * {@inheritDoc}
      */
     public function getAll()
+    {
+        return new Collection(
+            $this->readAll()
+        );
+    }
+
+    /**
+     * @return \Generator
+     */
+    private function readAll()
     {
         foreach ($this->directory as $file) {
             $characters = $file->read();

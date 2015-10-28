@@ -2,14 +2,12 @@
 
 namespace UCD;
 
-use UCD\Consumer\Consumer;
-use UCD\Consumer\ConsumerInvoker;
-
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\CodepointAssigned;
+use UCD\Entity\Character\Collection;
 use UCD\Entity\NonCharacter;
 use UCD\Entity\Surrogate;
 
@@ -19,9 +17,8 @@ use UCD\Exception\OutOfRangeException;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\TraversableRepository;
 
-class Collection implements \IteratorAggregate
+class Database
 {
     /**
      * @var Repository
@@ -37,11 +34,13 @@ class Collection implements \IteratorAggregate
     }
 
     /**
-     * @return Collection
+     * @return static
      */
-    public static function fromFullDatabase()
+    public static function fromDisk()
     {
-        return new self(self::defaultRepository());
+        return new static(
+            self::createFileRepository()
+        );
     }
 
     /**
@@ -73,7 +72,17 @@ class Collection implements \IteratorAggregate
     }
 
     /**
-     * @return self
+     * @return Collection
+     */
+    public function all()
+    {
+        return new Collection(
+            $this->sourceRepository->getAll()
+        );
+    }
+
+    /**
+     * @return Collection
      */
     public function onlyCharacters()
     {
@@ -83,7 +92,7 @@ class Collection implements \IteratorAggregate
     }
 
     /**
-     * @return self
+     * @return Collection
      */
     public function onlyNonCharacters()
     {
@@ -93,7 +102,7 @@ class Collection implements \IteratorAggregate
     }
 
     /**
-     * @return self
+     * @return Collection
      */
     public function onlySurrogates()
     {
@@ -104,58 +113,18 @@ class Collection implements \IteratorAggregate
 
     /**
      * @param callable $filter
-     * @return self
+     * @return Collection
      */
-    public function filterWith(callable $filter)
+    private function filterWith(callable $filter)
     {
-        $repository = new TraversableRepository(
-            $this->applyFilter($filter)
-        );
-
-        return new self($repository);
-    }
-
-    /**
-     * @param callable $filter
-     * @return \Generator
-     */
-    private function applyFilter(callable $filter)
-    {
-        foreach ($this as $character) {
-            if (call_user_func($filter, $character) === true) {
-                yield $character;
-            }
-        }
-    }
-
-    /**
-     * @param callable $callback
-     * @return self
-     */
-    public function traverseWith(callable $callback)
-    {
-        foreach ($this as $character) {
-            call_user_func($callback, $character);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Consumer $consumer
-     * @return self
-     */
-    public function traverseWithConsumer(Consumer $consumer)
-    {
-        return $this->traverseWith(
-            new ConsumerInvoker($consumer)
-        );
+        return $this->all()
+            ->filterWith($filter);
     }
 
     /**
      * @return Repository
      */
-    private static function defaultRepository()
+    private static function createFileRepository()
     {
         $dbPath = sprintf('%s/../../resources/generated/ucd', __DIR__);
         $dbPathInfo = new \SplFileInfo($dbPath);
@@ -163,19 +132,5 @@ class Collection implements \IteratorAggregate
         $serializer = new PHPSerializer();
 
         return new PHPFileRepository($directory, $serializer);
-    }
-
-    /**
-     * @return CodepointAssigned[]
-     */
-    public function getIterator()
-    {
-        $all = $this->sourceRepository->getAll();
-
-        if ($all instanceof \Traversable) {
-            return $all;
-        }
-
-        return new \ArrayIterator($all);
     }
 }

@@ -59,13 +59,13 @@ class InMemoryRepositorySpec extends ObjectBehavior
         $this->addMany([$character]);
 
         $this->getAll()
-            ->shouldReturn([1 => $character]);
+            ->shouldIterateLike([1 => $character]);
     }
 
-    public function it_exposes_an_empty_array_if_no_characters_are_available()
+    public function it_exposes_an_nothing_if_no_characters_are_available()
     {
         $this->getAll()
-            ->shouldReturn([]);
+            ->shouldIterateLike([]);
     }
 
     public function it_exposes_the_number_of_characters_available(Character $character)

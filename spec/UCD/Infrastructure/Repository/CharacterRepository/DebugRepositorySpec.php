@@ -49,6 +49,15 @@ class DebugRepositorySpec extends ObjectBehavior
         $this->getAll();
     }
 
+    public function it_delegates_getAll_calls($repository, Character\Collection $collection)
+    {
+        $repository->getAll()
+            ->willReturn($collection);
+
+        $this->getAll()
+            ->shouldReturn($collection);
+    }
+
     public function it_delegates_find_calls($repository, Character $character)
     {
         $repository->getAll()

@@ -3,9 +3,10 @@
 namespace spec\UCD;
 
 use PhpSpec\ObjectBehavior;
+use PhpSpec\Wrapper\Collaborator;
 use Prophecy\Argument;
 
-use UCD\Collection;
+use UCD\Database;
 use UCD\Consumer\Consumer;
 
 use UCD\Entity\Character;
@@ -17,9 +18,9 @@ use UCD\Entity\NonCharacter;
 use UCD\Entity\Surrogate;
 
 /**
- * @mixin Collection
+ * @mixin Database
  */
-class CollectionSpec extends ObjectBehavior
+class DatabaseSpec extends ObjectBehavior
 {
     /**
      * @var Repository
@@ -33,12 +34,7 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedWith($repository);
     }
 
-    public function it_should_be_traversable()
-    {
-        $this->shouldHaveType(\Traversable::class);
-    }
-
-    public function it_can_locate_a_codepoint_assigned_entity_by_codepoint_value(CodepointAssigned $entity)
+    public function it_can_locate_a_codepoint_assigned_entity_by_codepoint(CodepointAssigned $entity)
     {
         $this->repository
             ->getByCodepoint(Codepoint::fromInt(1))
@@ -48,7 +44,7 @@ class CollectionSpec extends ObjectBehavior
             ->shouldReturn($entity);
     }
 
-    public function it_throws_CharacterNotFoundException_if_no_entity_is_assigned_to_the_requested_codepoint_value()
+    public function it_throws_CharacterNotFoundException_if_no_entity_is_assigned_to_the_requested_codepoint()
     {
         $this->repository
             ->getByCodepoint(Argument::any())
@@ -58,7 +54,7 @@ class CollectionSpec extends ObjectBehavior
             ->duringGetByCodepoint(Codepoint::fromInt(1));
     }
 
-    public function it_can_locate_a_character_by_codepoint_value(Character $character)
+    public function it_can_locate_a_character_by_codepoint(Character $character)
     {
         $this->repository
             ->getByCodepoint(Codepoint::fromInt(1))
@@ -68,7 +64,7 @@ class CollectionSpec extends ObjectBehavior
             ->shouldReturn($character);
     }
 
-    public function it_throws_CharacterNotFoundException_if_no_character_is_assigned_to_the_requested_codepoint_value()
+    public function it_throws_CharacterNotFoundException_if_no_character_is_assigned_to_the_requested_codepoint()
     {
         $this->repository
             ->getByCodepoint(Argument::any())
@@ -78,7 +74,7 @@ class CollectionSpec extends ObjectBehavior
             ->duringGetCharacterByCodepoint(Codepoint::fromInt(1));
     }
 
-    public function it_throws_CharacterNotFoundException_if_something_other_than_a_character_is_assigned_to_a_codepoint_value(
+    public function it_throws_CharacterNotFoundException_if_something_other_than_a_character_is_assigned_to_a_codepoint(
         Surrogate $surrogate
     ) {
         $this->repository
@@ -113,54 +109,14 @@ class CollectionSpec extends ObjectBehavior
             ->shouldIterateLike([$c2]);
     }
 
-    public function it_can_be_filtered_using_custom_filter_rules(CodepointAssigned $c1, CodepointAssigned $c2)
-    {
-        $filter = function () {
-            static $i = 0;
-            return $i++ === 0;
-        };
-
-        $this->givenTheRepositoryContains([$c1, $c2]);
-
-        $this->filterWith($filter)
-            ->shouldIterateLike([$c1]);
-    }
-
-    public function it_can_be_traversed_by_providing_a_callback(
-        CodepointAssigned $character
-    ) {
-        // TODO: use a prediction on an invokable class once phpspec __invoke fix is tagged.
-
-        $this->givenTheRepositoryContains([$character]);
-        $count = 0;
-
-        $callback = function (CodepointAssigned $c) use (&$count) {
-            ++$count;
-        };
-
-        $this->traverseWith($callback);
-
-        if ($count !== 1) {
-            throw new \RuntimeException();
-        }
-    }
-
-    public function it_can_be_traversed_by_providing_a_consumer(
-        Consumer $consumer,
-        CodepointAssigned $character
-    ) {
-        $this->givenTheRepositoryContains([$character]);
-
-        $this->traverseWithConsumer($consumer);
-
-        $consumer->consume($character)
-            ->shouldHaveBeenCalled();
-    }
-
     private function givenTheRepositoryContains(array $items)
     {
+        $unwrapped = array_map(function (Collaborator $c) {
+            return $c->getWrappedObject();
+        }, $items);
+
         $this->repository
             ->getAll()
-            ->willReturn($items);
+            ->willReturn(new \ArrayIterator($unwrapped));
     }
 }

@@ -46,13 +46,13 @@ class NULLRepositorySpec extends ObjectBehavior
             ->duringGetByCodePoint(Codepoint::fromInt(1));
     }
 
-    public function it_should_always_exposes_an_empty_array_when_retrieving_all_characters(Character $character)
+    public function it_should_always_exposes_nothing_when_retrieving_all_characters(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);
         $this->addMany([$character]);
 
         $this->getAll()
-            ->shouldReturn([]);
+            ->shouldIterateLike([]);
     }
 
     public function it_should_always_return_zero_count(Character $character)

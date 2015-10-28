@@ -2,10 +2,10 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
+use UCD\Entity\Character\Collection;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
-use UCD\Entity\CodepointAssigned;
 use UCD\Entity\Character\Repository;
 
 class InMemoryRepository implements WritableRepository
@@ -49,7 +49,9 @@ class InMemoryRepository implements WritableRepository
      */
     public function getAll()
     {
-        return $this->characters;
+        return new Collection(
+            new \ArrayIterator($this->characters)
+        );
     }
 
     /**
