@@ -15,22 +15,23 @@ This will be added to Packagist once initial development is complete.
 
 ## Usage
 
-The primary interface to utilise is `UCD\Collection`. This provides a number of methods to interrogate "codepoint assigned"
-entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that reside within the UCD:
+The primary interface to utilise is `UCD\Database`. This provides a number of methods to interrogate 
+"codepoint assigned" entities (i.e. `Character`, `NonCharacter`, and `Surrogate` instances) that reside within the UCD:
 
-- `::getByCodepoint(Codepoint $codepoint)` - resolves a codepoint assigned entity
-- `::getCharacterByCodepoint(Codepoint $codepoint)` - as above, but will only return `Character` instances
-- `::onlyCharacters()` - returns a `Collection` instance containing only `Character` instances
-- `::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
-- `::onlySurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
-- `::filterWith(callable $filter)` - filters the `Collection`, using the return value of the supplied callable
-- `::traverseWith(callable $filter)` - traverses the entire dataset, calling into the supplied callback with each entity
-- `::traverseWithConsumer(Consumer $consumer)` - as above, but with an implementation of `Consumer`
+- `Database::getByCodepoint(Codepoint $codepoint)` - resolves a codepoint assigned entity
+- `Database::getCharacterByCodepoint(Codepoint $codepoint)` - as above, but will only return `Character` instances
+- `Database::all()` - returns a `Collection` instance containing everything assigned a codepoint within the database
+- `Database::onlyCharacters()` - returns a `Collection` instance containing only `Character` instances
+- `Database::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
+- `Database::onlySurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
 
-All but the codepoint resolving methods return an instance of `Collection`, allowing you to chain. It is likely that
-you will want to leverage the default `Character\Repository` for resolution of characters, etc, in which case, calling
-`UCD\Collection::fromFullDatabase()` will give you an instance backed by the `PHPFileRepository`. You can, of course,
-leverage a different `Character\Repository` implementation.
+The `UCD\Entity\Character\Collection` class, returned by a number of methods, provides methods for filtering and
+traversal.
+
+It is likely that you will want to leverage the default `Character\Repository` for resolution of characters, etc, in
+which case, calling `UCD\Collection::fromDisk()` will give you an instance backed by the `PHPFileRepository`. You can,
+of course, leverage a different `Character\Repository` implementation, if you so wish, by providing it to the
+constructor of `UCD\Database`.
 
 Because this project makes good use of [generators](https://php.net/generators), the memory footprint of interrogating
 the dataset is fairly nominal.
@@ -40,15 +41,15 @@ the dataset is fairly nominal.
 #### Manual Filtering + Traversal
 
 Say you wish to dump all characters that hold a numeric property and reside outside of the Basic Latin (ASCII) block. 
-You could simply leverage the `::filterWith(callable $filter)` method, as described above, to interrogate the 
-properties of each `Character` instance. You could then perhaps dump their latin equivalent representation by calling
-`::getNumber()` on the `Numericity` property. For example:
+You could simply leverage the `Collection::filterWith(callable $filter)` method to interrogate the properties of each
+`Character` instance. You could then perhaps dump their latin equivalent representation by calling `::getNumber()` on
+the `Numericity` property. For example:
 
 ```php
 use UCD\Entity\Character;
 use UCD\Entity\Character\Properties\General\Block;
 use UCD\View\CharacterView;
-use UCD\Collection;
+use UCD\Database;
 
 $filter = function (Character $character) {
     $properties = $character->getProperties();
@@ -70,7 +71,7 @@ $dumper = function (Character $character) {
     printf("%s: %s (~ %s)\n", $codepoint, $utf8, $number);
 };
 
-Collection::fromFullDatabase()
+Database::fromDisk()
     ->onlyCharacters()
     ->filterWith($filter)
     ->traverseWith($dumper);
@@ -94,10 +95,10 @@ Collection::fromFullDatabase()
 Locating an individual character by its codepoint value is trivial:
 
 ```php
-use UCD\Collection;
+use UCD\Database;
 use UCD\Entity\Codepoint;
 
-$collection = Collection::fromFullDatabase();
+$collection = Database::fromDisk();
 $codepoint = Codepoint::fromInt(9731);
 $character = $collection->getCharacterByCodepoint($codepoint);
 
@@ -113,7 +114,7 @@ something along the lines of:
 ```php
 use UCD\Entity\Character;
 use UCD\Entity\Character\Properties\General\Block;
-use UCD\Collection;
+use UCD\Database;
 use UCD\Consumer\CodepointAggregatingConsumer;
 use UCD\Consumer\RegexBuildingConsumer;
 
@@ -130,7 +131,7 @@ $regexBuilder = new RegexBuildingConsumer(
     new CodepointAggregatingConsumer()
 );
 
-Collection::fromFullDatabase()
+Database::fromDisk()
     ->onlyCharacters()
     ->filterWith($filter)
     ->traverseWithConsumer($regexBuilder);
