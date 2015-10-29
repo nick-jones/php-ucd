@@ -15,6 +15,7 @@ use UCD\Application\Console\Command\RepositoryTransferCommand;
 
 use UCD\Application\Container\ConfigurationProvider;
 use UCD\Application\Container\ServiceProvider;
+use UCD\Entity\Character\Collection;
 use UCD\Entity\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 use VirtualFileSystem\FileSystem;
@@ -41,8 +42,9 @@ class RepositoryTransferCommandTest extends BaseTestCase
     {
         $codepoint = Codepoint::fromInt(1);
         $character = $this->buildCharacterWithCodepoint($codepoint);
+        $characters = Collection::fromArray([$character]);
         $source = new InMemoryRepository();
-        $source->addMany([$character]);
+        $source->addMany($characters);
         $destination = new InMemoryRepository();
 
         $this->container['repository.test-source'] = $source;

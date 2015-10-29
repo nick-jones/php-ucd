@@ -26,12 +26,17 @@ class DebugWritableRepositorySpec extends ObjectBehavior
         $logger->info(Argument::containingString('Repository::addMany/'))
             ->shouldBeCalled();
 
-        $this->addMany([$c1, $c2]);
+        $this->addMany(Character\Collection::fromArray([
+            $c1->getWrappedObject(),
+            $c2->getWrappedObject()
+        ]));
     }
 
     public function it_delegates_addMany_calls($repository, Character $character)
     {
-        $characters = [$character];
+        $characters = Character\Collection::fromArray([
+            $character->getWrappedObject()
+        ]);
 
         $repository->addMany($characters)
             ->shouldBeCalled();
@@ -45,6 +50,8 @@ class DebugWritableRepositorySpec extends ObjectBehavior
             ->shouldBeCalled();
 
         $this->attach($observer);
-        $this->addMany([$character]);
+        $this->addMany(Character\Collection::fromArray([
+            $character->getWrappedObject()
+        ]));
     }
 }

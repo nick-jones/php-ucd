@@ -75,4 +75,15 @@ class Collection implements \IteratorAggregate
     {
         return $this->items;
     }
+
+    /**
+     * @param array $items
+     * @return Collection
+     */
+    public static function fromArray(array $items)
+    {
+        return new self(
+            new \ArrayIterator($items)
+        );
+    }
 }

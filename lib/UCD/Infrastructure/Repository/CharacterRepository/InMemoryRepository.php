@@ -7,6 +7,7 @@ use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\Character\Repository;
+use UCD\Entity\CodepointAssigned;
 
 class InMemoryRepository implements WritableRepository
 {
@@ -34,14 +35,14 @@ class InMemoryRepository implements WritableRepository
     /**
      * {@inheritDoc}
      */
-    public function addMany($characters)
+    public function addMany(Collection $characters)
     {
-        foreach ($characters as $character) {
-            $codepoint = $character->getCodepoint();
+        $characters->traverseWith(function (CodepointAssigned $c) {
+            $codepoint = $c->getCodepoint();
             $index = $this->indexFromCodepoint($codepoint);
-            $this->characters[$index] = $character;
+            $this->characters[$index] = $c;
             $this->notify();
-        }
+        });
     }
 
     /**
@@ -49,9 +50,7 @@ class InMemoryRepository implements WritableRepository
      */
     public function getAll()
     {
-        return new Collection(
-            new \ArrayIterator($this->characters)
-        );
+        return Collection::fromArray($this->characters);
     }
 
     /**

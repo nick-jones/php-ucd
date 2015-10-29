@@ -118,6 +118,6 @@ class DatabaseSpec extends ObjectBehavior
 
         $this->repository
             ->getAll()
-            ->willReturn(new Collection(new \ArrayIterator($unwrapped)));
+            ->willReturn(Collection::fromArray($unwrapped));
     }
 }

@@ -3,6 +3,7 @@
 namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
 
 use PhpSpec\ObjectBehavior;
+use PhpSpec\Wrapper\Collaborator;
 use Prophecy\Argument;
 
 use UCD\Entity\Character;
@@ -25,7 +26,9 @@ class InMemoryRepositorySpec extends ObjectBehavior
     public function it_can_have_characters_added_to_it(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->addMany([$character]);
+        $this->addMany(Character\Collection::fromArray([
+            $character->getWrappedObject()
+        ]));
     }
 
     public function it_notifies_observers_when_characters_are_added(\SplObserver $observer, Character $character)
@@ -35,13 +38,15 @@ class InMemoryRepositorySpec extends ObjectBehavior
 
         $this->attach($observer);
         $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->addMany([$character]);
+        $this->addMany(Character\Collection::fromArray([
+            $character->getWrappedObject()
+        ]));
     }
 
     public function it_can_retrieve_characters_by_codepoint(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->addMany([$character]);
+        $this->givenTheRepositoryHasCharacters([$character]);
 
         $this->getByCodepoint(Codepoint::fromInt(1))
             ->shouldReturn($character);
@@ -56,7 +61,7 @@ class InMemoryRepositorySpec extends ObjectBehavior
     public function it_exposes_all_available_characters(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->addMany([$character]);
+        $this->givenTheRepositoryHasCharacters([$character]);
 
         $this->getAll()
             ->shouldIterateLike([1 => $character]);
@@ -71,7 +76,7 @@ class InMemoryRepositorySpec extends ObjectBehavior
     public function it_exposes_the_number_of_characters_available(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->addMany([$character]);
+        $this->givenTheRepositoryHasCharacters([$character]);
 
         $this->shouldHaveCount(1);
     }
@@ -83,5 +88,14 @@ class InMemoryRepositorySpec extends ObjectBehavior
 
         $character->getCodepointValue()
             ->willReturn($value);
+    }
+
+    private function givenTheRepositoryHasCharacters(array $items)
+    {
+        $unwrapped = array_map(function (Collaborator $item) {
+            return $item->getWrappedObject();
+        }, $items);
+
+        $this->addMany(Character\Collection::fromArray($unwrapped));
     }
 }

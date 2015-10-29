@@ -14,6 +14,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use UCD\Application\Console\Command\SearchCommand;
 use UCD\Application\Container\ConfigurationProvider;
 use UCD\Application\Container\ServiceProvider;
+use UCD\Entity\Character\Collection;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\Codepoint;
 
@@ -44,7 +45,8 @@ class SearchCommandTest extends BaseTestCase
         $repository = new InMemoryRepository();
         $codepoint = Codepoint::fromInt(163);
         $character = $this->buildCharacterWithCodepoint($codepoint);
-        $repository->addMany([$character]);
+        $characters = Collection::fromArray([$character]);
+        $repository->addMany($characters);
 
         $this->container['repository.test'] = $repository;
 

@@ -49,7 +49,9 @@ class PHPFileRepositorySpec extends ObjectBehavior
             ->willReturn(true);
 
         $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->addMany([$character]);
+        $this->addMany(Character\Collection::fromArray([
+            $character->getWrappedObject()
+        ]));
     }
 
     public function it_notifies_observers_when_characters_are_added(
@@ -66,7 +68,9 @@ class PHPFileRepositorySpec extends ObjectBehavior
 
         $this->attach($observer);
         $this->givenCharacterHasCodepointWithValue($character, 1);
-        $this->addMany([$character]);
+        $this->addMany(Character\Collection::fromArray([
+            $character->getWrappedObject()
+        ]));
     }
 
     public function it_can_retrieve_characters_by_codepoint($dir, Character $character, PHPRangeFile $file)

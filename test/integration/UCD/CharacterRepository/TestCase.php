@@ -89,8 +89,9 @@ abstract class TestCase extends BaseTestCase
 
         $codepoint = Codepoint::fromInt(1);
         $addCharacter = $this->buildCharacterWithCodepoint($codepoint);
+        $addCharacters = Character\Collection::fromArray([$addCharacter]);
 
-        $this->repository->addMany([$addCharacter]);
+        $this->repository->addMany($addCharacters);
         $character = $this->repository->getByCodepoint($codepoint);
 
         ha::assertThat('character', $character, hm::is(hm::equalTo($addCharacter)));

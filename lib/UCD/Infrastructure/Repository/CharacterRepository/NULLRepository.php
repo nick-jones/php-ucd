@@ -23,7 +23,7 @@ class NULLRepository implements WritableRepository
     /**
      * {@inheritDoc}
      */
-    public function addMany($characters)
+    public function addMany(Collection $characters)
     {
         $this->notify();
     }
@@ -33,9 +33,7 @@ class NULLRepository implements WritableRepository
      */
     public function getAll()
     {
-        return new Collection(
-            new \ArrayIterator([])
-        );
+        return Collection::fromArray([]);
     }
 
     /**

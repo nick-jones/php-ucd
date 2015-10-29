@@ -87,7 +87,7 @@ class PHPFileRepository implements WritableRepository
     /**
      * {@inheritDoc}
      */
-    public function addMany($characters)
+    public function addMany(Collection $characters)
     {
         $slices = CharacterSlicer::slice($characters, $this->sliceSize);
 
