@@ -58,15 +58,6 @@ class DebugRepositorySpec extends ObjectBehavior
             ->shouldReturn($collection);
     }
 
-    public function it_delegates_find_calls($repository, Character $character)
-    {
-        $repository->getAll()
-            ->willReturn([$character]);
-
-        $this->getAll()
-            ->shouldReturn([$character]);
-    }
-
     public function it_logs_count_calls($logger)
     {
         $logger->info(Argument::containingString('Repository::count/'))
