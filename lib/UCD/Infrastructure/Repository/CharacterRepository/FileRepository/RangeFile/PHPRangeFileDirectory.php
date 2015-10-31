@@ -3,15 +3,21 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileDirectory;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFiles;
 
-class PHPRangeFiles extends RangeFiles
+class PHPRangeFileDirectory extends RangeFileDirectory
 {
+    const FILE_NAME_REGEX  = '/^(?P<start>\d+)-(?P<end>\d+)!(?P<total>\d+)\.php$/';
+    const FILE_PATH_FORMAT = '%s/%08d-%08d!%04d.php';
+
     /**
      * @param \SplFileInfo $basePath
-     * @return PHPRangeFile
+     * @return PHPRangeFileDirectory
      * @throws \UCD\Exception\InvalidArgumentException
      */
-    public static function fromDirectory(\SplFileInfo $basePath)
+    public static function fromPath(\SplFileInfo $basePath)
     {
         $files = [];
         $fileInfos = self::getFileIterator($basePath);
@@ -21,7 +27,7 @@ class PHPRangeFiles extends RangeFiles
             array_push($files, $file);
         }
 
-        return new self($files);
+        return new self($basePath, new RangeFiles($files));
     }
 
     /**
@@ -44,15 +50,12 @@ class PHPRangeFiles extends RangeFiles
     }
 
     /**
-     * @param string $dbPath
      * @param Range $range
      * @param int $total
-     * @return PHPRangeFile
+     * @return RangeFile
      */
-    public function addFromDetails($dbPath, Range $range, $total)
+    protected function createFileFromRangeAndTotal(Range $range, $total)
     {
-        $file = PHPRangeFile::fromRange($dbPath, $range, $total);
-
-        return $this->add($file);
+        return PHPRangeFile::fromRangeAndTotal($this->basePath, $range, $total);
     }
 }

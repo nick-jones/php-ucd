@@ -1,8 +1,9 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
 use UCD\Exception\UnexpectedValueException;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\IntervalTree;
 
 class RangeFiles implements \IteratorAggregate, \Countable
 {

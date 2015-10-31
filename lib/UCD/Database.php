@@ -3,20 +3,20 @@
 namespace UCD;
 
 use UCD\Entity\Character;
-use UCD\Entity\Codepoint;
+use UCD\Entity\Character\Collection;
 use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
+use UCD\Entity\Codepoint;
 use UCD\Entity\CodepointAssigned;
-use UCD\Entity\Character\Collection;
 use UCD\Entity\NonCharacter;
 use UCD\Entity\Surrogate;
 
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\OutOfRangeException;
 
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
-use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFileDirectory;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
 class Database
 {
@@ -126,9 +126,9 @@ class Database
     {
         $dbPath = sprintf('%s/../../resources/generated/ucd', __DIR__);
         $dbPathInfo = new \SplFileInfo($dbPath);
-        $directory = new PHPFileDirectory($dbPathInfo);
+        $charactersDirectory = PHPRangeFileDirectory::fromPath($dbPathInfo);
         $serializer = new PHPSerializer();
 
-        return new PHPFileRepository($directory, $serializer);
+        return new FileRepository($charactersDirectory, $serializer);
     }
 }

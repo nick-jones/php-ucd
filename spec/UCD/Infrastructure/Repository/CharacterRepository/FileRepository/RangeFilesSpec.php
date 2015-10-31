@@ -1,13 +1,13 @@
 <?php
 
-namespace spec\UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+namespace spec\UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
 use PhpSpec\ObjectBehavior;
 
 use UCD\Exception\UnexpectedValueException;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\RangeFile;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\RangeFiles;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFiles;
 
 /**
  * @mixin RangeFiles

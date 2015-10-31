@@ -2,15 +2,10 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayItem;
-use PhpParser\Node\Scalar\LNumber;
-use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\Return_;
-use PhpParser\PrettyPrinter\Standard;
-
 use UCD\Exception\InvalidArgumentException;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\File\PHPFile;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 class PHPRangeFile extends RangeFile
 {
@@ -33,79 +28,41 @@ class PHPRangeFile extends RangeFile
             (int)$matches['end']
         );
 
-        return new self($range, $fileInfo, (int)$matches['total']);
+        $file = new PHPFile($fileInfo);
+        $total = (int)$matches['total'];
+
+        return new self($file, $range, $total);
     }
 
     /**
-     * @param string $dbPath
+     * @param \SplFileInfo $basePath
      * @param Range $range
      * @param int $total
      * @return PHPRangeFile
      */
-    public static function fromRange($dbPath, Range $range, $total)
+    public static function fromRangeAndTotal(\SplFileInfo $basePath, Range $range, $total)
     {
-        $filePath = self::generateFilePath($dbPath, $range, $total);
+        $filePath = self::generateFilePath($basePath, $range, $total);
         $fileInfo = new \SplFileInfo($filePath);
+        $file = new PHPFile($fileInfo);
 
-        return new self($range, $fileInfo, $total);
+        return new self($file, $range, $total);
     }
 
     /**
-     * @param string $dbPath
+     * @param \SplFileInfo $basePath
      * @param Range $range
      * @param int $total
      * @return string
      */
-    private static function generateFilePath($dbPath, Range $range, $total)
+    private static function generateFilePath(\SplFileInfo $basePath, Range $range, $total)
     {
         return sprintf(
             self::FILE_PATH_FORMAT,
-            $dbPath,
+            $basePath->getPathname(),
             $range->getStart(),
             $range->getEnd() - 1,
             $total
         );
-    }
-
-    /**
-     * @return array
-     */
-    public function read()
-    {
-        return require (string)$this->fileInfo;
-    }
-
-    /**
-     * @param array $map
-     * @return bool
-     */
-    public function write(array $map)
-    {
-        $content = $this->generateFileContent($map);
-        $file = $this->fileInfo->openFile('w');
-        $file->fwrite($content);
-
-        return $file->fflush();
-    }
-
-    /**
-     * @param array $map
-     * @return string
-     */
-    private function generateFileContent(array $map)
-    {
-        $items = [];
-
-        foreach ($map as $key => $value) {
-            $key = new LNumber($key);
-            $value = new String_($value);
-            $item = new ArrayItem($value, $key);
-            array_push($items, $item);
-        }
-
-        $statements = [new Return_(new Array_($items))];
-        $printer = new Standard();
-
-        return $printer->prettyPrintFile($statements);
     }
 }

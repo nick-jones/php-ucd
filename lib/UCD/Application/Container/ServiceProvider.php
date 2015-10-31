@@ -18,15 +18,15 @@ use UCD\Application\Console\Command\RepositoryTransferCommand;
 use UCD\Application\Console\Command\SearchCommand;
 
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPSerializer;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFileDirectory;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\NULLRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\PHPFileRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader\StreamingReader;
-use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointAssignedParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointAssignedParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointCountParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\NonCharacterParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\BidirectionalityParser;
@@ -89,11 +89,11 @@ class ServiceProvider implements ServiceProviderInterface
             'pfr.database_path' => function (Container $container) {
                 return new \SplFileInfo($container['config.repository.php.database_path']);
             },
-            'pfr.file_directory' => function (Container $container) {
-                return new PHPFileDirectory($container['pfr.database_path']);
+            'pfr.characters_directory' => function (Container $container) {
+                return PHPRangeFileDirectory::fromPath($container['pfr.database_path']);
             },
             'repository.php' => function (Container $container) {
-                return new PHPFileRepository($container['pfr.file_directory'], $container['pfr.serializer']);
+                return new FileRepository($container['pfr.characters_directory'], $container['pfr.serializer']);
             }
         ]);
     }

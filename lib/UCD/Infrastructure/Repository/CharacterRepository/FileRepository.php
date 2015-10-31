@@ -3,29 +3,28 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use UCD\Entity\Character\Collection;
-use UCD\Entity\Codepoint;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Character\WritableRepository;
+use UCD\Entity\Codepoint;
 use UCD\Entity\CodepointAssigned;
-use UCD\Entity\Character\Repository;
 
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PHPFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
 
-class PHPFileRepository implements WritableRepository
+class FileRepository implements WritableRepository
 {
     use Repository\Capability\Notify;
 
     const DEFAULT_SLICE_SIZE = 1000;
 
     /**
-     * @var PHPFileDirectory|PHPRangeFile[]
+     * @var RangeFileDirectory
      */
-    private $directory;
+    private $charactersDirectory;
 
     /**
      * @var Serializer
@@ -38,16 +37,16 @@ class PHPFileRepository implements WritableRepository
     private $sliceSize;
 
     /**
-     * @param PHPFileDirectory $directory
+     * @param RangeFileDirectory $charactersDirectory
      * @param Serializer $serializer
      * @param int $sliceSize
      */
     public function __construct(
-        PHPFileDirectory $directory,
+        RangeFileDirectory $charactersDirectory,
         Serializer $serializer,
         $sliceSize = self::DEFAULT_SLICE_SIZE
     ) {
-        $this->directory = $directory;
+        $this->charactersDirectory = $charactersDirectory;
         $this->serializer = $serializer;
         $this->sliceSize = $sliceSize;
     }
@@ -70,12 +69,12 @@ class PHPFileRepository implements WritableRepository
 
     /**
      * @param Codepoint $codepoint
-     * @return PHPRangeFile
+     * @return RangeFile
      * @throws CharacterNotFoundException
      */
     private function getFileByCodepoint(Codepoint $codepoint)
     {
-        $file = $this->directory->getFileFromValue($codepoint->getValue());
+        $file = $this->charactersDirectory->getFileFromValue($codepoint->getValue());
 
         if ($file === null) {
             throw CharacterNotFoundException::withCodepoint($codepoint);
@@ -107,7 +106,9 @@ class PHPFileRepository implements WritableRepository
     {
         $characters = $this->flattenCharacters($characters);
 
-        $rangeFile = $this->directory->createFileFromDetails($range, count($characters));
+        $rangeFile = $this->charactersDirectory
+            ->addFileFromRangeAndTotal($range, count($characters));
+
         $rangeFile->write($characters);
     }
 
@@ -143,7 +144,9 @@ class PHPFileRepository implements WritableRepository
      */
     private function readAll()
     {
-        foreach ($this->directory as $file) {
+        $files = $this->charactersDirectory->getFiles();
+
+        foreach ($files as $file) {
             $characters = $file->read();
 
             foreach ($characters as $i => $character) {
@@ -157,9 +160,10 @@ class PHPFileRepository implements WritableRepository
      */
     public function count()
     {
+        $files = $this->charactersDirectory->getFiles();
         $tally = 0;
 
-        foreach ($this->directory as $file) {
+        foreach ($files as $file) {
             $tally += $file->getTotal();
         }
 

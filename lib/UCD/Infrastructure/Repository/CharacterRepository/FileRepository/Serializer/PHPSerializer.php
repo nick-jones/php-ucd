@@ -1,6 +1,8 @@
 <?php
 
-namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
+
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
 
 class PHPSerializer implements Serializer
 {
