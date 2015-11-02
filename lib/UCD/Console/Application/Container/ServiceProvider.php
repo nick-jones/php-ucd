@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Application\Container;
+namespace UCD\Console\Application\Container;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -14,15 +14,15 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use UCD\Application\Console\Command\RepositoryTransferCommand;
-use UCD\Application\Console\Command\SearchCommand;
+use UCD\Console\Application\Command\RepositoryTransferCommand;
+use UCD\Console\Application\Command\SearchCommand;
 
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\NULLRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointElementReader\StreamingReader;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CharacterParser;

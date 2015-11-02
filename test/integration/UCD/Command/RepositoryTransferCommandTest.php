@@ -7,18 +7,12 @@ use integration\UCD\TestCase as BaseTestCase;
 use Hamcrest\MatcherAssert as ha;
 use Hamcrest\Matchers as hm;
 
-use Pimple\Container;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-use UCD\Application\Console\Command\RepositoryTransferCommand;
-
-use UCD\Application\Container\ConfigurationProvider;
-use UCD\Application\Container\ServiceProvider;
 use UCD\Entity\Character\Collection;
 use UCD\Entity\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
-use VirtualFileSystem\FileSystem;
 
 class RepositoryTransferCommandTest extends BaseTestCase
 {
@@ -30,8 +24,8 @@ class RepositoryTransferCommandTest extends BaseTestCase
     protected function setUp()
     {
         $application = new Application();
-        $application->add(new RepositoryTransferCommand($this->container));
-        $command = $application->get(RepositoryTransferCommand::COMMAND_NAME);
+        $application->add(new \UCD\Console\Application\Command\RepositoryTransferCommand($this->container));
+        $command = $application->get(\UCD\Console\Application\Command\RepositoryTransferCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($command);
     }
 
@@ -54,7 +48,7 @@ class RepositoryTransferCommandTest extends BaseTestCase
         ha::assertThat(count($destination), hm::is(hm::identicalTo(0)));
 
         $this->commandTester->execute([
-            'command' => RepositoryTransferCommand::COMMAND_NAME,
+            'command' => \UCD\Console\Application\Command\RepositoryTransferCommand::COMMAND_NAME,
             'from' => 'test-source',
             'to' => 'test-destination'
         ]);

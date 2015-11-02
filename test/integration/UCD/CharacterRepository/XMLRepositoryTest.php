@@ -2,7 +2,7 @@
 
 namespace integration\UCD\CharacterRepository;
 
-use UCD\Application\Container\ConfigurationProvider;
+use UCD\Console\Application\Container\ConfigurationProvider;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 
 class XMLRepositoryTest extends TestCase

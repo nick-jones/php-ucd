@@ -1,9 +1,10 @@
 <?php
 
-namespace UCD\Application\Console\Command;
+namespace UCD\Console\Application\Command;
 
 use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
+
 use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Exception\InvalidArgumentException;

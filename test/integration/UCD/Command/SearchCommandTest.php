@@ -2,24 +2,16 @@
 
 namespace integration\UCD\Command;
 
-use integration\UCD\TestCase as BaseTestCase;
-
 use Hamcrest\MatcherAssert as ha;
 use Hamcrest\Matchers as hm;
-
+use integration\UCD\TestCase as BaseTestCase;
 use Pimple\Container;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-
-use UCD\Application\Console\Command\SearchCommand;
-use UCD\Application\Container\ConfigurationProvider;
-use UCD\Application\Container\ServiceProvider;
+use UCD\Console\Application\Command\SearchCommand;
 use UCD\Entity\Character\Collection;
-use UCD\Entity\Character\WritableRepository;
 use UCD\Entity\Codepoint;
-
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
-use VirtualFileSystem\FileSystem;
 
 class SearchCommandTest extends BaseTestCase
 {
@@ -32,8 +24,8 @@ class SearchCommandTest extends BaseTestCase
     {
         $this->container = new Container();
         $application = new Application();
-        $application->add(new SearchCommand($this->container));
-        $command = $application->get(SearchCommand::COMMAND_NAME);
+        $application->add(new \UCD\Console\Application\Command\SearchCommand($this->container));
+        $command = $application->get(\UCD\Console\Application\Command\SearchCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($command);
     }
 
@@ -53,7 +45,7 @@ class SearchCommandTest extends BaseTestCase
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
             '--from' => 'test',
-            '--enc' => SearchCommand::ENCODING_DECIMAL,
+            '--enc' => \UCD\Console\Application\Command\SearchCommand::ENCODING_DECIMAL,
             'codepoint' => $codepoint->getValue()
         ]);
 
@@ -74,7 +66,7 @@ class SearchCommandTest extends BaseTestCase
         $this->container['repository.test'] = new InMemoryRepository();
 
         $this->commandTester->execute([
-            'command' => SearchCommand::COMMAND_NAME,
+            'command' => \UCD\Console\Application\Command\SearchCommand::COMMAND_NAME,
             '--from' => 'test',
             'codepoint' => '1'
         ]);

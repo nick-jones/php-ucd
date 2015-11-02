@@ -2,8 +2,8 @@
 
 namespace integration\UCD;
 
-use UCD\Application\Container\ConfigurationProvider;
-use UCD\Application\Container\ServiceProvider;
+use UCD\Console\Application\Container\ConfigurationProvider;
+use UCD\Console\Application\Container\ServiceProvider;
 
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;

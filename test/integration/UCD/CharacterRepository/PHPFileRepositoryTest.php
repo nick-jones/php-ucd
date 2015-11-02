@@ -2,7 +2,7 @@
 
 namespace integration\UCD\CharacterRepository;
 
-use UCD\Application\Container\ConfigurationProvider;
+use UCD\Console\Application\Container\ConfigurationProvider;
 use UCD\Entity\Codepoint;
 
 class PHPFileRepositoryTest extends TestCase
