@@ -24,7 +24,7 @@ class CodepointAggregatingConsumerSpec extends ObjectBehavior
     public function it_exposes_an_empty_array_if_no_characters_have_been_provided()
     {
         $this->getAggregated()
-            ->shouldReturn([]);
+            ->shouldIterateLike([]);
     }
 
     public function it_can_aggregate_mixtures_of_ranges_and_individual_codepoints(
@@ -47,7 +47,7 @@ class CodepointAggregatingConsumerSpec extends ObjectBehavior
         }
 
         $this->getAggregated()
-            ->shouldBeLike([
+            ->shouldIterateLike([
                 new Range(Codepoint::fromInt(1), Codepoint::fromInt(3)),
                 new Range(Codepoint::fromInt(10), Codepoint::fromInt(11)),
                 new Range(Codepoint::fromInt(20), Codepoint::fromInt(20))

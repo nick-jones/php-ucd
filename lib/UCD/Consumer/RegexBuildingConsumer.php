@@ -45,16 +45,18 @@ class RegexBuildingConsumer implements Consumer
     }
 
     /**
-     * @param Range[] $ranges
+     * @param Range[]|Range\Collection $ranges
      * @return string[]
      */
-    private function flattenRanges(array $ranges)
+    private function flattenRanges(Range\Collection $ranges)
     {
-        $mapper = function (Range $range) {
-            return $this->flattenRange($range);
-        };
+        $flattened = [];
 
-        return array_map($mapper, $ranges);
+        foreach ($ranges as $range) {
+            array_push($flattened, $this->flattenRange($range));
+        }
+
+        return $flattened;
     }
 
     /**

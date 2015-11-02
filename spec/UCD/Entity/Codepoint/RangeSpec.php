@@ -45,4 +45,15 @@ class RangeSpec extends ObjectBehavior
         $this->representsSingleCodepoint()
             ->shouldReturn(false);
     }
+
+    public function it_can_be_expanded_to_all_codepoints_that_it_covers()
+    {
+        $start = Codepoint::fromInt(1);
+        $end = Codepoint::fromInt(3);
+
+        $this->beConstructedWith($start, $end);
+
+        $this->expand()
+            ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(2), Codepoint::fromInt(3)]);
+    }
 }

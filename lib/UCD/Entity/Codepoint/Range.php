@@ -55,4 +55,27 @@ class Range
     {
         return $this->start->equals($this->end);
     }
+
+    /**
+     * @return Codepoint[]|Collection
+     */
+    public function expand()
+    {
+        return new Collection(
+            $this->allCodepoints()
+        );
+    }
+
+    /**
+     * @return \Generator
+     */
+    private function allCodepoints()
+    {
+        $start = $this->getStart()->getValue();
+        $end = $this->getEnd()->getValue();
+
+        for ($i = $start; $i <= $end; $i++) {
+            yield Codepoint::fromInt($i);
+        }
+    }
 }

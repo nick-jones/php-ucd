@@ -112,7 +112,7 @@ class CodepointAggregatingConsumer implements Consumer
     }
 
     /**
-     * @return Range[]
+     * @return Range[]|Range\Collection
      */
     public function getAggregated()
     {
@@ -122,6 +122,8 @@ class CodepointAggregatingConsumer implements Consumer
             array_push($aggregated, $this->getCurrentRange());
         }
 
-        return $aggregated;
+        return new Range\Collection(
+            new \ArrayIterator($aggregated)
+        );
     }
 }
