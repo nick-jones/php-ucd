@@ -20,7 +20,7 @@ class CharacterSpec extends ObjectBehavior
 
     public function it_should_be_comparable()
     {
-        $this->shouldHaveType(Comparable::class);
+        $this->shouldImplement(Comparable::class);
     }
 
     public function it_should_equal_an_instance_with_the_same_codepoint($properties)

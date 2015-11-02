@@ -16,12 +16,12 @@ class RangeFilesSpec extends ObjectBehavior
 {
     public function it_is_traversable()
     {
-        $this->shouldHaveType(\Traversable::class);
+        $this->shouldImplement(\Traversable::class);
     }
 
     public function it_is_countable()
     {
-        $this->shouldHaveType(\Countable::class);
+        $this->shouldImplement(\Countable::class);
     }
 
     public function it_can_have_files_added_to_it(RangeFile $file)

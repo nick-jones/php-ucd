@@ -19,7 +19,7 @@ class EnumerationSpec extends ObjectBehavior
 
     public function it_can_be_instantiated_with_a_value_that_is_defined_as_a_constant()
     {
-        $this->shouldHaveType(EnumerationFixture::class);
+        $this->shouldImplement(EnumerationFixture::class);
     }
 
     public function it_cannot_be_instantiated_with_a_value_not_defined_as_a_constant()

@@ -23,7 +23,7 @@ class RegexBuildingConsumerSpec extends ObjectBehavior
 
     public function it_is_a_consumer()
     {
-        $this->shouldHaveType(Consumer::class);
+        $this->shouldImplement(Consumer::class);
     }
 
     public function it_returns_an_empty_string_if_no_characters_have_been_provided()

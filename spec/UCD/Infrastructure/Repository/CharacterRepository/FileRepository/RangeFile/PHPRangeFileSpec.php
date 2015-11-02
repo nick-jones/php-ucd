@@ -19,7 +19,7 @@ class PHPRangeFileSpec extends ObjectBehavior
         $fileInfo = new \SplFileInfo(sprintf('%s/00000001-00000010!0010.php', self::MOCK_DB_PATH));
 
         $this->beConstructedThrough('fromFileInfo', [$fileInfo]);
-        $this->shouldHaveType(PHPRangeFile::class);
+        $this->shouldImplement(PHPRangeFile::class);
 
         $this->getRange()
             ->shouldBeLike(new Range(1, 10));
@@ -35,6 +35,6 @@ class PHPRangeFileSpec extends ObjectBehavior
         $total = 10;
 
         $this->beConstructedThrough('fromRangeAndTotal', [$dbPath, $range, $total]);
-        $this->shouldHaveType(PHPRangeFile::class);
+        $this->shouldImplement(PHPRangeFile::class);
     }
 }

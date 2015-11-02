@@ -17,7 +17,7 @@ class CodepointAccumulatingConsumerSpec extends ObjectBehavior
 {
     public function it_is_a_consumer()
     {
-        $this->shouldHaveType(Consumer::class);
+        $this->shouldImplement(Consumer::class);
     }
 
     public function it_accumulates_codepoints_for_all_provided_entities(CodepointAssigned $c1, CodepointAssigned $c2)

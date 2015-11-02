@@ -20,7 +20,7 @@ class InMemoryRepositorySpec extends ObjectBehavior
 {
     public function it_is_writable()
     {
-        $this->shouldHaveType(WritableRepository::class);
+        $this->shouldImplement(WritableRepository::class);
     }
 
     public function it_can_have_characters_added_to_it(Character $character)

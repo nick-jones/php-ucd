@@ -28,7 +28,7 @@ class PHPRangeFileDirectorySpec extends ObjectBehavior
         touch($fs->path('/db/00000001-00000010!0010.php'));
 
         $this->beConstructedThrough('fromPath', [$dbPath]);
-        $this->shouldHaveType(PHPRangeFileDirectory::class);
+        $this->shouldImplement(PHPRangeFileDirectory::class);
 
         $this->getFiles()
             ->shouldHaveCount(1);
