@@ -29,7 +29,7 @@ class CodepointAccumulatingConsumerSpec extends ObjectBehavior
         $this->consume($c2);
 
         $this->getCodepoints()
-            ->shouldBeLike([Codepoint::fromInt(1), Codepoint::fromInt(2)]);
+            ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(2)]);
     }
 
     private function givenEntityHasCodepointWithValue(CodepointAssigned $entity, $value)

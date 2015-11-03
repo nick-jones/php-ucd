@@ -29,10 +29,12 @@ class CodepointAccumulatingConsumer implements Consumer
     }
 
     /**
-     * @return Codepoint[]
+     * @return Codepoint\Collection
      */
     public function getCodepoints()
     {
-        return $this->codepoints;
+        return new Codepoint\Collection(
+            new \ArrayIterator($this->codepoints)
+        );
     }
 }

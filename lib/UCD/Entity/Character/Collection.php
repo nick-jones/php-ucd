@@ -2,8 +2,15 @@
 
 namespace UCD\Entity\Character;
 
+use UCD\Consumer\CodepointAccumulatingConsumer;
+use UCD\Consumer\CodepointAggregatingConsumer;
 use UCD\Consumer\Consumer;
 use UCD\Consumer\ConsumerInvoker;
+use UCD\Consumer\RegexBuildingConsumer;
+
+use UCD\Entity\Codepoint;
+use UCD\Entity\Codepoint\Range;
+use UCD\Entity\CodepointAssigned;
 
 class Collection implements \IteratorAggregate
 {
@@ -66,6 +73,61 @@ class Collection implements \IteratorAggregate
         return $this->traverseWith(
             new ConsumerInvoker($consumer)
         );
+    }
+
+    /**
+     * @return Codepoint\Collection|Codepoint[]
+     */
+    public function asCodepoints()
+    {
+        $consumer = new CodepointAccumulatingConsumer();
+        $this->traverseWithConsumer($consumer);
+
+        return $consumer->getCodepoints();
+    }
+
+    /**
+     * @return Codepoint\Collection|Codepoint[]
+     */
+    public function asCodepointsLazy()
+    {
+        return new Codepoint\Collection(
+            $this->yieldCodepoints()
+        );
+    }
+
+    /**
+     * @return \Generator
+     */
+    private function yieldCodepoints()
+    {
+        /** @var CodepointAssigned $character */
+        foreach ($this as $character) {
+            yield $character->getCodepoint();
+        }
+    }
+
+    /**
+     * @return Range\Collection|Range[]
+     */
+    public function asCodepointRanges()
+    {
+        $consumer = new CodepointAggregatingConsumer();
+        $this->traverseWithConsumer($consumer);
+
+        return $consumer->getAggregated();
+    }
+
+    /**
+     * @return string
+     */
+    public function asRegexCharacterClass()
+    {
+        $aggregator = new CodepointAggregatingConsumer();
+        $consumer = new RegexBuildingConsumer($aggregator);
+        $this->traverseWithConsumer($consumer);
+
+        return $consumer->getCharacterClass();
     }
 
     /**

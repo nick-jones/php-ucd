@@ -3,10 +3,11 @@
 namespace spec\UCD\Entity\Character;
 
 use PhpSpec\ObjectBehavior;
-
 use PhpSpec\Wrapper\Collaborator;
+
 use UCD\Consumer\Consumer;
 use UCD\Entity\Character\Collection;
+use UCD\Entity\Codepoint;
 use UCD\Entity\CodepointAssigned;
 
 /**
@@ -63,6 +64,61 @@ class CollectionSpec extends ObjectBehavior
             ->shouldHaveBeenCalled();
     }
 
+    public function it_can_be_reduced_to_codepoints(
+        CodepointAssigned $character1,
+        CodepointAssigned $character2
+    ) {
+        $this->givenEntityHasCodepointWithValue($character1, 1);
+        $this->givenEntityHasCodepointWithValue($character2, 10);
+        $this->givenTheCollectionContains([$character1, $character2]);
+
+        $this->asCodepoints()
+            ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(10)]);
+    }
+
+    public function it_can_be_reduced_to_codepoints_without_accumulating_all_in_memory(
+        CodepointAssigned $character1,
+        CodepointAssigned $character2
+    ) {
+        $this->givenEntityHasCodepointWithValue($character1, 1);
+        $this->givenEntityHasCodepointWithValue($character2, 10);
+        $this->givenTheCollectionContains([$character1, $character2]);
+
+        $this->asCodepointsLazy()
+            ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(10)]);
+    }
+
+    public function it_can_be_reduced_to_codepoint_ranges(
+        CodepointAssigned $character1,
+        CodepointAssigned $character2,
+        CodepointAssigned $character3
+    ) {
+        $this->givenEntityHasCodepointWithValue($character1, 1);
+        $this->givenEntityHasCodepointWithValue($character2, 2);
+        $this->givenEntityHasCodepointWithValue($character3, 33);
+        $this->givenTheCollectionContains([$character1, $character2, $character3]);
+
+        $this->asCodepointRanges()
+            ->shouldIterateLike([
+                new Codepoint\Range(Codepoint::fromInt(1), Codepoint::fromInt(2)),
+                new Codepoint\Range(Codepoint::fromInt(33), Codepoint::fromInt(33)),
+            ]);
+    }
+
+    public function it_can_be_reduced_to_a_regular_expression_character_class(
+        CodepointAssigned $character1,
+        CodepointAssigned $character2,
+        CodepointAssigned $character3
+    ) {
+        $this->givenEntityHasCodepointWithValue($character1, 1);
+        $this->givenEntityHasCodepointWithValue($character2, 2);
+        $this->givenEntityHasCodepointWithValue($character3, 33);
+        $this->givenTheCollectionContains([$character1, $character2, $character3]);
+
+        $this->asRegexCharacterClass()
+            ->shouldEqual('[\x{1}-\x{2}\x{21}]');
+    }
+
     private function givenTheCollectionContains(array $items)
     {
         $unwrapped = array_map(function (Collaborator $c) {
@@ -70,5 +126,11 @@ class CollectionSpec extends ObjectBehavior
         }, $items);
 
         $this->beConstructedWith(new \ArrayIterator($unwrapped));
+    }
+
+    private function givenEntityHasCodepointWithValue(CodepointAssigned $entity, $value)
+    {
+        $entity->getCodepoint()
+            ->willReturn(Codepoint::fromInt($value));
     }
 }
