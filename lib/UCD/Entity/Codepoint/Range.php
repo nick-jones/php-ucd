@@ -22,7 +22,7 @@ class Range
      * @param Codepoint $end
      * @throws InvalidRangeException
      */
-    public function __construct(Codepoint $start, Codepoint $end)
+    protected function __construct(Codepoint $start, Codepoint $end)
     {
         if ($start->getValue() > $end->getValue()) {
             throw new InvalidRangeException();
@@ -30,6 +30,16 @@ class Range
 
         $this->start = $start;
         $this->end = $end;
+    }
+
+    /**
+     * @param Codepoint $start
+     * @param Codepoint $end
+     * @return self
+     */
+    public static function between(Codepoint $start, Codepoint $end)
+    {
+        return new self($start, $end);
     }
 
     /**
@@ -62,14 +72,14 @@ class Range
     public function expand()
     {
         return new Collection(
-            $this->allCodepoints()
+            $this->yieldCodepoints()
         );
     }
 
     /**
      * @return \Generator
      */
-    private function allCodepoints()
+    private function yieldCodepoints()
     {
         $start = $this->getStart()->getValue();
         $end = $this->getEnd()->getValue();

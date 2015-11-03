@@ -108,7 +108,7 @@ class CodepointAggregatingConsumer implements Consumer
             throw new UnexpectedValueException('Range values cannot be NULL');
         }
 
-        return new Range($this->rangeStart, $this->previous);
+        return Range::between($this->rangeStart, $this->previous);
     }
 
     /**

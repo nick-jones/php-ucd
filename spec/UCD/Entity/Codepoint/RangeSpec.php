@@ -18,7 +18,7 @@ class RangeSpec extends ObjectBehavior
         $start = Codepoint::fromInt(2);
         $end = Codepoint::fromInt(1);
 
-        $this->beConstructedWith($start, $end);
+        $this->givenTheRangeIsBetween($start, $end);
 
         $this->shouldThrow(InvalidRangeException::class)
             ->duringInstantiation();
@@ -29,7 +29,7 @@ class RangeSpec extends ObjectBehavior
         $start = Codepoint::fromInt(1);
         $end = Codepoint::fromInt(1);
 
-        $this->beConstructedWith($start, $end);
+        $this->givenTheRangeIsBetween($start, $end);
 
         $this->representsSingleCodepoint()
             ->shouldReturn(true);
@@ -40,7 +40,7 @@ class RangeSpec extends ObjectBehavior
         $start = Codepoint::fromInt(1);
         $end = Codepoint::fromInt(2);
 
-        $this->beConstructedWith($start, $end);
+        $this->givenTheRangeIsBetween($start, $end);
 
         $this->representsSingleCodepoint()
             ->shouldReturn(false);
@@ -51,9 +51,14 @@ class RangeSpec extends ObjectBehavior
         $start = Codepoint::fromInt(1);
         $end = Codepoint::fromInt(3);
 
-        $this->beConstructedWith($start, $end);
+        $this->givenTheRangeIsBetween($start, $end);
 
         $this->expand()
             ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(2), Codepoint::fromInt(3)]);
+    }
+
+    private function givenTheRangeIsBetween(Codepoint $start, Codepoint $end)
+    {
+        $this->beConstructedThrough('between', [$start, $end]);
     }
 }

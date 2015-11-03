@@ -80,8 +80,8 @@ class CollectionSpec extends ObjectBehavior
 
         $this->asCodepointRanges()
             ->shouldIterateLike([
-                new Codepoint\Range(Codepoint::fromInt(1), Codepoint::fromInt(2)),
-                new Codepoint\Range(Codepoint::fromInt(33), Codepoint::fromInt(33)),
+                Codepoint\Range::between(Codepoint::fromInt(1), Codepoint::fromInt(2)),
+                Codepoint\Range::between(Codepoint::fromInt(33), Codepoint::fromInt(33)),
             ]);
     }
 

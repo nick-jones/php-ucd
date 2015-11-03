@@ -23,7 +23,7 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_can_be_expanded_into_all_covered_codepoints()
     {
-        $range = new Range(Codepoint::fromInt(1), Codepoint::fromInt(3));
+        $range = Range::between(Codepoint::fromInt(1), Codepoint::fromInt(3));
 
         $this->givenTheCollectionContains([$range]);
 
@@ -33,8 +33,8 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_can_be_iterated_over()
     {
-        $range1 = new Range(Codepoint::fromInt(1), Codepoint::fromInt(3));
-        $range2 = new Range(Codepoint::fromInt(4), Codepoint::fromInt(5));
+        $range1 = Range::between(Codepoint::fromInt(1), Codepoint::fromInt(3));
+        $range2 = Range::between(Codepoint::fromInt(4), Codepoint::fromInt(5));
         $ranges = [$range1, $range2];
 
         $this->givenTheCollectionContains($ranges);
@@ -43,8 +43,8 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_exposes_a_count_of_the_ranges_it_holds()
     {
-        $range1 = new Range(Codepoint::fromInt(1), Codepoint::fromInt(3));
-        $range2 = new Range(Codepoint::fromInt(4), Codepoint::fromInt(5));
+        $range1 = Range::between(Codepoint::fromInt(1), Codepoint::fromInt(3));
+        $range2 = Range::between(Codepoint::fromInt(4), Codepoint::fromInt(5));
 
         $this->givenTheCollectionContains([$range1, $range2]);
         $this->shouldHaveCount(2);
@@ -52,8 +52,8 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_can_be_filtered_using_custom_filter_rules()
     {
-        $range1 = new Range(Codepoint::fromInt(1), Codepoint::fromInt(3));
-        $range2 = new Range(Codepoint::fromInt(4), Codepoint::fromInt(5));
+        $range1 = Range::between(Codepoint::fromInt(1), Codepoint::fromInt(3));
+        $range2 = Range::between(Codepoint::fromInt(4), Codepoint::fromInt(5));
 
         $filter = function (Range $range) {
             static $i = 0;
@@ -68,7 +68,7 @@ class CollectionSpec extends ObjectBehavior
 
     public function it_can_be_traversed_by_providing_a_callback()
     {
-        $this->givenTheCollectionContains([new Range(Codepoint::fromInt(1), Codepoint::fromInt(3))]);
+        $this->givenTheCollectionContains([Range::between(Codepoint::fromInt(1), Codepoint::fromInt(3))]);
         $count = 0;
         $callback = function (Range $r) use (&$count) { ++$count; };
 

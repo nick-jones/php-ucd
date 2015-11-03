@@ -48,9 +48,9 @@ class CodepointAggregatingConsumerSpec extends ObjectBehavior
 
         $this->getAggregated()
             ->shouldIterateLike([
-                new Range(Codepoint::fromInt(1), Codepoint::fromInt(3)),
-                new Range(Codepoint::fromInt(10), Codepoint::fromInt(11)),
-                new Range(Codepoint::fromInt(20), Codepoint::fromInt(20))
+                Range::between(Codepoint::fromInt(1), Codepoint::fromInt(3)),
+                Range::between(Codepoint::fromInt(10), Codepoint::fromInt(11)),
+                Range::between(Codepoint::fromInt(20), Codepoint::fromInt(20))
             ]);
     }
 
