@@ -2,7 +2,6 @@
 
 namespace UCD\Entity\Character;
 
-use UCD\Consumer\CodepointAccumulatingConsumer;
 use UCD\Consumer\CodepointAggregatingConsumer;
 use UCD\Consumer\Consumer;
 use UCD\Consumer\ConsumerInvoker;
@@ -11,59 +10,10 @@ use UCD\Consumer\RegexBuildingConsumer;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Codepoint\Range;
 use UCD\Entity\CodepointAssigned;
+use UCD\Entity\Collection\TraversableBackedCollection;
 
-class Collection implements \IteratorAggregate
+class Collection extends TraversableBackedCollection
 {
-    /**
-     * @var \Traversable
-     */
-    private $items;
-
-    /**
-     * @param \Traversable $items
-     */
-    public function __construct(\Traversable $items)
-    {
-        $this->items = $items;
-    }
-
-    /**
-     * @param callable $filter
-     * @return $this
-     */
-    public function filterWith(callable $filter)
-    {
-        return new static(
-            $this->applyFilter($filter)
-        );
-    }
-
-    /**
-     * @param callable $filter
-     * @return \Generator
-     */
-    private function applyFilter(callable $filter)
-    {
-        foreach ($this as $item) {
-            if (call_user_func($filter, $item) === true) {
-                yield $item;
-            }
-        }
-    }
-
-    /**
-     * @param callable $callback
-     * @return $this
-     */
-    public function traverseWith(callable $callback)
-    {
-        foreach ($this as $character) {
-            call_user_func($callback, $character);
-        }
-
-        return $this;
-    }
-
     /**
      * @param Consumer $consumer
      * @return $this
@@ -79,17 +29,6 @@ class Collection implements \IteratorAggregate
      * @return Codepoint\Collection|Codepoint[]
      */
     public function asCodepoints()
-    {
-        $consumer = new CodepointAccumulatingConsumer();
-        $this->traverseWithConsumer($consumer);
-
-        return $consumer->getCodepoints();
-    }
-
-    /**
-     * @return Codepoint\Collection|Codepoint[]
-     */
-    public function asCodepointsLazy()
     {
         return new Codepoint\Collection(
             $this->yieldCodepoints()
@@ -128,14 +67,6 @@ class Collection implements \IteratorAggregate
         $this->traverseWithConsumer($consumer);
 
         return $consumer->getCharacterClass();
-    }
-
-    /**
-     * @return \Traversable
-     */
-    public function getIterator()
-    {
-        return $this->items;
     }
 
     /**

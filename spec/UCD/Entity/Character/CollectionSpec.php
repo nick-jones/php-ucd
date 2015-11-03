@@ -9,21 +9,22 @@ use UCD\Consumer\Consumer;
 use UCD\Entity\Character\Collection;
 use UCD\Entity\Codepoint;
 use UCD\Entity\CodepointAssigned;
+use UCD\Entity\Collection as CollectionInterface;
 
 /**
  * @mixin Collection
  */
 class CollectionSpec extends ObjectBehavior
 {
-    public function it_should_be_traversable()
+    public function it_should_implement_the_collection_interface()
     {
         $this->givenTheCollectionContains([]);
-        $this->shouldImplement(\Traversable::class);
+        $this->shouldImplement(CollectionInterface::class);
     }
 
     public function it_can_be_filtered_using_custom_filter_rules(CodepointAssigned $c1, CodepointAssigned $c2)
     {
-        $filter = function () {
+        $filter = function (CodepointAssigned $c) {
             static $i = 0;
             return $i++ === 0;
         };
@@ -34,17 +35,12 @@ class CollectionSpec extends ObjectBehavior
             ->shouldIterateLike([$c1]);
     }
 
-    public function it_can_be_traversed_by_providing_a_callback(
-        CodepointAssigned $character
-    ) {
+    public function it_can_be_traversed_by_providing_a_callback(CodepointAssigned $character)
+    {
         // TODO: use a prediction on an invokable class once phpspec __invoke fix is tagged.
-
         $this->givenTheCollectionContains([$character]);
         $count = 0;
-
-        $callback = function (CodepointAssigned $c) use (&$count) {
-            ++$count;
-        };
+        $callback = function (CodepointAssigned $c) use (&$count) { ++$count; };
 
         $this->traverseWith($callback);
 
@@ -53,10 +49,8 @@ class CollectionSpec extends ObjectBehavior
         }
     }
 
-    public function it_can_be_traversed_by_providing_a_consumer(
-        Consumer $consumer,
-        CodepointAssigned $character
-    ) {
+    public function it_can_be_traversed_by_providing_a_consumer(Consumer $consumer, CodepointAssigned $character)
+    {
         $this->givenTheCollectionContains([$character]);
         $this->traverseWithConsumer($consumer);
 
@@ -64,27 +58,13 @@ class CollectionSpec extends ObjectBehavior
             ->shouldHaveBeenCalled();
     }
 
-    public function it_can_be_reduced_to_codepoints(
-        CodepointAssigned $character1,
-        CodepointAssigned $character2
-    ) {
+    public function it_can_be_reduced_to_codepoints(CodepointAssigned $character1, CodepointAssigned $character2)
+    {
         $this->givenEntityHasCodepointWithValue($character1, 1);
         $this->givenEntityHasCodepointWithValue($character2, 10);
         $this->givenTheCollectionContains([$character1, $character2]);
 
         $this->asCodepoints()
-            ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(10)]);
-    }
-
-    public function it_can_be_reduced_to_codepoints_without_accumulating_all_in_memory(
-        CodepointAssigned $character1,
-        CodepointAssigned $character2
-    ) {
-        $this->givenEntityHasCodepointWithValue($character1, 1);
-        $this->givenEntityHasCodepointWithValue($character2, 10);
-        $this->givenTheCollectionContains([$character1, $character2]);
-
-        $this->asCodepointsLazy()
             ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(10)]);
     }
 
@@ -117,6 +97,14 @@ class CollectionSpec extends ObjectBehavior
 
         $this->asRegexCharacterClass()
             ->shouldEqual('[\x{1}-\x{2}\x{21}]');
+    }
+
+    public function it_can_be_transformed_to_an_array(CodepointAssigned $character)
+    {
+        $this->givenTheCollectionContains([$character]);
+
+        $this->toArray()
+            ->shouldReturn([$character]);
     }
 
     private function givenTheCollectionContains(array $items)

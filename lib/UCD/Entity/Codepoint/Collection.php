@@ -3,45 +3,18 @@
 namespace UCD\Entity\Codepoint;
 
 use UCD\Entity\Codepoint;
+use UCD\Entity\Collection\TraversableBackedCollection;
 
-class Collection implements \IteratorAggregate, \Countable
+class Collection extends TraversableBackedCollection
 {
-    /**
-     * @var Codepoint[]|\Traversable
-     */
-    private $codepoints;
-
-    /**
-     * @param Codepoint[]|\Traversable $codepoints
-     */
-    public function __construct(\Traversable $codepoints)
-    {
-        $this->codepoints = $codepoints;
-    }
-
     /**
      * @return int[]|\Traversable
      */
     public function flatten()
     {
-        foreach ($this->codepoints as $codepoint) {
+        /** @var Codepoint $codepoint */
+        foreach ($this as $codepoint) {
             yield $codepoint->getValue();
         }
-    }
-
-    /**
-     * @return \Traversable
-     */
-    public function getIterator()
-    {
-        return $this->codepoints;
-    }
-
-    /**
-     * @return int
-     */
-    public function count()
-    {
-        return iterator_count($this->codepoints);
     }
 }

@@ -8,29 +8,24 @@ use Prophecy\Argument;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Codepoint\Range;
 use UCD\Entity\Codepoint\Range\Collection;
+use UCD\Entity\Collection as CollectionInterface;
 
 /**
  * @mixin Collection
  */
 class CollectionSpec extends ObjectBehavior
 {
-    public function it_is_traversable()
+    public function it_should_implement_the_collection_interface()
     {
-        $this->beConstructedWith(new \ArrayIterator([]));
-        $this->shouldImplement(\Traversable::class);
-    }
-
-    public function it_is_countable()
-    {
-        $this->beConstructedWith(new \ArrayIterator([]));
-        $this->shouldImplement(\Countable::class);
+        $this->givenTheCollectionContains([]);
+        $this->shouldImplement(CollectionInterface::class);
     }
 
     public function it_can_be_expanded_into_all_covered_codepoints()
     {
         $range = new Range(Codepoint::fromInt(1), Codepoint::fromInt(3));
 
-        $this->beConstructedWith(new \ArrayIterator([$range]));
+        $this->givenTheCollectionContains([$range]);
 
         $this->expand()
             ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(2), Codepoint::fromInt(3)]);
@@ -42,8 +37,7 @@ class CollectionSpec extends ObjectBehavior
         $range2 = new Range(Codepoint::fromInt(4), Codepoint::fromInt(5));
         $ranges = [$range1, $range2];
 
-        $this->beConstructedWith(new \ArrayIterator($ranges));
-
+        $this->givenTheCollectionContains($ranges);
         $this->shouldIterateLike($ranges);
     }
 
@@ -52,8 +46,41 @@ class CollectionSpec extends ObjectBehavior
         $range1 = new Range(Codepoint::fromInt(1), Codepoint::fromInt(3));
         $range2 = new Range(Codepoint::fromInt(4), Codepoint::fromInt(5));
 
-        $this->beConstructedWith(new \ArrayIterator([$range1, $range2]));
-
+        $this->givenTheCollectionContains([$range1, $range2]);
         $this->shouldHaveCount(2);
+    }
+
+    public function it_can_be_filtered_using_custom_filter_rules()
+    {
+        $range1 = new Range(Codepoint::fromInt(1), Codepoint::fromInt(3));
+        $range2 = new Range(Codepoint::fromInt(4), Codepoint::fromInt(5));
+
+        $filter = function (Range $range) {
+            static $i = 0;
+            return $i++ === 0;
+        };
+
+        $this->givenTheCollectionContains([$range1, $range2]);
+
+        $this->filterWith($filter)
+            ->shouldIterateLike([$range1]);
+    }
+
+    public function it_can_be_traversed_by_providing_a_callback()
+    {
+        $this->givenTheCollectionContains([new Range(Codepoint::fromInt(1), Codepoint::fromInt(3))]);
+        $count = 0;
+        $callback = function (Range $r) use (&$count) { ++$count; };
+
+        $this->traverseWith($callback);
+
+        if ($count !== 1) {
+            throw new \RuntimeException();
+        }
+    }
+
+    private function givenTheCollectionContains(array $ranges)
+    {
+        $this->beConstructedWith(new \ArrayIterator($ranges));
     }
 }

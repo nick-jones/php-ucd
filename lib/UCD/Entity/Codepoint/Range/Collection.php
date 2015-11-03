@@ -4,22 +4,10 @@ namespace UCD\Entity\Codepoint\Range;
 
 use UCD\Entity\Codepoint;
 use UCD\Entity\Codepoint\Range;
+use UCD\Entity\Collection\TraversableBackedCollection;
 
-class Collection implements \IteratorAggregate, \Countable
+class Collection extends TraversableBackedCollection
 {
-    /**
-     * @var \Traversable|Range[]
-     */
-    private $ranges;
-
-    /**
-     * @param Range[]|\Traversable $ranges
-     */
-    public function __construct(\Traversable $ranges)
-    {
-        $this->ranges = $ranges;
-    }
-
     /**
      * @return Codepoint[]|Codepoint\Collection
      */
@@ -35,26 +23,11 @@ class Collection implements \IteratorAggregate, \Countable
      */
     private function yieldCodepoints()
     {
-        foreach ($this->ranges as $range) {
+        /** @var Range $range */
+        foreach ($this as $range) {
             foreach ($range->expand() as $codepoint) {
                 yield $codepoint;
             }
         }
-    }
-
-    /**
-     * @return \Traversable
-     */
-    public function getIterator()
-    {
-        return $this->ranges;
-    }
-
-    /**
-     * @return int
-     */
-    public function count()
-    {
-        return iterator_count($this->ranges);
     }
 }
