@@ -21,9 +21,19 @@ class Collection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return Codepoint[]|\Traversable
+     * @return Codepoint[]|Codepoint\Collection
      */
     public function expand()
+    {
+        return new Codepoint\Collection(
+            $this->yieldCodepoints()
+        );
+    }
+
+    /**
+     * @return \Generator
+     */
+    private function yieldCodepoints()
     {
         foreach ($this->ranges as $range) {
             foreach ($range->expand() as $codepoint) {
