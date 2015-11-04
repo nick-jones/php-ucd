@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\WritableRepository;
+use UCD\Exception\InvalidArgumentException;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 
 class RepositoryTransferCommand extends RepositoryUtilisingCommand implements \SplObserver
@@ -34,6 +35,7 @@ class RepositoryTransferCommand extends RepositoryUtilisingCommand implements \S
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -41,15 +43,16 @@ class RepositoryTransferCommand extends RepositoryUtilisingCommand implements \S
         $from = $input->getArgument(self::ARGUMENT_FROM);
         $to = $input->getArgument(self::ARGUMENT_TO);
 
+        if ($from === $to) {
+            throw new InvalidArgumentException('Repositories must differ');
+        }
+
         $source = $this->getRepositoryByName($from);
         $destination = $this->getWritableRepositoryByName($to);
+        $this->setupProgressBar($output, $source, $destination);
 
-        $this->setupProgressBar($output, $source);
-        $destination->attach($this);
-
-        $destination->addMany(
-            $source->getAll()
-        );
+        $characters = $source->getAll();
+        $destination->addMany($characters);
 
         $this->tearDownProgressBar();
 
@@ -64,12 +67,15 @@ class RepositoryTransferCommand extends RepositoryUtilisingCommand implements \S
     /**
      * @param OutputInterface $output
      * @param Repository $source
+     * @param WritableRepository $destination
      */
-    private function setupProgressBar(OutputInterface $output, Repository $source)
+    private function setupProgressBar(OutputInterface $output, Repository $source, WritableRepository $destination)
     {
         $this->progress = new ProgressBar($output, count($source));
         $this->progress->setMessage('Generating database...');
         $this->progress->start();
+
+        $destination->attach($this);
     }
 
     private function tearDownProgressBar()
