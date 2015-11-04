@@ -22,10 +22,9 @@ class SearchCommandTest extends BaseTestCase
 
     protected function setUp()
     {
-        $this->container = new Container();
         $application = new Application();
-        $application->add(new \UCD\Console\Application\Command\SearchCommand($this->container));
-        $command = $application->get(\UCD\Console\Application\Command\SearchCommand::COMMAND_NAME);
+        $application->add(new SearchCommand($this->container));
+        $command = $application->get(SearchCommand::COMMAND_NAME);
         $this->commandTester = new CommandTester($command);
     }
 
@@ -45,7 +44,7 @@ class SearchCommandTest extends BaseTestCase
         $this->commandTester->execute([
             'command' => SearchCommand::COMMAND_NAME,
             '--from' => 'test',
-            '--enc' => \UCD\Console\Application\Command\SearchCommand::ENCODING_DECIMAL,
+            '--enc' => SearchCommand::ENCODING_DECIMAL,
             'codepoint' => $codepoint->getValue()
         ]);
 
@@ -66,7 +65,7 @@ class SearchCommandTest extends BaseTestCase
         $this->container['repository.test'] = new InMemoryRepository();
 
         $this->commandTester->execute([
-            'command' => \UCD\Console\Application\Command\SearchCommand::COMMAND_NAME,
+            'command' => SearchCommand::COMMAND_NAME,
             '--from' => 'test',
             'codepoint' => '1'
         ]);

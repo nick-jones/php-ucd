@@ -8,9 +8,9 @@ use UCD\Console\Application\Container\ServiceProvider;
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
 use UCD\Entity\Character\Properties;
+use UCD\Console\Application\Container;
 
 use Hamcrest\MatcherAssert as ha;
-use Pimple\Container;
 use VirtualFileSystem\FileSystem;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase

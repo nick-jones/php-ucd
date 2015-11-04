@@ -2,9 +2,9 @@
 
 namespace UCD\Console\Application\Command;
 
-use Pimple\Container;
 use Symfony\Component\Console\Command\Command;
 
+use UCD\Console\Application\Container;
 use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\WritableRepository;
 use UCD\Exception\InvalidArgumentException;
@@ -63,13 +63,15 @@ abstract class RepositoryUtilisingCommand extends Command
      */
     protected function getRepositoryNames()
     {
-        $filter = function ($key) {
-            return strpos($key, 'repository.') === 0;
+        $keys = $this->container->idsByPrefix('repository');
+
+        $mapper = function ($key) {
+            return explode('.', $key)[1];
         };
 
-        $keys = array_filter($this->container->keys(), $filter);
-
-        return $this->mapContainerKeyNamesToRepositoryNames($keys);
+        return array_values(
+            array_map($mapper, $keys)
+        );
     }
 
     /**
@@ -82,21 +84,6 @@ abstract class RepositoryUtilisingCommand extends Command
         };
 
         return array_filter($this->getRepositoryNames(), $filter);
-    }
-
-    /**
-     * @param string[] $keys
-     * @return string[]
-     */
-    private function mapContainerKeyNamesToRepositoryNames(array $keys)
-    {
-        $mapper = function ($key) {
-            return explode('.', $key)[1];
-        };
-
-        return array_values(
-            array_map($mapper, $keys)
-        );
     }
 
     /**
