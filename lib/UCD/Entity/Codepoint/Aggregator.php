@@ -1,13 +1,12 @@
 <?php
 
-namespace UCD\Consumer;
+namespace UCD\Entity\Codepoint;
 
 use UCD\Entity\Codepoint;
 use UCD\Entity\Codepoint\Range;
-use UCD\Entity\CodepointAssigned;
 use UCD\Exception\UnexpectedValueException;
 
-class CodepointAggregatingConsumer implements Consumer
+class Aggregator
 {
     /**
      * @var Range[]
@@ -25,13 +24,12 @@ class CodepointAggregatingConsumer implements Consumer
     private $rangeStart;
 
     /**
-     * {@inheritDoc}
+     * @param Codepoint $codepoint
      */
-    public function consume(CodepointAssigned $entity)
+    public function addCodepoint(Codepoint $codepoint)
     {
-        $codepoint = $entity->getCodepoint();
         $shouldCloseCurrentRange = $this->shouldCloseCurrentRangeWith($codepoint);
-        $shouldOpenNewRange = !$this->hasReceivedCharacters() || $shouldCloseCurrentRange;
+        $shouldOpenNewRange = !$this->hasOpenRange() || $shouldCloseCurrentRange;
 
         if ($shouldCloseCurrentRange) {
             $this->closeCurrentRange();
@@ -47,7 +45,7 @@ class CodepointAggregatingConsumer implements Consumer
     /**
      * @return bool
      */
-    private function hasReceivedCharacters()
+    private function hasOpenRange()
     {
         return $this->previous !== null;
     }
@@ -58,7 +56,7 @@ class CodepointAggregatingConsumer implements Consumer
      */
     private function shouldCloseCurrentRangeWith(Codepoint $codepoint)
     {
-        return $this->hasReceivedCharacters()
+        return $this->hasOpenRange()
             && !$this->isPlusOneOfPrevious($codepoint);
     }
 
@@ -118,7 +116,7 @@ class CodepointAggregatingConsumer implements Consumer
     {
         $aggregated = $this->aggregated;
 
-        if ($this->hasReceivedCharacters()) {
+        if ($this->hasOpenRange()) {
             array_push($aggregated, $this->getCurrentRange());
         }
 

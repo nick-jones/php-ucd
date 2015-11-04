@@ -4,6 +4,7 @@ namespace UCD\Entity\Codepoint\Range;
 
 use UCD\Entity\Codepoint;
 use UCD\Entity\Codepoint\Range;
+use UCD\Entity\Codepoint\RegexBuilder;
 use UCD\Entity\Collection\TraversableBackedCollection;
 
 class Collection extends TraversableBackedCollection
@@ -29,5 +30,19 @@ class Collection extends TraversableBackedCollection
                 yield $codepoint;
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function toRegexCharacterClass()
+    {
+        $regexBuilder = new RegexBuilder();
+
+        $this->traverseWith(function (Range $range) use ($regexBuilder) {
+            $regexBuilder->addRange($range);
+        });
+
+        return $regexBuilder->getCharacterClass();
     }
 }

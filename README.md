@@ -25,11 +25,11 @@ The primary interface to utilise is `UCD\Database`. This provides a number of me
 - `Database::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
 - `Database::onlySurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
 
-The `UCD\Entity\Character\Collection` class, returned by a number of methods, provides methods for filtering and
-traversal.
+The `UCD\Entity\Character\Collection` class, returned by a number of methods, provides methods for filtering,
+traversal, codepoint extractions, amongst other things.
 
 It is likely that you will want to leverage the default `Character\Repository` for resolution of characters, etc, in
-which case, calling `UCD\Collection::fromDisk()` will give you an instance backed by the `PHPFileRepository`. You can,
+which case, calling `UCD\Collection::fromDisk()` will give you an instance backed by `FileRepository`. You can,
 of course, leverage a different `Character\Repository` implementation, if you so wish, by providing it to the
 constructor of `UCD\Database`.
 
@@ -107,16 +107,14 @@ echo $character->getCodepoint(); // U+2603
 
 #### Regex Building
 
-A traverser is available to help build regular expressions based on codepoints within the `Collection`. For example,
-if you wanted to produce a regular expression that matched numeric flavour bengali characters, then you could run
-something along the lines of:
+The library provides a means to produce regular expression characters classes based codepoints that have been
+extracted or aggregated from a character collection. For example, if you wanted to produce a regular expression
+that matched numeric flavour bengali characters, then you could use something along the lines of:
 
 ```php
+use UCD\Database;
 use UCD\Entity\Character;
 use UCD\Entity\Character\Properties\General\Block;
-use UCD\Database;
-use UCD\Consumer\CodepointAggregatingConsumer;
-use UCD\Consumer\RegexBuildingConsumer;
 
 $filter = function (Character $character) {
     $properties = $character->getProperties();
@@ -127,16 +125,13 @@ $filter = function (Character $character) {
         && $block->equals(Block::fromValue(Block::BENGALI));
 };
 
-$regexBuilder = new RegexBuildingConsumer(
-    new CodepointAggregatingConsumer()
-);
-
-Database::fromDisk()
+$cc = Database::fromDisk()
     ->onlyCharacters()
     ->filterWith($filter)
-    ->traverseWithConsumer($regexBuilder);
+    ->extractCodepoints()
+    ->aggregate()
+    ->toRegexCharacterClass();
 
-$cc = $regexBuilder->getCharacterClass();
 $regex = sprintf('/^%s$/u', $cc);
 
 var_dump($regex); // string(37) "/^[\x{9E6}-\x{9EF}\x{9F4}-\x{9F9}]$/u"

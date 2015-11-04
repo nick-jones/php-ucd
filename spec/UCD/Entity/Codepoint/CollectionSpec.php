@@ -68,6 +68,34 @@ class CollectionSpec extends ObjectBehavior
         }
     }
 
+    public function it_can_be_aggregated_to_codepoint_ranges()
+    {
+        $this->givenTheCollectionContains([
+            Codepoint::fromInt(1),
+            Codepoint::fromInt(2),
+            Codepoint::fromInt(33)
+        ]);
+
+        $this->aggregate()
+            ->shouldIterateLike([
+                Codepoint\Range::between(Codepoint::fromInt(1), Codepoint::fromInt(2)),
+                Codepoint\Range::between(Codepoint::fromInt(33), Codepoint::fromInt(33)),
+            ]);
+    }
+
+    public function it_can_be_reduced_to_a_regular_expression_character_class()
+    {
+        $this->givenTheCollectionContains([
+            Codepoint::fromInt(1),
+            Codepoint::fromInt(2),
+            Codepoint::fromInt(3),
+            Codepoint::fromInt(33)
+        ]);
+
+        $this->toRegexCharacterClass()
+            ->shouldEqual('[\x{1}\x{2}\x{3}\x{21}]');
+    }
+
     private function givenTheCollectionContains(array $codepoints)
     {
         $this->beConstructedWith(new \ArrayIterator($codepoints));

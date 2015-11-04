@@ -79,6 +79,17 @@ class CollectionSpec extends ObjectBehavior
         }
     }
 
+    public function it_can_be_reduced_to_a_regular_expression_character_class()
+    {
+        $this->givenTheCollectionContains([
+            Range::between(Codepoint::fromInt(1), Codepoint::fromInt(3)),
+            Range::between(Codepoint::fromInt(33), Codepoint::fromInt(33))
+        ]);
+
+        $this->toRegexCharacterClass()
+            ->shouldEqual('[\x{1}-\x{3}\x{21}]');
+    }
+
     private function givenTheCollectionContains(array $ranges)
     {
         $this->beConstructedWith(new \ArrayIterator($ranges));

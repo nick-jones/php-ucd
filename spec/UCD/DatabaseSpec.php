@@ -7,13 +7,12 @@ use PhpSpec\Wrapper\Collaborator;
 use Prophecy\Argument;
 
 use UCD\Database;
-use UCD\Consumer\Consumer;
 
 use UCD\Entity\Character;
 use UCD\Entity\Character\Collection;
+use UCD\Entity\Character\Repository;
 use UCD\Entity\Character\Repository\CharacterNotFoundException;
 use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Repository;
 use UCD\Entity\CodepointAssigned;
 use UCD\Entity\NonCharacter;
 use UCD\Entity\Surrogate;

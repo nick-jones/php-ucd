@@ -6,13 +6,13 @@ interface Collection extends \IteratorAggregate, \Countable
 {
     /**
      * @param callable $filter
-     * @return $this
+     * @return static
      */
     public function filterWith(callable $filter);
 
     /**
      * @param callable $callback
-     * @return $this
+     * @return static
      */
     public function traverseWith(callable $callback);
 
