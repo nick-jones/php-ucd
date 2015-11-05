@@ -52,6 +52,24 @@ class Codepoint implements Comparable
     }
 
     /**
+     * @param string $value
+     * @return Codepoint
+     * @throws InvalidArgumentException
+     */
+    public static function fromUTF8($value)
+    {
+        if (mb_strlen($value) !== 1) {
+            throw new InvalidArgumentException('Single character must be provided');
+        }
+
+        $unpacked = unpack('N', iconv('UTF-8', 'UTF-32BE', $value));
+
+        return new self(
+            array_shift($unpacked)
+        );
+    }
+
+    /**
      * @return int
      */
     public function getValue()

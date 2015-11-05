@@ -47,6 +47,22 @@ class CodepointSpec extends ObjectBehavior
             ->shouldReturn(0x10);
     }
 
+    public function it_can_be_created_from_a_UTF8_encoded_character()
+    {
+        $this->beConstructedThrough('fromUTF8', ['£']);
+
+        $this->getValue()
+            ->shouldReturn(0xA3);
+    }
+
+    public function it_throws_if_the_provided_UTF8_string_is_not_exactly_one_character()
+    {
+        $this->beConstructedThrough('fromUTF8', ['£$']);
+
+        $this->shouldThrow(InvalidArgumentException::class)
+            ->duringInstantiation();
+    }
+
     public function it_should_be_comparable()
     {
         $this->beConstructedThrough('fromInt', [0x10]);
