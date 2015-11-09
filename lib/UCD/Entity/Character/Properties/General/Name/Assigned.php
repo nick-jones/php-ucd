@@ -26,10 +26,18 @@ class Assigned implements Name
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString()
+    {
+        return $this->getValue();
     }
 }

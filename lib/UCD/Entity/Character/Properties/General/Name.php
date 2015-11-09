@@ -5,7 +5,12 @@ namespace UCD\Entity\Character\Properties\General;
 interface Name
 {
     /**
-     * @return string
+     * @return string|null
      */
     public function getValue();
+
+    /**
+     * @return string
+     */
+    public function __toString();
 }

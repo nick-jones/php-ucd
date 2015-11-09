@@ -7,10 +7,18 @@ use UCD\Entity\Character\Properties\General\Name;
 class Unassigned implements Name
 {
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getValue()
     {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString()
+    {
+        return '';
     }
 }
