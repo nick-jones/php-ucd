@@ -100,9 +100,15 @@ use UCD\Entity\Codepoint;
 
 $collection = Database::fromDisk();
 $codepoint = Codepoint::fromInt(9731);
+// ..or $codepoint = Codepoint::fromHex('2603');
+// ..or $codepoint = Codepoint::fromUTF8('☃');
 $character = $collection->getCharacterByCodepoint($codepoint);
+$properties = $character->getProperties();
+$general = $properties->getGeneral();
+$names = $general->getNames();
 
-echo $character->getCodepoint(); // U+2603
+// prints "U+2603: SNOWMAN"
+printf("%s: %s\n", $character->getCodepoint(), $names->getPrimary());
 ```
 
 #### Regex Building
