@@ -13,7 +13,7 @@ class ConfigurationProvider implements ServiceProviderInterface
     const CONFIG_KEY_XML_PATH = 'config.repository.xml.ucd_file_path';
 
     /**
-     * @param Container $pimple
+     * {@inheritDoc}
      */
     public function register(Container $pimple)
     {

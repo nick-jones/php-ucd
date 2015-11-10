@@ -7,8 +7,9 @@ define('PHPUCD_UNICODE_VERSION', '8.0');
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $container = new \UCD\Console\Application\Container();
-$container->register(new \UCD\Console\Application\Container\ServiceProvider());
+$container->register(new \UCD\Console\Application\Container\ApplicationServiceProvider());
 $container->register(new \UCD\Console\Application\Container\ConfigurationProvider());
+$container->register(new \UCD\Console\Application\Container\RepositoryServiceProvider());
 
 $application = $container['application.ucd'];
 $input = $container['symfony.input'];

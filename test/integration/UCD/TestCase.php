@@ -2,8 +2,9 @@
 
 namespace integration\UCD;
 
+use UCD\Console\Application\Container\ApplicationServiceProvider;
 use UCD\Console\Application\Container\ConfigurationProvider;
-use UCD\Console\Application\Container\ServiceProvider;
+use UCD\Console\Application\Container\RepositoryServiceProvider;
 
 use UCD\Entity\Character;
 use UCD\Entity\Codepoint;
@@ -43,8 +44,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function registerContainerProviders()
     {
-        $this->container->register(new ServiceProvider());
-        $this->container->register(new ConfigurationProvider());
+        $this->container->register(new ApplicationServiceProvider());
+        $this->container->register(new RepositoryServiceProvider());
     }
 
     /**

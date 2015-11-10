@@ -32,8 +32,8 @@ XML;
         $path = $this->fs->path('/ucd.xml');
         file_put_contents($path, self::FILE_CONTENT);
 
-        $this->registerContainerProviders();
         $this->container[ConfigurationProvider::CONFIG_KEY_XML_PATH] = $path;
+        $this->registerContainerProviders();
         $this->repository = $this->container['repository.xml'];
     }
 }
