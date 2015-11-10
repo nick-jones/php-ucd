@@ -2,6 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 
+use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\RuntimeException;
 
 class XMLReader extends \XMLReader
@@ -25,10 +26,15 @@ class XMLReader extends \XMLReader
      * @param string $uri
      * @param string|null $encoding
      * @param int $options
+     * @throws InvalidArgumentException
      * @throws RuntimeException
      */
     public function __construct($uri, $encoding = null, $options = 0)
     {
+        if (!is_readable($uri)) {
+            throw new InvalidArgumentException(sprintf('Invalid URI: %s', $uri));
+        }
+
         $result = $this->open($uri, $encoding, $options);
 
         if ($result !== true) {
