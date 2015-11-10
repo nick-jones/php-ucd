@@ -58,7 +58,7 @@ class Codepoint implements Comparable
      */
     public static function fromUTF8($value)
     {
-        if (mb_strlen($value) !== 1) {
+        if (iconv_strlen($value, 'UTF-8') !== 1) {
             throw new InvalidArgumentException('Single character must be provided');
         }
 
