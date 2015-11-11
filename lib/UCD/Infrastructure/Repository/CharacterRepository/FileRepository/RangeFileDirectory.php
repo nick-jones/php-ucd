@@ -31,7 +31,7 @@ abstract class RangeFileDirectory
      * @param int $total
      * @return RangeFile
      */
-    protected abstract function createFileFromRangeAndTotal(Range $range, $total);
+    abstract protected function createFileFromRangeAndTotal(Range $range, $total);
 
     /**
      * @param Range $range
