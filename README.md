@@ -4,14 +4,14 @@
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/nick-jones/php-ucd.svg?style=flat-square)](https://scrutinizer-ci.com/g/nick-jones/php-ucd/)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat-square)](https://php.net/)
 
-This project aims to provide a PHP interface into the [Unicode Character Database](http://unicode.org/ucd/) (UCD).
+This project aims to present a PHP interface into the [Unicode Character Database](http://unicode.org/ucd/) (UCD).
 It provides a means to lookup, filter, and interrogate the metadata of characters that reside within the UCD.
-
-This is still work-in-progress, and not yet intended for general purpose use.
 
 ## Installation
 
-This will be added to Packagist once initial development is complete.
+You can install this extension via [composer](http://getcomposer.org):
+
+`composer require nick-jones/php-ucd`
 
 ## Usage
 
@@ -36,9 +36,17 @@ constructor of `UCD\Database`.
 Because this project makes good use of [generators](https://php.net/generators), the memory footprint of interrogating
 the dataset is fairly nominal.
 
-### Examples
+## Caveats
 
-#### Manual Filtering + Traversal
+As of Unicode 8.0 there are > 260,000 items assigned codepoints. Reading, filtering and traversing all of these will
+take a few seconds. As such, if your intention is to identify items by filtering rules, you would be well advised to
+cache the output in some suitable form (e.g. build a regex, or PHP array of codepoints) which can then be interrogated,
+rather than always returning to filter and traverse the database. If your intention is to perform lookup by codepoint,
+then it is no problem to call into this library when and as required, as this is an efficient operation.
+
+## Examples
+
+### Manual Filtering + Traversal
 
 Say you wish to dump all characters that hold a numeric property and reside outside of the Basic Latin (ASCII) block. 
 You could simply leverage the `Collection::filterWith(callable $filter)` method to interrogate the properties of each
@@ -90,7 +98,7 @@ Database::fromDisk()
 //  <snip>
 ```
 
-#### Codepoint Lookup
+### Codepoint Lookup
 
 Locating an individual character by its codepoint value is trivial:
 
@@ -111,7 +119,7 @@ $names = $general->getNames();
 printf("%s: %s\n", $character->getCodepoint(), $names->getPrimary());
 ```
 
-#### Regex Building
+### Regex Building
 
 The library provides a means to produce regular expression characters classes based codepoints that have been
 extracted or aggregated from a character collection. For example, if you wanted to produce a regular expression
@@ -145,7 +153,7 @@ var_dump(preg_match($regex, '১')); // int(1)
 var_dump(preg_match($regex, '1')); // int(0)
 ```
 
-### Executable
+## Executable
 
 The primary intention of this project is to act as a library, however a small utility command is available for testing
 and database generation/manipulation purposes. `bin/ucd search <codepoint>` will dump character information, and
@@ -154,8 +162,8 @@ Please run `bin/ucd` for more detailed help.
 
 ## Properties
 
-The intention of the make all character properties, as described in
-[Unicode Standard Annex #44, Unicode Character Database - Properties](http://www.unicode.org/reports/tr44/) available
+The intention of the most interesting of the available character properties, as described in
+[Unicode Standard Annex #44, Unicode Character Database - Properties](http://www.unicode.org/reports/tr44/), available
 for interrogation. There are, however, a good quantity of them, so this remains work in progress. The following are
 currently covered:
 
