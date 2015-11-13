@@ -9,7 +9,7 @@ It provides a means to lookup, filter, and interrogate the metadata of character
 
 ## Installation
 
-You can install this extension via [composer](http://getcomposer.org):
+You can install this library via [composer](http://getcomposer.org):
 
 `composer require nick-jones/php-ucd`
 
