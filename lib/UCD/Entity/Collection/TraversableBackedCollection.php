@@ -4,7 +4,7 @@ namespace UCD\Entity\Collection;
 
 use UCD\Entity\Collection;
 
-abstract class TraversableBackedCollection implements Collection
+abstract class TraversableBackedCollection implements SnapshotCapableCollection
 {
     /**
      * @var \Traversable
@@ -52,6 +52,16 @@ abstract class TraversableBackedCollection implements Collection
         }
 
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function takeSnapshot()
+    {
+        return new static(
+            new \ArrayIterator($this->toArray())
+        );
     }
 
     /**
