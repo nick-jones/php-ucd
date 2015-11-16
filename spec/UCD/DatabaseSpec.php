@@ -109,6 +109,16 @@ class DatabaseSpec extends ObjectBehavior
             ->shouldIterateLike([$c2]);
     }
 
+    public function it_provides_the_database_size()
+    {
+        $this->repository
+            ->count()
+            ->willReturn(1);
+
+        $this->getSize()
+            ->shouldReturn(1);
+    }
+
     private function givenTheRepositoryContains(array $items)
     {
         $unwrapped = array_map(function (Collaborator $c) {

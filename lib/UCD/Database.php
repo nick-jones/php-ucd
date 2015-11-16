@@ -120,6 +120,14 @@ class Database
     }
 
     /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return count($this->sourceRepository);
+    }
+
+    /**
      * @return Repository
      */
     private static function createFileRepository()
