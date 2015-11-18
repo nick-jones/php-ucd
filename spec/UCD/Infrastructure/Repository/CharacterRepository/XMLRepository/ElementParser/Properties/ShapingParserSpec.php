@@ -3,10 +3,10 @@
 namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties;
 
 use PhpSpec\ObjectBehavior;
-use UCD\Entity\Character\Properties\Shaping;
-use UCD\Entity\Character\Properties\Shaping\JoiningGroup;
-use UCD\Entity\Character\Properties\Shaping\JoiningType;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character\Properties\Shaping;
+use UCD\Unicode\Character\Properties\Shaping\JoiningGroup;
+use UCD\Unicode\Character\Properties\Shaping\JoiningType;
+use UCD\Unicode\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\ShapingParser;
 
 /**

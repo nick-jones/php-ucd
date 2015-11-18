@@ -2,8 +2,8 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
-use UCD\Entity\Codepoint;
-use UCD\Entity\Surrogate;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\Surrogate;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\GeneralParser;
 

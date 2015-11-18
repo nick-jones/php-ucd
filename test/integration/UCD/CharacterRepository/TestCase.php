@@ -4,11 +4,11 @@ namespace integration\UCD\CharacterRepository;
 
 use integration\UCD\TestCase as BaseTestCase;
 
-use UCD\Entity\Character;
-use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Repository;
-use UCD\Entity\Character\Repository\CharacterNotFoundException;
-use UCD\Entity\Character\WritableRepository;
+use UCD\Unicode\Character;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\Character\Repository;
+use UCD\Unicode\Character\Repository\CharacterNotFoundException;
+use UCD\Unicode\Character\WritableRepository;
 
 use Hamcrest\MatcherAssert as ha;
 use Hamcrest\Matchers as hm;

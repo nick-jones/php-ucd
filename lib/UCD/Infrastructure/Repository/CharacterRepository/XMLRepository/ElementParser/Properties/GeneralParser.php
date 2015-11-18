@@ -2,14 +2,14 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties;
 
-use UCD\Entity\Character\Properties\General;
-use UCD\Entity\Character\Properties\General\Block;
-use UCD\Entity\Character\Properties\General\GeneralCategory;
-use UCD\Entity\Character\Properties\General\Name\Assigned;
-use UCD\Entity\Character\Properties\General\Name\Unassigned;
-use UCD\Entity\Character\Properties\General\Names;
-use UCD\Entity\Character\Properties\General\Name;
-use UCD\Entity\Character\Properties\General\Version;
+use UCD\Unicode\Character\Properties\General;
+use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Name\Assigned;
+use UCD\Unicode\Character\Properties\General\Name\Unassigned;
+use UCD\Unicode\Character\Properties\General\Names;
+use UCD\Unicode\Character\Properties\General\Name;
+use UCD\Unicode\Character\Properties\General\Version;
 
 class GeneralParser extends BaseParser
 {

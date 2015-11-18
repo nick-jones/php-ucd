@@ -8,8 +8,8 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use UCD\Entity\Character\Repository;
-use UCD\Entity\Character\WritableRepository;
+use UCD\Unicode\Character\Repository;
+use UCD\Unicode\Character\WritableRepository;
 use UCD\Exception\InvalidArgumentException;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 

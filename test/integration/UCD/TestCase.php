@@ -6,9 +6,9 @@ use UCD\Console\Application\Container\ApplicationServiceProvider;
 use UCD\Console\Application\Container\ConfigurationProvider;
 use UCD\Console\Application\Container\RepositoryServiceProvider;
 
-use UCD\Entity\Character;
-use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Properties;
+use UCD\Unicode\Character;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\Character\Properties;
 use UCD\Console\Application\Container;
 
 use Hamcrest\MatcherAssert as ha;

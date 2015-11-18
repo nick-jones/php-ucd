@@ -4,10 +4,10 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\E
 
 use PhpSpec\ObjectBehavior;
 
-use UCD\Entity\Character\Properties\Normalization;
-use UCD\Entity\Character\Properties\Normalization\Combining;
-use UCD\Entity\Character\Properties\Normalization\DecompositionType;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character\Properties\Normalization;
+use UCD\Unicode\Character\Properties\Normalization\Combining;
+use UCD\Unicode\Character\Properties\Normalization\DecompositionType;
+use UCD\Unicode\Codepoint;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\NormalizationParser;
 

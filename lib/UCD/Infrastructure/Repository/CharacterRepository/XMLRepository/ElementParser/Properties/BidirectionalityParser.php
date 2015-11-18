@@ -2,12 +2,12 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties;
 
-use UCD\Entity\Character\Properties\Bidirectionality;
-use UCD\Entity\Character\Properties\Bidirectionality\Bracket;
-use UCD\Entity\Character\Properties\Bidirectionality\BracketBidirectionality;
-use UCD\Entity\Character\Properties\Bidirectionality\Classing;
-use UCD\Entity\Character\Properties\Bidirectionality\Mirroring;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character\Properties\Bidirectionality;
+use UCD\Unicode\Character\Properties\Bidirectionality\Bracket;
+use UCD\Unicode\Character\Properties\Bidirectionality\BracketBidirectionality;
+use UCD\Unicode\Character\Properties\Bidirectionality\Classing;
+use UCD\Unicode\Character\Properties\Bidirectionality\Mirroring;
+use UCD\Unicode\Codepoint;
 
 class BidirectionalityParser extends BaseParser
 {

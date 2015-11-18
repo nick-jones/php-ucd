@@ -4,10 +4,10 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\E
 
 use PhpSpec\ObjectBehavior;
 
-use UCD\Entity\Character;
-use UCD\Entity\Character\Properties;
-use UCD\Entity\Codepoint;
-use UCD\Entity\NonCharacter;
+use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\NonCharacter;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\NonCharacterParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\GeneralParser;

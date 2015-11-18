@@ -2,11 +2,11 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties;
 
-use UCD\Entity\Character\Properties\Numericity;
-use UCD\Entity\Character\Properties\Numericity\NonNumeric;
-use UCD\Entity\Character\Properties\Numericity\Numeric;
-use UCD\Entity\Character\Properties\Numericity\NumericType;
-use UCD\Entity\Character\Properties\Numericity\RationalNumber;
+use UCD\Unicode\Character\Properties\Numericity;
+use UCD\Unicode\Character\Properties\Numericity\NonNumeric;
+use UCD\Unicode\Character\Properties\Numericity\Numeric;
+use UCD\Unicode\Character\Properties\Numericity\NumericType;
+use UCD\Unicode\Character\Properties\Numericity\RationalNumber;
 
 class NumericityParser extends BaseParser
 {

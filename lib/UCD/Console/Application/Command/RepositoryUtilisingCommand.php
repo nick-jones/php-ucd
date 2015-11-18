@@ -5,8 +5,8 @@ namespace UCD\Console\Application\Command;
 use Symfony\Component\Console\Command\Command;
 
 use UCD\Console\Application\Container;
-use UCD\Entity\Character\Repository;
-use UCD\Entity\Character\WritableRepository;
+use UCD\Unicode\Character\Repository;
+use UCD\Unicode\Character\WritableRepository;
 use UCD\Exception\InvalidArgumentException;
 
 abstract class RepositoryUtilisingCommand extends Command

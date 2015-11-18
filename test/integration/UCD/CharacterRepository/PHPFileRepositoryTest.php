@@ -3,7 +3,7 @@
 namespace integration\UCD\CharacterRepository;
 
 use UCD\Console\Application\Container\ConfigurationProvider;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Codepoint;
 
 class PHPFileRepositoryTest extends TestCase
 {

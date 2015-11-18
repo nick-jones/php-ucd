@@ -2,8 +2,8 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
-use UCD\Entity\Codepoint;
-use UCD\Entity\CodepointAssigned;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\CodepointAssigned;
 use UCD\Exception\RuntimeException;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 

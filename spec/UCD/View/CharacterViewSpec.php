@@ -3,8 +3,8 @@
 namespace spec\UCD\View;
 
 use PhpSpec\ObjectBehavior;
-use UCD\Entity\Character;
-use UCD\Entity\Character\Properties;
+use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties;
 use UCD\View\CharacterView;
 
 /**

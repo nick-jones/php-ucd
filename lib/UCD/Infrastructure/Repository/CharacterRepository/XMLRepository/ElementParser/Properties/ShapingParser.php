@@ -2,10 +2,10 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties;
 
-use UCD\Entity\Character\Properties\Shaping;
-use UCD\Entity\Character\Properties\Shaping\Joining;
-use UCD\Entity\Character\Properties\Shaping\JoiningGroup;
-use UCD\Entity\Character\Properties\Shaping\JoiningType;
+use UCD\Unicode\Character\Properties\Shaping;
+use UCD\Unicode\Character\Properties\Shaping\Joining;
+use UCD\Unicode\Character\Properties\Shaping\JoiningGroup;
+use UCD\Unicode\Character\Properties\Shaping\JoiningType;
 
 class ShapingParser extends BaseParser
 {

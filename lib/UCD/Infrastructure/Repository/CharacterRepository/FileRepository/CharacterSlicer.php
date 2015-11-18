@@ -2,8 +2,8 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
-use UCD\Entity\Codepoint;
-use UCD\Entity\CodepointAssigned;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\CodepointAssigned;
 
 class CharacterSlicer
 {

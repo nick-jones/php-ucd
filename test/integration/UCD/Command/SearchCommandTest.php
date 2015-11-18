@@ -9,8 +9,8 @@ use Pimple\Container;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use UCD\Console\Application\Command\SearchCommand;
-use UCD\Entity\Character\Collection;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 
 class SearchCommandTest extends BaseTestCase
@@ -52,7 +52,7 @@ class SearchCommandTest extends BaseTestCase
         $statusCode = $this->commandTester->getStatusCode();
 
         ha::assertThat('output', $output, hm::containsString('Character Found'));
-        ha::assertThat('output', $output, hm::containsString('Export: UCD\Entity\Character'));
+        ha::assertThat('output', $output, hm::containsString('Export: UCD\Unicode\Character'));
         ha::assertThat('output', $output, hm::containsString('UTF-8: £'));
         ha::assertThat('status code', $statusCode, hm::is(hm::identicalTo(0)));
     }

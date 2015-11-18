@@ -11,8 +11,8 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 use UCD\Console\Application\Command\RepositoryTransferCommand;
-use UCD\Entity\Character\Collection;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
 
 class RepositoryTransferCommandTest extends BaseTestCase

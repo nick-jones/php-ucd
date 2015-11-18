@@ -4,10 +4,10 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use Psr\Log\LoggerInterface;
 
-use UCD\Entity\Character\Collection;
-use UCD\Entity\Character\WritableRepository;
-use UCD\Entity\CodepointAssigned;
-use UCD\Entity\Character\Repository;
+use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Character\WritableRepository;
+use UCD\Unicode\CodepointAssigned;
+use UCD\Unicode\Character\Repository;
 
 class DebugWritableRepository extends DebugRepository implements WritableRepository
 {

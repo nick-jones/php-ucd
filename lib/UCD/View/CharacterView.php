@@ -3,7 +3,7 @@
 namespace UCD\View;
 
 use SebastianBergmann\Exporter\Exporter;
-use UCD\Entity\Character;
+use UCD\Unicode\Character;
 
 class CharacterView
 {

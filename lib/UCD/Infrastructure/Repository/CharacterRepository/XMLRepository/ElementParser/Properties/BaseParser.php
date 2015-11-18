@@ -2,7 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties;
 
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Codepoint;
 use UCD\Exception\UnexpectedValueException;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;

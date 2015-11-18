@@ -4,10 +4,10 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\E
 
 use PhpSpec\ObjectBehavior;
 
-use UCD\Entity\Character;
-use UCD\Entity\Codepoint;
-use UCD\Entity\NonCharacter;
-use UCD\Entity\Surrogate;
+use UCD\Unicode\Character;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\NonCharacter;
+use UCD\Unicode\Surrogate;
 
 use UCD\Exception\RuntimeException;
 

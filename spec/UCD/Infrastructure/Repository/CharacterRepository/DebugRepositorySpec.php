@@ -7,9 +7,9 @@ use Prophecy\Argument;
 
 use Psr\Log\LoggerInterface;
 
-use UCD\Entity\Character;
-use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Repository;
+use UCD\Unicode\Character;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\Character\Repository;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugRepository;
 
 /**

@@ -2,12 +2,12 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties;
 
-use UCD\Entity\Character\Properties\Normalization;
-use UCD\Entity\Character\Properties\Normalization\Combining;
-use UCD\Entity\Character\Properties\Normalization\Decomposition;
-use UCD\Entity\Character\Properties\Normalization\Decomposition\Assigned;
-use UCD\Entity\Character\Properties\Normalization\Decomposition\Void;
-use UCD\Entity\Character\Properties\Normalization\DecompositionType;
+use UCD\Unicode\Character\Properties\Normalization;
+use UCD\Unicode\Character\Properties\Normalization\Combining;
+use UCD\Unicode\Character\Properties\Normalization\Decomposition;
+use UCD\Unicode\Character\Properties\Normalization\Decomposition\Assigned;
+use UCD\Unicode\Character\Properties\Normalization\Decomposition\Void;
+use UCD\Unicode\Character\Properties\Normalization\DecompositionType;
 
 class NormalizationParser extends BaseParser
 {

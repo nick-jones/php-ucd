@@ -5,10 +5,10 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use UCD\Entity\Character;
-use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Properties;
-use UCD\Entity\Character\Repository\CharacterNotFoundException;
+use UCD\Unicode\Character;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\Character\Properties;
+use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointAssignedParser;

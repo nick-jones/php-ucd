@@ -25,7 +25,7 @@ The primary interface to utilise is `UCD\Database`. This provides a number of me
 - `Database::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
 - `Database::onlySurrogates()` - returns a `Collection` instance containing only `Surrogate` instances
 
-The `UCD\Entity\Character\Collection` class, returned by a number of methods, provides methods for filtering,
+The `UCD\Unicode\Character\Collection` class, returned by a number of methods, provides methods for filtering,
 traversal, codepoint extractions, amongst other things.
 
 It is likely that you will want to leverage the default `Character\Repository` for resolution of characters, etc, in
@@ -54,8 +54,8 @@ You could simply leverage the `Collection::filterWith(callable $filter)` method 
 the `Numericity` property. For example:
 
 ```php
-use UCD\Entity\Character;
-use UCD\Entity\Character\Properties\General\Block;
+use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\View\CharacterView;
 use UCD\Database;
 
@@ -104,7 +104,7 @@ Locating an individual character by its codepoint value is trivial:
 
 ```php
 use UCD\Database;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Codepoint;
 
 $collection = Database::fromDisk();
 $codepoint = Codepoint::fromInt(9731);
@@ -127,8 +127,8 @@ that matched numeric flavour bengali characters, then you could use something al
 
 ```php
 use UCD\Database;
-use UCD\Entity\Character;
-use UCD\Entity\Character\Properties\General\Block;
+use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties\General\Block;
 
 $filter = function (Character $character) {
     $properties = $character->getProperties();

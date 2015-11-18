@@ -5,11 +5,11 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use UCD\Entity\Character;
-use UCD\Entity\Character\Properties;
-use UCD\Entity\Character\Repository\CharacterNotFoundException;
-use UCD\Entity\Character\WritableRepository;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties;
+use UCD\Unicode\Character\Repository\CharacterNotFoundException;
+use UCD\Unicode\Character\WritableRepository;
+use UCD\Unicode\Codepoint;
 
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;

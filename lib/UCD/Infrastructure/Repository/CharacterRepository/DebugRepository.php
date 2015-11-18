@@ -4,9 +4,9 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use Psr\Log\LoggerInterface;
 
-use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Repository;
-use UCD\Entity\CodepointAssigned;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\Character\Repository;
+use UCD\Unicode\CodepointAssigned;
 
 class DebugRepository implements Repository
 {

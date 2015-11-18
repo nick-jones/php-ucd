@@ -2,14 +2,14 @@
 
 namespace UCD;
 
-use UCD\Entity\Character;
-use UCD\Entity\Character\Collection;
-use UCD\Entity\Character\Repository;
-use UCD\Entity\Character\Repository\CharacterNotFoundException;
-use UCD\Entity\Codepoint;
-use UCD\Entity\CodepointAssigned;
-use UCD\Entity\NonCharacter;
-use UCD\Entity\Surrogate;
+use UCD\Unicode\Character;
+use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Character\Repository;
+use UCD\Unicode\Character\Repository\CharacterNotFoundException;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\CodepointAssigned;
+use UCD\Unicode\NonCharacter;
+use UCD\Unicode\Surrogate;
 
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\OutOfRangeException;

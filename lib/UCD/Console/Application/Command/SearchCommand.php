@@ -9,8 +9,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use UCD\Database;
-use UCD\Entity\Character\Repository\CharacterNotFoundException;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character\Repository\CharacterNotFoundException;
+use UCD\Unicode\Codepoint;
 use UCD\Exception\InvalidArgumentException;
 use UCD\View\CharacterView;
 

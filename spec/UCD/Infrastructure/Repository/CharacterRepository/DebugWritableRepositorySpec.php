@@ -7,8 +7,8 @@ use Prophecy\Argument;
 
 use Psr\Log\LoggerInterface;
 
-use UCD\Entity\Character;
-use UCD\Entity\Character\WritableRepository;
+use UCD\Unicode\Character;
+use UCD\Unicode\Character\WritableRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
 
 /**

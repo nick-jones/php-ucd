@@ -4,13 +4,13 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\E
 
 use PhpSpec\ObjectBehavior;
 
-use UCD\Entity\Character\Properties\General;
-use UCD\Entity\Character\Properties\General\Block;
-use UCD\Entity\Character\Properties\General\GeneralCategory;
-use UCD\Entity\Character\Properties\General\Name\Assigned;
-use UCD\Entity\Character\Properties\General\Name\Unassigned;
-use UCD\Entity\Character\Properties\General\Version;
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Character\Properties\General;
+use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Name\Assigned;
+use UCD\Unicode\Character\Properties\General\Name\Unassigned;
+use UCD\Unicode\Character\Properties\General\Version;
+use UCD\Unicode\Codepoint;
 
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\GeneralParser;
 

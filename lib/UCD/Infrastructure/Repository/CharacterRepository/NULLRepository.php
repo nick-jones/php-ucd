@@ -2,11 +2,11 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
-use UCD\Entity\Character\Collection;
-use UCD\Entity\Codepoint;
-use UCD\Entity\Character\Repository\CharacterNotFoundException;
-use UCD\Entity\Character\WritableRepository;
-use UCD\Entity\Character\Repository;
+use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Codepoint;
+use UCD\Unicode\Character\Repository\CharacterNotFoundException;
+use UCD\Unicode\Character\WritableRepository;
+use UCD\Unicode\Character\Repository;
 
 class NULLRepository implements WritableRepository
 {

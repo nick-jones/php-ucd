@@ -2,7 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
-use UCD\Entity\Codepoint;
+use UCD\Unicode\Codepoint;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
 interface CodepointAwareParser
