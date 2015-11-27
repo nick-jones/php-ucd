@@ -12,6 +12,7 @@ use UCD\Unicode\CodepointAssigned;
 class InMemoryRepository implements WritableRepository
 {
     use Repository\Capability\Notify;
+    use Repository\Capability\BlockSearchByIteration;
 
     /**
      * @var array

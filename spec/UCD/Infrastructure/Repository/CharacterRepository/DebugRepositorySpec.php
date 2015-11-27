@@ -2,12 +2,12 @@
 
 namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
 
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use Psr\Log\LoggerInterface;
 
 use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugRepository;
@@ -15,7 +15,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\DebugRepository;
 /**
  * @mixin DebugRepository
  */
-class DebugRepositorySpec extends ObjectBehavior
+class DebugRepositorySpec extends RepositoryBehaviour
 {
     public function let(Repository $repository, LoggerInterface $logger)
     {
@@ -58,6 +58,23 @@ class DebugRepositorySpec extends ObjectBehavior
             ->shouldReturn($collection);
     }
 
+    public function it_logs_getCodepointsByBlock_calls($logger)
+    {
+        $logger->info(Argument::containingString('Repository::getCodepointsByBlock/'))
+            ->shouldBeCalled();
+
+        $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS));
+    }
+
+    public function it_delegates_getCodepointsByBlock_calls($repository, Character $character)
+    {
+        $repository->getAll()
+            ->willReturn([$character]);
+
+        $this->getAll()
+            ->shouldReturn([$character]);
+    }
+    
     public function it_logs_count_calls($logger)
     {
         $logger->info(Argument::containingString('Repository::count/'))

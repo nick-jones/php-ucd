@@ -7,6 +7,7 @@ use PhpSpec\Wrapper\Collaborator;
 use Prophecy\Argument;
 
 use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -66,6 +67,12 @@ class NULLRepositorySpec extends ObjectBehavior
         $this->givenTheRepositoryHasCharacters([$character]);
 
         $this->shouldHaveCount(0);
+    }
+
+    public function it_should_always_return_no_codepoints_for_a_supplied_block()
+    {
+        $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS))
+            ->shouldIterateLike([]);
     }
 
     private function givenCharacterHasCodepointWithValue(Character $character, $value)

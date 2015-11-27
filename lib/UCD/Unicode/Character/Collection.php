@@ -29,15 +29,4 @@ class Collection extends TraversableBackedCollection
             yield $character->getCodepoint();
         }
     }
-
-    /**
-     * @param array $items
-     * @return Collection
-     */
-    public static function fromArray(array $items)
-    {
-        return new self(
-            new \ArrayIterator($items)
-        );
-    }
 }

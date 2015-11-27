@@ -4,6 +4,7 @@ namespace UCD;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
@@ -117,6 +118,15 @@ class Database
     {
         return $this->all()
             ->filterWith($filter);
+    }
+
+    /**
+     * @param Block $block
+     * @return Codepoint\Range\Collection
+     */
+    public function getCodepointsByBlock(Block $block)
+    {
+        return $this->sourceRepository->getCodepointsByBlock($block);
     }
 
     /**

@@ -52,6 +52,14 @@ class Character implements CodepointAssigned, Comparable
     }
 
     /**
+     * @return Properties\General
+     */
+    public function getGeneralProperties()
+    {
+        return $this->properties->getGeneral();
+    }
+
+    /**
      * @param mixed $other
      * @return bool
      */

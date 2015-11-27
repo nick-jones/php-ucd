@@ -56,4 +56,13 @@ class CharacterSpec extends ObjectBehavior
         $this->getProperties()
             ->shouldReturn($properties);
     }
+
+    public function it_should_expose_its_general_properties($properties, Properties\General $general)
+    {
+        $properties->getGeneral()
+            ->willReturn($general);
+
+        $this->getGeneralProperties()
+            ->shouldReturn($general);
+    }
 }

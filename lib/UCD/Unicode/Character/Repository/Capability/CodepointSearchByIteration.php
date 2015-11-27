@@ -6,7 +6,7 @@ use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\CodepointAssigned;
 
-trait SearchByIteration
+trait CodepointSearchByIteration
 {
     /**
      * @param Codepoint $codepoint

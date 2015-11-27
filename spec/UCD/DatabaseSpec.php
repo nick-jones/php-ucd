@@ -10,6 +10,7 @@ use UCD\Database;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
@@ -117,6 +118,19 @@ class DatabaseSpec extends ObjectBehavior
 
         $this->getSize()
             ->shouldReturn(1);
+    }
+
+    public function it_can_provide_all_codepoints_residing_in_a_specific_block()
+    {
+        $ranges = Codepoint\Range\Collection::fromArray([]);
+        $block = Block::fromValue(Block::AEGEAN_NUMBERS);
+
+        $this->repository
+            ->getCodepointsByBlock($block)
+            ->willReturn($ranges);
+
+        $this->getCodepointsByBlock($block)
+            ->shouldReturn($ranges);
     }
 
     private function givenTheRepositoryContains(array $items)

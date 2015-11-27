@@ -2,11 +2,11 @@
 
 namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
 
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
 use UCD\Unicode\Codepoint;
@@ -20,7 +20,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\
 /**
  * @mixin FileRepository
  */
-class FileRepositorySpec extends ObjectBehavior
+class FileRepositorySpec extends RepositoryBehaviour
 {
     private $serializer;
 
@@ -81,7 +81,7 @@ class FileRepositorySpec extends ObjectBehavior
         $charactersDirectory->getFileFromValue(1)
             ->willReturn($file);
 
-        $this->givenFileUnserializesTo($file, 1, $character);
+        $this->givenFileUnserializesTo($file, [1 => $character]);
 
         $this->getByCodepoint(Codepoint::fromInt(1))
             ->shouldReturn($character);
@@ -95,7 +95,7 @@ class FileRepositorySpec extends ObjectBehavior
         $charactersDirectory->getFileFromValue(1)
             ->willReturn($file);
 
-        $this->givenFileUnserializesTo($file, 0, $character);
+        $this->givenFileUnserializesTo($file, [0 => $character]);
 
         $this->shouldThrow(CharacterNotFoundException::class)
             ->duringGetByCodePoint(Codepoint::fromInt(1));
@@ -111,8 +111,8 @@ class FileRepositorySpec extends ObjectBehavior
         $charactersDirectory->getFiles()
             ->willReturn(new \ArrayIterator([$file1->getWrappedObject(), $file2->getWrappedObject()]));
 
-        $this->givenFileUnserializesTo($file1, 1, $character1);
-        $this->givenFileUnserializesTo($file2, 5, $character2);
+        $this->givenFileUnserializesTo($file1, [1 => $character1]);
+        $this->givenFileUnserializesTo($file2, [5 => $character2]);
 
         $this->getAll()
             ->shouldIterateLike([1 => $character1, 5 => $character2]);
@@ -125,6 +125,11 @@ class FileRepositorySpec extends ObjectBehavior
 
         $this->getAll()
             ->shouldIterateLike([]);
+    }
+
+    public function it_exposes_codepoints_for_a_requested_block()
+    {
+
     }
 
     public function it_exposes_the_number_of_characters_available(
@@ -145,24 +150,20 @@ class FileRepositorySpec extends ObjectBehavior
             ->shouldReturn(3);
     }
 
-    private function givenFileUnserializesTo(PHPRangeFile $file, $offset, Character $character)
+    private function givenFileUnserializesTo(PHPRangeFile $file, array $characters)
     {
-        $serialized = sprintf('serialized:%d', $offset);
+        $values = [];
+
+        foreach ($characters as $i => $character) {
+            $serialized = sprintf('serialized:%d', $i);
+            $values[$i] = $serialized;
+
+            $this->serializer
+                ->unserialize($serialized)
+                ->willReturn($character);
+        }
 
         $file->read()
-            ->willReturn([$offset => $serialized]);
-
-        $this->serializer
-            ->unserialize($serialized)
-            ->willReturn($character);
-    }
-
-    private function givenCharacterHasCodepointWithValue(Character $character, $value)
-    {
-        $character->getCodepoint()
-            ->willReturn(Codepoint::fromInt($value));
-
-        $character->getCodepointValue()
-            ->willReturn($value);
+            ->willReturn($values);
     }
 }

@@ -14,7 +14,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
 /**
  * @mixin DebugWritableRepository
  */
-class DebugWritableRepositorySpec extends ObjectBehavior
+class DebugWritableRepositorySpec extends RepositoryBehaviour
 {
     public function let(WritableRepository $repository, LoggerInterface $logger)
     {

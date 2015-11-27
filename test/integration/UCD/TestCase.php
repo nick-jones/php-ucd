@@ -7,6 +7,7 @@ use UCD\Console\Application\Container\ConfigurationProvider;
 use UCD\Console\Application\Container\RepositoryServiceProvider;
 
 use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Console\Application\Container;
@@ -69,14 +70,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Codepoint $codepoint
+     * @param Block $block
      * @return Character
      */
-    protected function buildCharacterWithCodepoint(Codepoint $codepoint)
+    protected function buildCharacterWithCodepoint(Codepoint $codepoint, Block $block = null)
     {
         $age = new Properties\General\Version(Properties\General\Version::V8_0);
         $primary = new Properties\General\Name\Assigned('Name');
         $names = new Properties\General\Names($primary);
-        $block = new Properties\General\Block(Properties\General\Block::AEGEAN_NUMBERS);
         $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::LETTER_LOWERCASE);
         $combining = new Properties\Normalization\Combining(Properties\Normalization\Combining::ABOVE);
         $classing = new Properties\Bidirectionality\Classing(Properties\Bidirectionality\Classing::COMMON_SEPARATOR);
@@ -87,7 +88,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $decomp = new Properties\Normalization\Decomposition\Assigned($decompositionType, []);
         $numericType = new Properties\Numericity\NumericType(Properties\Numericity\NumericType::NONE);
         $numericity = new Properties\Numericity\NonNumeric($numericType);
-        $general = new Properties\General($names, $block, $age, $cat);
+        $general = new Properties\General($names, $block ?: new Block(Block::BASIC_LATIN), $age, $cat);
         $normalization = new Properties\Normalization($combining, $decomp);
         $joiningGroup = new Properties\Shaping\JoiningGroup(Properties\Shaping\JoiningGroup::NO_JOINING_GROUP);
         $joiningType = new Properties\Shaping\JoiningType(Properties\Shaping\JoiningType::NON_JOINING);

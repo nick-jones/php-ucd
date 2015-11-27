@@ -14,7 +14,8 @@ use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\CodepointEle
 
 class XMLRepository implements Repository
 {
-    use Repository\Capability\SearchByIteration;
+    use Repository\Capability\CodepointSearchByIteration;
+    use Repository\Capability\BlockSearchByIteration;
 
     /**
      * @var CodepointElementReader

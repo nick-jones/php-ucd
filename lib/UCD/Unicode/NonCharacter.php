@@ -35,6 +35,14 @@ class NonCharacter implements CodepointAssigned, Comparable
     }
 
     /**
+     * @return General
+     */
+    public function getGeneralProperties()
+    {
+        return $this->generalProperties;
+    }
+
+    /**
      * @param mixed $other
      * @return bool
      */

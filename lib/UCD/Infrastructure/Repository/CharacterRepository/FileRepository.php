@@ -3,6 +3,7 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use UCD\Unicode\Character\Collection;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
@@ -153,6 +154,14 @@ class FileRepository implements WritableRepository
                 yield $i => $this->serializer->unserialize($character);
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCodepointsByBlock(Block $block)
+    {
+        return Codepoint\Range\Collection::fromArray([]);
     }
 
     /**

@@ -51,4 +51,15 @@ class SurrogateSpec extends ObjectBehavior
         $this->shouldThrow(InvalidArgumentException::class)
             ->duringInstantiation();
     }
+
+    public function it_should_expose_its_general_properties(General $properties)
+    {
+        $properties->getBlock()
+            ->willReturn(new Block(Block::HIGH_PRIVATE_USE_SURROGATES));
+
+        $this->beConstructedWith(Codepoint::fromInt(0), $properties);
+
+        $this->getGeneralProperties()
+            ->shouldReturn($properties);
+    }
 }

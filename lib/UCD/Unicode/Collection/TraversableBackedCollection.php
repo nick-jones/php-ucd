@@ -87,4 +87,15 @@ abstract class TraversableBackedCollection implements SnapshotCapableCollection
     {
         return iterator_to_array($this->items);
     }
+
+    /**
+     * @param array $items
+     * @return Collection
+     */
+    public static function fromArray(array $items)
+    {
+        return new static(
+            new \ArrayIterator($items)
+        );
+    }
 }
