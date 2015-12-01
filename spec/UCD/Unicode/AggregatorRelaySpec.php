@@ -14,7 +14,7 @@ use UCD\Unicode\CodepointAssigned;
  */
 class AggregatorRelaySpec extends ObjectBehavior
 {
-    public function it_adds_codepoints_to_an_appropriate_aggregator(
+    public function it_relays_codepoint_additions_to_the_appropriate_aggregator(
         KeyGenerator $keyGenerator,
         Aggregator $aggregator,
         CodepointAssigned $item,
