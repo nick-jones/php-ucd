@@ -36,6 +36,12 @@ class EnumerationSpec extends ObjectBehavior
             ->shouldEqual(EnumerationFixture::A);
     }
 
+    public function it_can_be_cast_to_a_string()
+    {
+        $this->__toString()
+            ->shouldEqual('a');
+    }
+
     public function it_should_equal_an_instance_of_the_same_enumeration_holding_the_same_value()
     {
         $this->equals(new EnumerationFixture(EnumerationFixture::A))

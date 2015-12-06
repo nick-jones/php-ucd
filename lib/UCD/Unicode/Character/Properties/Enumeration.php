@@ -93,4 +93,12 @@ abstract class Enumeration implements Comparable
         return (new \ReflectionClass($className))
             ->getConstants();
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->value;
+    }
 }
