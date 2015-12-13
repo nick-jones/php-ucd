@@ -10,7 +10,11 @@ use UCD\Unicode\Codepoint;
 
 class RepositoryBehaviour extends ObjectBehavior
 {
-    protected function givenCharacterHasCodepointWithValue(Character $character, $value)
+    /**
+     * @param Character $character
+     * @param int $value
+     */
+    protected function givenCharacterHasCodepointWithValue($character, $value)
     {
         $character->getCodepoint()
             ->willReturn(Codepoint::fromInt($value));
@@ -19,7 +23,11 @@ class RepositoryBehaviour extends ObjectBehavior
             ->willReturn($value);
     }
 
-    protected function givenCharacterResidesInBlock(Character $character, Block $block)
+    /**
+     * @param Character $character
+     * @param Block $block
+     */
+    protected function givenCharacterResidesInBlock($character, $block)
     {
         $general = new General(
             new General\Names(new General\Name\Unassigned()),
