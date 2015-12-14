@@ -22,7 +22,7 @@ class CharacterNotFoundException extends Exception
 
     /**
      * @param Codepoint $codepoint
-     * @return CharacterNotFoundException
+     * @return self
      */
     public static function withCodepoint(Codepoint $codepoint)
     {

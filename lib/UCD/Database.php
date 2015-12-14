@@ -122,6 +122,7 @@ class Database
 
     /**
      * @param Block $block
+     * @throws Repository\BlockNotFoundException
      * @return Codepoint\Range\Collection
      */
     public function getCodepointsByBlock(Block $block)

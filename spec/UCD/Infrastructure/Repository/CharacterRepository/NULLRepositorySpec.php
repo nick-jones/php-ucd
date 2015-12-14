@@ -8,6 +8,7 @@ use Prophecy\Argument;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Repository\BlockNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -69,10 +70,10 @@ class NULLRepositorySpec extends ObjectBehavior
         $this->shouldHaveCount(0);
     }
 
-    public function it_should_always_return_no_codepoints_for_a_supplied_block()
+    public function it_should_always_throw_a_BlockNotFoundException_when_searching_by_block()
     {
-        $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS))
-            ->shouldIterateLike([]);
+        $this->shouldThrow(BlockNotFoundException::class)
+            ->during('getCodepointsByBlock', [Block::fromValue(Block::ALCHEMICAL_SYMBOLS)]);
     }
 
     private function givenCharacterHasCodepointWithValue(Character $character, $value)

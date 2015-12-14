@@ -3,6 +3,7 @@
 namespace UCD\Unicode\Character\Repository\Capability;
 
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Repository\BlockNotFoundException;
 use UCD\Unicode\Codepoint\Aggregator;
 use UCD\Unicode\CodepointAssigned;
 
@@ -22,6 +23,10 @@ trait BlockSearchByIteration
                 $codepoint = $item->getCodepoint();
                 $aggregator->addCodepoint($codepoint);
             }
+        }
+
+        if ($aggregator->hasAggregated() !== true) {
+            throw BlockNotFoundException::withBlock($block);
         }
 
         return $aggregator->getAggregated();

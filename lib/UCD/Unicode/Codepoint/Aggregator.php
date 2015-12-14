@@ -124,4 +124,12 @@ class Aggregator
             new \ArrayIterator($aggregated)
         );
     }
+
+    /**
+     * @return bool
+     */
+    public function hasAggregated()
+    {
+        return count($this->getAggregated()) > 0;
+    }
 }

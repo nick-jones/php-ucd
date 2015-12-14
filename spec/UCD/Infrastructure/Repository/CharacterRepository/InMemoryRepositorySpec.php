@@ -8,6 +8,7 @@ use Prophecy\Argument;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Repository\BlockNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -89,6 +90,12 @@ class InMemoryRepositorySpec extends RepositoryBehaviour
 
         $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS))
             ->shouldIterateLike([Range::between(Codepoint::fromInt(1), Codepoint::fromInt(2))]);
+    }
+
+    public function it_throws_BlockNotFoundException_if_a_supplied_block_is_not_known()
+    {
+        $this->shouldThrow(BlockNotFoundException::class)
+            ->during('getCodepointsByBlock', [Block::fromValue(Block::ALCHEMICAL_SYMBOLS)]);
     }
 
     public function it_exposes_the_number_of_characters_available(Character $character)
