@@ -2,6 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
+use UCD\Unicode\AggregatorRelay;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository;
@@ -11,6 +12,9 @@ use UCD\Unicode\Codepoint;
 use UCD\Unicode\CodepointAssigned;
 
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileDirectory;
@@ -28,6 +32,16 @@ class FileRepository implements WritableRepository
     private $charactersDirectory;
 
     /**
+     * @var PropertyFileDirectory
+     */
+    private $propertiesDirectory;
+
+    /**
+     * @var PropertyAggregators|AggregatorRelay[]
+     */
+    private $aggregators;
+
+    /**
      * @var Serializer
      */
     private $serializer;
@@ -37,19 +51,26 @@ class FileRepository implements WritableRepository
      */
     private $sliceSize;
 
+
     /**
      * @param RangeFileDirectory $charactersDirectory
+     * @param PropertyFileDirectory $propertiesDirectory
+     * @param PropertyAggregators $aggregators
      * @param Serializer $serializer
      * @param int $sliceSize
      */
     public function __construct(
         RangeFileDirectory $charactersDirectory,
+        PropertyFileDirectory $propertiesDirectory,
+        PropertyAggregators $aggregators,
         Serializer $serializer,
         $sliceSize = self::DEFAULT_SLICE_SIZE
     ) {
         $this->charactersDirectory = $charactersDirectory;
         $this->serializer = $serializer;
         $this->sliceSize = $sliceSize;
+        $this->propertiesDirectory = $propertiesDirectory;
+        $this->aggregators = $aggregators;
     }
 
     /**
@@ -94,8 +115,11 @@ class FileRepository implements WritableRepository
         foreach ($slices as $range => $chunk) {
             /** @var Range $range */
             $this->createFileWithCharacters($range, $chunk);
+            $this->addCharactersToAggregators($chunk);
             $this->notify();
         }
+
+        $this->writeAggregations();
     }
 
     /**
@@ -105,12 +129,10 @@ class FileRepository implements WritableRepository
      */
     private function createFileWithCharacters(Range $range, array $characters)
     {
-        $characters = $this->flattenCharacters($characters);
-
-        $rangeFile = $this->charactersDirectory
-            ->addFileFromRangeAndTotal($range, count($characters));
-
-        $rangeFile->write($characters);
+        $this->charactersDirectory->writeRange(
+            $range,
+            $this->flattenCharacters($characters)
+        );
     }
 
     /**
@@ -128,6 +150,24 @@ class FileRepository implements WritableRepository
         }
 
         return $flattened;
+    }
+
+    /**
+     * @param CodepointAssigned[] $characters
+     */
+    private function addCharactersToAggregators(array $characters)
+    {
+        $this->aggregators->addCharacters($characters);
+    }
+
+    /**
+     * @return bool
+     */
+    private function writeAggregations()
+    {
+        $this->propertiesDirectory->writeProperties(
+            $this->aggregators
+        );
     }
 
     /**
@@ -161,7 +201,29 @@ class FileRepository implements WritableRepository
      */
     public function getCodepointsByBlock(Block $block)
     {
-        return Codepoint\Range\Collection::fromArray([]);
+        $property = Property::withName(Property::PROPERTY_BLOCK);
+        $codepoints = $this->resolveCodepointsByProperty($property, (string)$block);
+
+        if ($codepoints === null) {
+            throw Repository\BlockNotFoundException::withBlock($block);
+        }
+
+        return $codepoints;
+    }
+
+    /**
+     * @param Property $property
+     * @param string $key
+     * @return Codepoint\Range\Collection|null
+     */
+    private function resolveCodepointsByProperty(Property $property, $key)
+    {
+        $file = $this->propertiesDirectory->getFileForProperty($property);
+        $map = $file->read();
+
+        return array_key_exists($key, $map)
+            ? $this->serializer->unserialize($map[$key])
+            : null;
     }
 
     /**

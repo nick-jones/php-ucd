@@ -2,12 +2,14 @@
 
 namespace UCD;
 
+use UCD\Unicode\AggregatorRelay;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
+use UCD\Unicode\Codepoint\Aggregator\Factory;
 use UCD\Unicode\CodepointAssigned;
 use UCD\Unicode\NonCharacter;
 use UCD\Unicode\Surrogate;
@@ -15,6 +17,7 @@ use UCD\Unicode\Surrogate;
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\OutOfRangeException;
 
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\BlockKeyGenerator;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
@@ -147,7 +150,10 @@ class Database
         $dbPathInfo = new \SplFileInfo($dbPath);
         $charactersDirectory = PHPRangeFileDirectory::fromPath($dbPathInfo);
         $serializer = new PHPSerializer();
+        $keyGenerator = new BlockKeyGenerator();
+        $aggregatorFactory = new Factory();
+        $relay = new AggregatorRelay($keyGenerator, $aggregatorFactory);
 
-        return new FileRepository($charactersDirectory, $serializer);
+        return new FileRepository($charactersDirectory, $relay, $serializer);
     }
 }

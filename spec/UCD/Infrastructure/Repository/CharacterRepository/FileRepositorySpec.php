@@ -4,6 +4,11 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
 
 use Prophecy\Argument;
 
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFileDirectory;
+use UCD\Unicode\AggregatorRelay;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Properties\General\Block;
@@ -16,6 +21,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
+use UCD\Unicode\Codepoint\Range\Collection;
 
 /**
  * @mixin FileRepository
@@ -24,10 +30,14 @@ class FileRepositorySpec extends RepositoryBehaviour
 {
     private $serializer;
 
-    public function let(RangeFileDirectory $charactersDirectory, PHPSerializer $serializer)
-    {
+    public function let(
+        RangeFileDirectory $charactersDirectory,
+        PropertyFileDirectory $propertiesDirectory,
+        PropertyAggregators $aggregators,
+        PHPSerializer $serializer
+    ) {
         $this->serializer = $serializer;
-        $this->beConstructedWith($charactersDirectory, $serializer);
+        $this->beConstructedWith($charactersDirectory, $propertiesDirectory, $aggregators, $serializer);
     }
 
     public function it_is_writable()
@@ -35,18 +45,16 @@ class FileRepositorySpec extends RepositoryBehaviour
         $this->shouldImplement(WritableRepository::class);
     }
 
-    public function it_can_have_characters_added_to_it($charactersDirectory, Character $character, PHPRangeFile $file)
-    {
-        $charactersDirectory->addFileFromRangeAndTotal(new Range(0, Codepoint::MAX), 1)
-            ->willReturn($file);
-
+    public function it_can_have_characters_added_to_it(
+        $charactersDirectory,
+        Character $character
+    ) {
         $this->serializer
             ->serialize($character)
             ->willReturn($serialized = ['serialized']);
 
-        $file->write([1 => $serialized])
-            ->shouldBeCalled()
-            ->willReturn(true);
+        $charactersDirectory->writeRange(new Range(0, Codepoint::MAX), [1 => $serialized])
+            ->shouldBeCalled();
 
         $this->givenCharacterHasCodepointWithValue($character, 1);
         $this->addMany(Character\Collection::fromArray([
@@ -55,18 +63,27 @@ class FileRepositorySpec extends RepositoryBehaviour
     }
 
     public function it_notifies_observers_when_characters_are_added(
-        $charactersDirectory,
         \SplObserver $observer,
-        Character $character,
-        PHPRangeFile $file
+        Character $character
     ) {
-        $charactersDirectory->addFileFromRangeAndTotal(Argument::cetera())
-            ->willReturn($file);
-
         $observer->update($this)
             ->shouldBeCalled();
 
         $this->attach($observer);
+        $this->givenCharacterHasCodepointWithValue($character, 1);
+        $this->addMany(Character\Collection::fromArray([
+            $character->getWrappedObject()
+        ]));
+    }
+
+    public function it_writes_aggregations_after_all_characters_have_been_added(
+        $propertiesDirectory,
+        $aggregators,
+        Character $character
+    ) {
+        $propertiesDirectory->writeProperties($aggregators)
+            ->shouldBeCalled();
+
         $this->givenCharacterHasCodepointWithValue($character, 1);
         $this->addMany(Character\Collection::fromArray([
             $character->getWrappedObject()
@@ -127,9 +144,22 @@ class FileRepositorySpec extends RepositoryBehaviour
             ->shouldIterateLike([]);
     }
 
-    public function it_exposes_codepoints_for_a_requested_block()
-    {
+    public function it_exposes_codepoints_for_a_requested_block(
+        $propertiesDirectory,
+        PropertyFile $file,
+        Collection $codepoints
+    ) {
+        $propertiesDirectory->getFileForProperty(Property::withName(Property::PROPERTY_BLOCK))
+            ->willReturn($file);
 
+        $file->read()
+            ->willReturn([Block::AEGEAN_NUMBERS => 's:{}']);
+
+        $this->serializer->unserialize('s:{}')
+            ->willReturn($codepoints);
+
+        $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS))
+            ->shouldReturn($codepoints);
     }
 
     public function it_exposes_the_number_of_characters_available(

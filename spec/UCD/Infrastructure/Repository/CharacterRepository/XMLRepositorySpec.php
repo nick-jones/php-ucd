@@ -87,8 +87,11 @@ class XMLRepositorySpec extends RepositoryBehaviour
             ->shouldIterateLike([Range::between(Codepoint::fromInt(1), Codepoint::fromInt(2))]);
     }
 
-    public function it_throws_BlockNotFoundException_if_a_supplied_block_is_not_known()
+    public function it_throws_BlockNotFoundException_if_a_supplied_block_is_not_known($reader)
     {
+        $reader->read()
+            ->willReturn([]);
+
         $this->shouldThrow(BlockNotFoundException::class)
             ->during('getCodepointsByBlock', [Block::fromValue(Block::ALCHEMICAL_SYMBOLS)]);
     }

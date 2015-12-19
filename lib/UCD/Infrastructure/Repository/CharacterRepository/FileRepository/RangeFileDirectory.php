@@ -62,4 +62,14 @@ abstract class RangeFileDirectory
     {
         return $this->files;
     }
+
+    /**
+     * @param Range $range
+     * @param array $map
+     */
+    public function writeRange(Range $range, array $map)
+    {
+        $rangeFile = $this->addFileFromRangeAndTotal($range, count($map));
+        $rangeFile->write($map);
+    }
 }

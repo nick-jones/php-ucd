@@ -7,4 +7,4 @@ extensions:
   - PhpSpecExtension\Git\Extension
 
 matchers:
-  - spec\UCD\SpecHelper\IteratorMatcher
+  - spec\UCD\SpecHelper\Matchers
