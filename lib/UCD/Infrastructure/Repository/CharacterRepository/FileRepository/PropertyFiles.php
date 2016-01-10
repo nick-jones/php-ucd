@@ -12,6 +12,16 @@ class PropertyFiles
     private $files = [];
 
     /**
+     * @param array $files
+     */
+    public function __construct(array $files = [])
+    {
+        foreach ($files as $file) {
+            $this->add($file);
+        }
+    }
+
+    /**
      * @param PropertyFile $file
      * @return PropertyFile
      */
@@ -22,6 +32,8 @@ class PropertyFiles
         );
 
         $this->files[$key] = $file;
+
+        return $file;
     }
 
     /**

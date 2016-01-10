@@ -21,6 +21,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerato
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
 
 class Database
 {
@@ -146,14 +147,15 @@ class Database
      */
     private static function createFileRepository()
     {
-        $dbPath = sprintf('%s/../../resources/generated/ucd', __DIR__);
-        $dbPathInfo = new \SplFileInfo($dbPath);
+        $dbPathInfo = new \SplFileInfo(sprintf('%s/../../resources/generated/ucd', __DIR__));
         $charactersDirectory = PHPRangeFileDirectory::fromPath($dbPathInfo);
+        $propsPathInfo = new \SplFileInfo(sprintf('%s/../../resources/generated/props', __DIR__));
+        $propertiesDirectory = FileRepository\PropertyFile\PHPPropertyFileDirectory::fromPath($propsPathInfo);
+        $aggregators = new FileRepository\PropertyAggregators();
+        $block = new AggregatorRelay(new BlockKeyGenerator(), new Factory());
+        $aggregators->registerAggregatorRelay(Property::ofType(Property::BLOCK), $block);
         $serializer = new PHPSerializer();
-        $keyGenerator = new BlockKeyGenerator();
-        $aggregatorFactory = new Factory();
-        $relay = new AggregatorRelay($keyGenerator, $aggregatorFactory);
 
-        return new FileRepository($charactersDirectory, $relay, $serializer);
+        return new FileRepository($charactersDirectory, $propertiesDirectory, $aggregators, $serializer);
     }
 }

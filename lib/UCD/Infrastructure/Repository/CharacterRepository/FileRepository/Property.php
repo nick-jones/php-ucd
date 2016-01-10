@@ -6,33 +6,33 @@ use UCD\Exception\InvalidArgumentException;
 
 class Property
 {
-    const PROPERTY_BLOCK = 'block';
+    const BLOCK = 'block';
 
     /**
      * @var string
      */
-    private $name;
+    private $type;
 
     /**
-     * @param string $name
+     * @param string $type
      * @throws InvalidArgumentException
      */
-    private function __construct($name)
+    private function __construct($type)
     {
-        if ($name !== self::PROPERTY_BLOCK) {
+        if ($type !== self::BLOCK) {
             throw new InvalidArgumentException();
         }
 
-        $this->name = $name;
+        $this->type = $type;
     }
 
     /**
-     * @param string $name
+     * @param string $type
      * @return Property
      */
-    public static function withName($name)
+    public static function ofType($type)
     {
-        return new self($name);
+        return new self($type);
     }
 
     /**
@@ -40,6 +40,6 @@ class Property
      */
     public function __toString()
     {
-        return $this->name;
+        return $this->type;
     }
 }

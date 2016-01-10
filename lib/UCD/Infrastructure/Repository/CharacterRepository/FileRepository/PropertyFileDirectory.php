@@ -55,14 +55,12 @@ abstract class PropertyFileDirectory
     }
 
     /**
-     * @param PropertyAggregators|AggregatorRelay[] $aggregators
+     * @param Property $property
+     * @param Range[] $ranges
      */
-    public function writeProperties(PropertyAggregators $aggregators)
+    public function writeProperty(Property $property, array $ranges)
     {
-        foreach ($aggregators as $property => $aggregator) {
-            $file = $this->getFileForProperty($property);
-            $map = $aggregator->getAll();
-            $file->write($map);
-        }
+        $file = $this->addFileForProperty($property);
+        $file->write($ranges);
     }
 }

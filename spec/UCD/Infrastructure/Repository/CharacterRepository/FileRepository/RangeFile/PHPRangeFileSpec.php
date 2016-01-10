@@ -4,6 +4,7 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository\FileRepository\
 
 use PhpSpec\ObjectBehavior;
 
+use UCD\Exception\InvalidArgumentException;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
 
@@ -12,11 +13,9 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\P
  */
 class PHPRangeFileSpec extends ObjectBehavior
 {
-    const MOCK_DB_PATH = '/tmp';
-
     public function it_can_be_constructed_file_path_information()
     {
-        $fileInfo = new \SplFileInfo(sprintf('%s/00000001-00000010!0010.php', self::MOCK_DB_PATH));
+        $fileInfo = new \SplFileInfo('/db/00000001-00000010!0010.php');
 
         $this->beConstructedThrough('fromFileInfo', [$fileInfo]);
         $this->shouldImplement(PHPRangeFile::class);
@@ -30,7 +29,7 @@ class PHPRangeFileSpec extends ObjectBehavior
 
     public function it_can_be_constructed_from_range_and_path_details()
     {
-        $dbPath = new \SplFileInfo(self::MOCK_DB_PATH);
+        $dbPath = new \SplFileInfo('/db');
         $range = new Range(1, 10);
         $total = 10;
 

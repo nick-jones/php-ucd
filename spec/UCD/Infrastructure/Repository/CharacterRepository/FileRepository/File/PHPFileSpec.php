@@ -29,7 +29,7 @@ class PHPFileSpec extends ObjectBehavior
     {
         $fs = new FileSystem();
         $fileInfo = new \SplFileInfo($fs->path('/r.php'));
-        $data = [1 => 'foo', 5 => 'bar'];
+        $data = [1 => 'foo', 5 => 'bar', 'baz' => 'boo'];
 
         $this->beConstructedWith($fileInfo);
         $this->writeArray($data);

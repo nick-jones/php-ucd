@@ -2,6 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\FileIterator;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileDirectory;
@@ -17,7 +18,7 @@ class PHPRangeFileDirectory extends RangeFileDirectory
     public static function fromPath(\SplFileInfo $basePath)
     {
         $files = [];
-        $fileInfos = self::getFileIterator($basePath);
+        $fileInfos = FileIterator::fromPath($basePath);
 
         foreach ($fileInfos as $fileInfo) {
             $file = PHPRangeFile::fromFileInfo($fileInfo);
@@ -25,25 +26,6 @@ class PHPRangeFileDirectory extends RangeFileDirectory
         }
 
         return new self($basePath, new RangeFiles($files));
-    }
-
-    /**
-     * @param \SplFileInfo $path
-     * @return \SplFileInfo[]
-     */
-    private static function getFileIterator(\SplFileInfo $path)
-    {
-        $pathName = $path->getPathname();
-
-        if (strpos($path, ':') === strlen($pathName) - 1) {
-            $pathName = sprintf('%s//', $pathName);
-        }
-
-        $directory = new \FilesystemIterator($pathName, \FilesystemIterator::CURRENT_AS_FILEINFO);
-
-        return new \CallbackFilterIterator($directory, function (\SplFileInfo $file) {
-            return $file->isFile();
-        });
     }
 
     /**

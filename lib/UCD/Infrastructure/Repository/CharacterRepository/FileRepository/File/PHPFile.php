@@ -83,7 +83,7 @@ class PHPFile implements File
         $nodes = [];
 
         foreach ($items as $key => $value) {
-            $key = new LNumber($key);
+            $key = is_int($key) ? new LNumber($key) : new String_($key);
             $value = new String_($value);
             $node = new ArrayItem($value, $key);
             array_push($nodes, $node);

@@ -36,6 +36,12 @@ class FileRepositorySpec extends RepositoryBehaviour
         PropertyAggregators $aggregators,
         PHPSerializer $serializer
     ) {
+        $aggregators->getIterator()
+            ->willReturn(new \ArrayIterator());
+
+        $aggregators->addCharacters(Argument::any())
+            ->willReturn(null);
+
         $this->serializer = $serializer;
         $this->beConstructedWith($charactersDirectory, $propertiesDirectory, $aggregators, $serializer);
     }
@@ -78,10 +84,23 @@ class FileRepositorySpec extends RepositoryBehaviour
 
     public function it_writes_aggregations_after_all_characters_have_been_added(
         $propertiesDirectory,
+        Property $property,
+        AggregatorRelay $aggregator,
         $aggregators,
         Character $character
     ) {
-        $propertiesDirectory->writeProperties($aggregators)
+        $aggregator->getAllRanges()
+            ->willReturn($data = ['foo' => null]);
+
+        $aggregators->getIterator()
+            ->will(function () use ($property, $aggregator) {
+                yield $property->getWrappedObject() => $aggregator->getWrappedObject();
+            });
+
+        $aggregators->addCharacters(Argument::any())
+            ->willReturn(null);
+
+        $propertiesDirectory->writeProperty($property, $data)
             ->shouldBeCalled();
 
         $this->givenCharacterHasCodepointWithValue($character, 1);
@@ -149,7 +168,7 @@ class FileRepositorySpec extends RepositoryBehaviour
         PropertyFile $file,
         Collection $codepoints
     ) {
-        $propertiesDirectory->getFileForProperty(Property::withName(Property::PROPERTY_BLOCK))
+        $propertiesDirectory->getFileForProperty(Property::ofType(Property::BLOCK))
             ->willReturn($file);
 
         $file->read()

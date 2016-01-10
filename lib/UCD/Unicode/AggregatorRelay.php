@@ -6,6 +6,7 @@ use UCD\Exception\InvalidArgumentException;
 use UCD\Unicode\AggregatorRelay\KeyGenerator;
 use UCD\Unicode\Codepoint\Aggregator;
 use UCD\Unicode\Codepoint\Aggregator\Factory;
+use UCD\Unicode\Codepoint\Range\Collection;
 
 class AggregatorRelay
 {
@@ -70,5 +71,19 @@ class AggregatorRelay
     public function getAll()
     {
         return $this->aggregators;
+    }
+
+    /**
+     * @return Collection[]
+     */
+    public function getAllRanges()
+    {
+        $ranges = [];
+
+        foreach ($this->aggregators as $key => $aggregator) {
+            $ranges[$key] = $aggregator->getAggregated();
+        }
+
+        return $ranges;
     }
 }

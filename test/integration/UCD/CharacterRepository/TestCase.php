@@ -5,6 +5,7 @@ namespace integration\UCD\CharacterRepository;
 use integration\UCD\TestCase as BaseTestCase;
 
 use UCD\Unicode\Character;
+use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -76,6 +77,17 @@ abstract class TestCase extends BaseTestCase
         $count = count($this->repository);
 
         ha::assertThat('count', $count, hm::is(hm::identicalTo(1)));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_provide_all_codepoints_residing_in_a_block()
+    {
+        $block = Block::fromValue(Block::BASIC_LATIN);
+        $codepoints = $this->repository->getCodepointsByBlock($block);
+
+        ha::assertThat('count', count($codepoints), hm::is(hm::equalTo(1)));
     }
 
     /**

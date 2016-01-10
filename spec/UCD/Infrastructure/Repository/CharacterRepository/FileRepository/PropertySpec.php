@@ -14,7 +14,7 @@ class PropertySpec extends ObjectBehavior
 {
     public function it_throws_if_an_invalid_property_name_is_supplied()
     {
-        $this->beConstructedThrough('withName', ['foo']);
+        $this->beConstructedThrough('ofType', ['foo']);
 
         $this->shouldThrow(InvalidArgumentException::class)
             ->duringInstantiation();
@@ -22,14 +22,14 @@ class PropertySpec extends ObjectBehavior
 
     public function it_can_be_instantiated_with_a_valid_property_name()
     {
-        $this->beConstructedThrough('withName', [Property::PROPERTY_BLOCK]);
+        $this->beConstructedThrough('ofType', [Property::BLOCK]);
 
         $this->shouldHaveType(Property::class);
     }
 
     public function it_can_be_cast_to_a_string()
     {
-        $this->beConstructedThrough('withName', [Property::PROPERTY_BLOCK]);
+        $this->beConstructedThrough('ofType', [Property::BLOCK]);
 
         $this->__toString()
             ->shouldReturn('block');

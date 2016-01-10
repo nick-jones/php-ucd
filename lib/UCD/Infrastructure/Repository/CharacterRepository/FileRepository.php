@@ -153,6 +153,21 @@ class FileRepository implements WritableRepository
     }
 
     /**
+     * @param Codepoint\Range[] $ranges
+     * @return string[]
+     */
+    public function flattenRanges(array $ranges)
+    {
+        $flattened = [];
+
+        foreach ($ranges as $key => $range) {
+            $flattened[$key] = $this->serializer->serialize($range);
+        }
+
+        return $flattened;
+    }
+
+    /**
      * @param CodepointAssigned[] $characters
      */
     private function addCharactersToAggregators(array $characters)
@@ -165,9 +180,11 @@ class FileRepository implements WritableRepository
      */
     private function writeAggregations()
     {
-        $this->propertiesDirectory->writeProperties(
-            $this->aggregators
-        );
+        foreach ($this->aggregators as $property => $aggregator) {
+            /** @var Property $property */
+            $ranges = $this->flattenRanges($aggregator->getAllRanges());
+            $this->propertiesDirectory->writeProperty($property, $ranges);
+        }
     }
 
     /**
@@ -201,7 +218,7 @@ class FileRepository implements WritableRepository
      */
     public function getCodepointsByBlock(Block $block)
     {
-        $property = Property::withName(Property::PROPERTY_BLOCK);
+        $property = Property::ofType(Property::BLOCK);
         $codepoints = $this->resolveCodepointsByProperty($property, (string)$block);
 
         if ($codepoints === null) {

@@ -6,6 +6,10 @@ use Pimple\Container;
 
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\BlockKeyGenerator;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFile\PHPPropertyFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\InMemoryRepository;
@@ -23,6 +27,8 @@ use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParse
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\ShapingParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\SurrogateParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\XMLReader;
+use UCD\Unicode\AggregatorRelay;
+use UCD\Unicode\Codepoint\Aggregator\Factory;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -58,11 +64,31 @@ class RepositoryServiceProvider extends ServiceProvider
             'pfr.database_path' => function (Container $container) {
                 return new \SplFileInfo($container[ConfigurationProvider::CONFIG_KEY_DB_PATH]);
             },
+            'pfr.properties_path' => function (Container $container) {
+                return new \SplFileInfo($container[ConfigurationProvider::CONFIG_KEY_PROPS_PATH]);
+            },
             'pfr.characters_directory' => function (Container $container) {
                 return PHPRangeFileDirectory::fromPath($container['pfr.database_path']);
             },
+            'pfr.properties_directory' => function (Container $container) {
+                return PHPPropertyFileDirectory::fromPath($container['pfr.properties_path']);
+            },
+            'pft.property_aggregators.block' => function () {
+                return new AggregatorRelay(new BlockKeyGenerator(), new Factory());
+            },
+            'pfr.property_aggregators' => function (Container $container) {
+                $aggregators = new PropertyAggregators();
+                $block = $container['pft.property_aggregators.block'];
+                $aggregators->registerAggregatorRelay(Property::ofType(Property::BLOCK), $block);
+                return $aggregators;
+            },
             'repository.php' => function (Container $container) {
-                return new FileRepository($container['pfr.characters_directory'], $container['pfr.serializer']);
+                return new FileRepository(
+                    $container['pfr.characters_directory'],
+                    $container['pfr.properties_directory'],
+                    $container['pfr.property_aggregators'],
+                    $container['pfr.serializer']
+                );
             }
         ]);
     }

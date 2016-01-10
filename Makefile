@@ -9,8 +9,12 @@ test:
 clean:
 	rm -f resources/ucd.all.flat.*
 	rm -rf resources/generated/ucd
+	rm -rf resources/generated/props
 
-db: clean resources/generated/ucd
+db: clean resources/generated/ucd resources/generated/props
+
+resources/generated/props: resources/ucd.all.flat.xml
+	mkdir -p $@
 
 resources/generated/ucd: resources/ucd.all.flat.xml
 	mkdir -p $@
