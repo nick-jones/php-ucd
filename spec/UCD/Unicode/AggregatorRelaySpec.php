@@ -18,11 +18,11 @@ class AggregatorRelaySpec extends ObjectBehavior
         KeyGenerator $keyGenerator,
         Aggregator $aggregator,
         CodepointAssigned $item,
-        \ReflectionClass $class
+        Aggregator\Factory $factory
     ) {
         $codepoint = Codepoint::fromInt(1);
 
-        $class->newInstance()
+        $factory->create()
             ->willReturn($aggregator);
 
         $keyGenerator->generateFor($item)
@@ -34,7 +34,7 @@ class AggregatorRelaySpec extends ObjectBehavior
         $aggregator->addCodepoint($codepoint)
             ->shouldBeCalled();
 
-        $this->beConstructedWith($keyGenerator, $class);
+        $this->beConstructedWith($keyGenerator, $factory);
         $this->add($item);
     }
 
@@ -42,11 +42,11 @@ class AggregatorRelaySpec extends ObjectBehavior
         KeyGenerator $keyGenerator,
         Aggregator $aggregator,
         CodepointAssigned $item,
-        \ReflectionClass $class
+        Aggregator\Factory $factory
     ) {
         $key = 'key';
 
-        $class->newInstance()
+        $factory->create()
             ->willReturn($aggregator);
 
         $item->getCodepoint()
@@ -55,7 +55,7 @@ class AggregatorRelaySpec extends ObjectBehavior
         $keyGenerator->generateFor($item)
             ->willReturn($key);
 
-        $this->beConstructedWith($keyGenerator, $class);
+        $this->beConstructedWith($keyGenerator, $factory);
         $this->add($item);
 
         $this->getAll()

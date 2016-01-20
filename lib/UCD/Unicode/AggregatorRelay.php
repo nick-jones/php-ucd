@@ -5,6 +5,7 @@ namespace UCD\Unicode;
 use UCD\Exception\InvalidArgumentException;
 use UCD\Unicode\AggregatorRelay\KeyGenerator;
 use UCD\Unicode\Codepoint\Aggregator;
+use UCD\Unicode\Codepoint\Aggregator\Factory;
 
 class AggregatorRelay
 {
@@ -14,23 +15,18 @@ class AggregatorRelay
     private $keyGenerator;
 
     /**
-     * @var \ReflectionClass
-     */
-    private $aggregatorClass;
-
-    /**
      * @var Aggregator[]
      */
     private $aggregators = [];
 
     /**
      * @param KeyGenerator $keyGenerator
-     * @param \ReflectionClass $aggregatorClass
+     * @param Factory $aggregatorFactory
      */
-    public function __construct(KeyGenerator $keyGenerator, \ReflectionClass $aggregatorClass)
+    public function __construct(KeyGenerator $keyGenerator, Factory $aggregatorFactory)
     {
         $this->keyGenerator = $keyGenerator;
-        $this->aggregatorClass = $aggregatorClass;
+        $this->aggregatorFactory = $aggregatorFactory;
     }
 
     /**
@@ -62,7 +58,7 @@ class AggregatorRelay
         $key = $this->keyGenerator->generateFor($entity);
 
         if (!array_key_exists($key, $this->aggregators)) {
-            $this->aggregators[$key] = $this->aggregatorClass->newInstance();
+            $this->aggregators[$key] = $this->aggregatorFactory->create();
         }
 
         return $this->aggregators[$key];
