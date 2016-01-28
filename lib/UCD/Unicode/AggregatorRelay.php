@@ -6,7 +6,7 @@ use UCD\Exception\InvalidArgumentException;
 use UCD\Unicode\AggregatorRelay\KeyGenerator;
 use UCD\Unicode\Codepoint\Aggregator;
 use UCD\Unicode\Codepoint\Aggregator\Factory;
-use UCD\Unicode\Codepoint\Range\Collection;
+use UCD\Unicode\Codepoint\Range;
 
 class AggregatorRelay
 {
@@ -74,7 +74,7 @@ class AggregatorRelay
     }
 
     /**
-     * @return Collection[]
+     * @return Range\Collection[]
      */
     public function getAllRanges()
     {
