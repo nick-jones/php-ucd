@@ -153,7 +153,7 @@ class FileRepository implements WritableRepository
     }
 
     /**
-     * @param Codepoint\Range[] $ranges
+     * @param Codepoint\Range\Collection[] $ranges
      * @return string[]
      */
     public function flattenRanges(array $ranges)
@@ -161,6 +161,7 @@ class FileRepository implements WritableRepository
         $flattened = [];
 
         foreach ($ranges as $key => $range) {
+            $range = $range->toArray();
             $flattened[$key] = $this->serializer->serialize($range);
         }
 
@@ -225,13 +226,13 @@ class FileRepository implements WritableRepository
             throw Repository\BlockNotFoundException::withBlock($block);
         }
 
-        return $codepoints;
+        return Codepoint\Range\Collection::fromArray($codepoints);
     }
 
     /**
      * @param Property $property
      * @param string $key
-     * @return Codepoint\Range\Collection|null
+     * @return Codepoint\Range[]|null
      */
     private function resolveCodepointsByProperty(Property $property, $key)
     {

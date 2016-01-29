@@ -2,6 +2,7 @@
 
 namespace UCD\Unicode\Collection;
 
+use UCD\Unicode\Codepoint;
 use UCD\Unicode\Collection;
 
 abstract class TraversableBackedCollection implements SnapshotCapableCollection

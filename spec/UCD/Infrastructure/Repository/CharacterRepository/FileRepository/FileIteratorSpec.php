@@ -21,9 +21,10 @@ class FileIteratorSpec extends ObjectBehavior
     {
         $fs = new FileSystem();
         $fs->createDirectory('/foo');
-        $fs->createFile('/foo.bar');
-        $filePath = $fs->path('/foo.bar');
-        $dir = new \SplFileInfo($fs->path('/'));
+        $fs->createDirectory('/foo/bar');
+        $fs->createFile('/foo/baz');
+        $filePath = $fs->path('/foo/baz');
+        $dir = new \SplFileInfo($fs->path('/foo'));
 
         $this->beConstructedThrough('fromPath', [$dir]);
         $this->shouldIterateLike([

@@ -90,7 +90,7 @@ class FileRepositorySpec extends RepositoryBehaviour
         Character $character
     ) {
         $aggregator->getAllRanges()
-            ->willReturn($data = ['foo' => null]);
+            ->willReturn(['foo' => Collection::fromArray(['x'])]);
 
         $aggregators->getIterator()
             ->will(function () use ($property, $aggregator) {
@@ -100,7 +100,10 @@ class FileRepositorySpec extends RepositoryBehaviour
         $aggregators->addCharacters(Argument::any())
             ->willReturn(null);
 
-        $propertiesDirectory->writeProperty($property, $data)
+        $this->serializer->serialize(Argument::any())
+            ->willReturn('serialized');
+
+        $propertiesDirectory->writeProperty($property, ['foo' => 'serialized'])
             ->shouldBeCalled();
 
         $this->givenCharacterHasCodepointWithValue($character, 1);
@@ -165,8 +168,7 @@ class FileRepositorySpec extends RepositoryBehaviour
 
     public function it_exposes_codepoints_for_a_requested_block(
         $propertiesDirectory,
-        PropertyFile $file,
-        Collection $codepoints
+        PropertyFile $file
     ) {
         $propertiesDirectory->getFileForProperty(Property::ofType(Property::BLOCK))
             ->willReturn($file);
@@ -175,10 +177,10 @@ class FileRepositorySpec extends RepositoryBehaviour
             ->willReturn([Block::AEGEAN_NUMBERS => 's:{}']);
 
         $this->serializer->unserialize('s:{}')
-            ->willReturn($codepoints);
+            ->willReturn($r = [Codepoint\Range::between(Codepoint::fromInt(0), Codepoint::fromInt(1))]);
 
         $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS))
-            ->shouldReturn($codepoints);
+            ->shouldBeLike(Collection::fromArray($r));
     }
 
     public function it_exposes_the_number_of_characters_available(

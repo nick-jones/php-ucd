@@ -22,7 +22,7 @@ class PHPFileRepositoryTest extends TestCase
 
         $path = $this->fs->path('/props/block.php');
         $collection = Codepoint\Range\Collection::fromArray([Codepoint\Range::between($codepoint, $codepoint)]);
-        $content = sprintf("<?php\nreturn %s;", var_export(['ASCII' => serialize($collection)], true));
+        $content = sprintf("<?php\nreturn %s;", var_export(['ASCII' => serialize($collection->toArray())], true));
         file_put_contents($path, $content);
 
         $this->registerContainerProviders();
