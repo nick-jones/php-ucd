@@ -25,6 +25,14 @@ class NULLRepository implements WritableRepository
     /**
      * {@inheritDoc}
      */
+    public function getByCodepoints(Codepoint\Collection $codepoints)
+    {
+        return Character\Collection::fromArray([]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addMany(CharacterCollection $characters)
     {
         $this->notify();

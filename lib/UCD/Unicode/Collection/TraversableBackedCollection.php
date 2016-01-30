@@ -91,7 +91,7 @@ abstract class TraversableBackedCollection implements SnapshotCapableCollection
 
     /**
      * @param array $items
-     * @return Collection
+     * @return static
      */
     public static function fromArray(array $items)
     {

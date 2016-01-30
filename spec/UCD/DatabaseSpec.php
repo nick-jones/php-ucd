@@ -45,6 +45,20 @@ class DatabaseSpec extends ObjectBehavior
             ->shouldReturn($entity);
     }
 
+    public function it_can_locate_multiple_codepoint_assigned_entities_by_codepoints(Character\Collection $characters)
+    {
+        $codepoints = Codepoint\Collection::fromArray([
+            Codepoint::fromInt(1)
+        ]);
+
+        $this->repository
+            ->getByCodepoints($codepoints)
+            ->willReturn($characters);
+
+        $this->getByCodepoints($codepoints)
+            ->shouldReturn($characters);
+    }
+
     public function it_throws_CharacterNotFoundException_if_no_entity_is_assigned_to_the_requested_codepoint()
     {
         $this->repository

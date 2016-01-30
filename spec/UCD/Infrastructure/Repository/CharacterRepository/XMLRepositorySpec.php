@@ -45,6 +45,16 @@ class XMLRepositorySpec extends RepositoryBehaviour
             ->shouldReturn($character);
     }
 
+    public function it_can_retrieve_characters_by_codepoints(Character $character1, Character $character2)
+    {
+        $this->givenCharacterHasCodepointWithValue($character1, 1);
+        $this->givenCharacterHasCodepointWithValue($character2, 2);
+        $this->givenTheXMLParsesTo([$character1, $character2]);
+
+        $this->getByCodepoints(Codepoint\Collection::fromArray([Codepoint::fromInt(1)]))
+            ->shouldIterateLike([$character1]);
+    }
+
     public function it_should_throw_CharacterNotFoundException_if_the_requested_character_is_not_found()
     {
         $this->givenTheXMLParsesTo([]);

@@ -3,6 +3,7 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use UCD\Unicode\AggregatorRelay;
+use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository;
@@ -51,7 +52,6 @@ class FileRepository implements WritableRepository
      */
     private $sliceSize;
 
-
     /**
      * @param RangeFileDirectory $charactersDirectory
      * @param PropertyFileDirectory $propertiesDirectory
@@ -87,6 +87,29 @@ class FileRepository implements WritableRepository
         }
 
         return $this->serializer->unserialize($characters[$value]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getByCodepoints(Codepoint\Collection $codepoints)
+    {
+        return new Character\Collection(
+            $this->yieldByCodepoints($codepoints)
+        );
+    }
+
+    /**
+     * @param Codepoint\Collection $codepoints
+     * @return \Generator
+     */
+    private function yieldByCodepoints(Codepoint\Collection $codepoints)
+    {
+        foreach ($codepoints as $codepoint) {
+            try {
+                yield $this->getByCodepoint($codepoint);
+            } catch (CharacterNotFoundException $e) { }
+        }
     }
 
     /**

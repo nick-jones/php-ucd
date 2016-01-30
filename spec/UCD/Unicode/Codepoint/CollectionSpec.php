@@ -28,6 +28,14 @@ class CollectionSpec extends ObjectBehavior
             ->shouldIterateLike([1, 2]);
     }
 
+    public function it_can_indicate_whether_or_not_a_codepoint_is_represented()
+    {
+        $this->givenTheCollectionContains([Codepoint::fromInt(1), Codepoint::fromInt(2)]);
+
+        $this->has(Codepoint::fromInt(1))
+            ->shouldReturn(true);
+    }
+
     public function it_can_be_iterated_over()
     {
         $codepoints = [Codepoint::fromInt(1), Codepoint::fromInt(2)];

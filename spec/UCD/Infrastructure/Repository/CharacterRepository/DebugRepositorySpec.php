@@ -41,6 +41,25 @@ class DebugRepositorySpec extends RepositoryBehaviour
             ->shouldReturn($character);
     }
 
+    public function it_logs_getByCodepoints_calls($logger)
+    {
+        $logger->info(Argument::containingString('Repository::getByCodepoints/'))
+            ->shouldBeCalled();
+
+        $this->getByCodepoints(Codepoint\Collection::fromArray([Codepoint::fromInt(1)]));
+    }
+
+    public function it_delegates_getByCodepoints_calls($repository, Character $character)
+    {
+        $codepoints = Codepoint\Collection::fromArray([Codepoint::fromInt(1)]);
+
+        $repository->getByCodepoints($codepoints)
+            ->willReturn($character);
+
+        $this->getByCodepoints($codepoints)
+            ->shouldReturn($character);
+    }
+
     public function it_logs_getAll_calls($logger)
     {
         $logger->info(Argument::containingString('Repository::getAll/'))

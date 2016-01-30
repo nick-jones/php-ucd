@@ -53,6 +53,15 @@ class NULLRepositorySpec extends ObjectBehavior
             ->duringGetByCodePoint(Codepoint::fromInt(1));
     }
 
+    public function it_should_always_return_no_results_when_lookup_by_multiple_characters(Character $character)
+    {
+        $this->givenCharacterHasCodepointWithValue($character, 1);
+        $this->givenTheRepositoryHasCharacters([$character]);
+
+        $this->getByCodepoints(Codepoint\Collection::fromArray([Codepoint::fromInt(1)]))
+            ->shouldIterateLike([]);
+    }
+
     public function it_should_always_exposes_nothing_when_retrieving_all_characters(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);

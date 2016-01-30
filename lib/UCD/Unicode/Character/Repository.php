@@ -17,6 +17,12 @@ interface Repository extends \Countable
     public function getByCodepoint(Codepoint $codepoint);
 
     /**
+     * @param Codepoint\Collection|Codepoint[] $codepoints
+     * @return CodepointAssigned[]
+     */
+    public function getByCodepoints(Codepoint\Collection $codepoints);
+
+    /**
      * @return Collection
      */
     public function getAll();

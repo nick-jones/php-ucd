@@ -41,6 +41,26 @@ abstract class TestCase extends BaseTestCase
     /**
      * @test
      */
+    public function it_can_locate_held_characters_by_codepoints()
+    {
+        $codepoint0 = Codepoint::fromInt(0);
+        $codepoint1 = Codepoint::fromInt(1);
+        $codepoints = Codepoint\Collection::fromArray([$codepoint0, $codepoint1]);
+        $characters = $this->repository->getByCodepoints($codepoints);
+        $tally = 0;
+
+        ha::assertThat('characters', $characters, hm::is(hm::anInstanceOf(Character\Collection::class)));
+
+        foreach ($characters as $character) {
+            $tally++;
+            ha::assertThat('character', $character->getCodepoint(), hm::is(hm::equalTo($codepoint0)));
+        }
+
+        ha::assertThat('count', $tally, hm::is(hm::equalTo(1)));
+    }
+    /**
+     * @test
+     */
     public function it_throws_CharacterNotFoundException_if_a_character_is_not_held()
     {
         $codepoint = Codepoint::fromInt(1);

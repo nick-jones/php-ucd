@@ -45,6 +45,17 @@ class DebugRepository implements Repository
     /**
      * {@inheritDoc}
      */
+    public function getByCodepoints(Codepoint\Collection $codepoints)
+    {
+        $message = $this->composeMessage(__FUNCTION__, [$codepoints]);
+        $this->log($message);
+
+        return $this->delegate->getByCodepoints($codepoints);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getAll()
     {
         $message = $this->composeMessage(__FUNCTION__);

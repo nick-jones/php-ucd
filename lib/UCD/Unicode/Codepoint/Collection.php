@@ -20,6 +20,21 @@ class Collection extends TraversableBackedCollection
     }
 
     /**
+     * @param Codepoint $codepoint
+     * @return bool
+     */
+    public function has(Codepoint $codepoint)
+    {
+        foreach ($this as $check) {
+            if ($codepoint->equals($check)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return Range[]|Range\Collection
      */
     public function aggregate()

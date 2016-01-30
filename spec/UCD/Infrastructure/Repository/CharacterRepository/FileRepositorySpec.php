@@ -126,6 +126,21 @@ class FileRepositorySpec extends RepositoryBehaviour
             ->shouldReturn($character);
     }
 
+    public function it_can_retrieve_characters_by_codepoints(
+        $charactersDirectory,
+        Character $character1,
+        Character $character2,
+        PHPRangeFile $file
+    ) {
+        $charactersDirectory->getFileFromValue(Argument::any())
+            ->willReturn($file);
+
+        $this->givenFileUnserializesTo($file, [1 => $character1, 2 => $character2]);
+
+        $this->getByCodepoints(Codepoint\Collection::fromArray([Codepoint::fromInt(1)]))
+            ->shouldIterateLike([$character1]);
+    }
+
     public function it_should_throw_CharacterNotFoundException_if_the_requested_character_is_not_found(
         $charactersDirectory,
         PHPRangeFile $file,

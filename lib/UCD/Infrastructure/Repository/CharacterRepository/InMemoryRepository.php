@@ -2,6 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
+use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -31,6 +32,23 @@ class InMemoryRepository implements WritableRepository
         }
 
         return $this->characters[$index];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getByCodepoints(Codepoint\Collection $codepoints)
+    {
+        $results = [];
+
+        foreach ($codepoints as $codepoint) {
+            try {
+                $character = $this->getByCodepoint($codepoint);
+                array_push($results, $character);
+            } catch (CharacterNotFoundException $e) { }
+        }
+
+        return Character\Collection::fromArray($results);
     }
 
     /**

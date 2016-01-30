@@ -61,6 +61,16 @@ class InMemoryRepositorySpec extends RepositoryBehaviour
             ->duringGetByCodePoint(Codepoint::fromInt(1));
     }
 
+    public function it_can_retrieve_characters_by_codepoints(Character $character1, Character $character2)
+    {
+        $this->givenCharacterHasCodepointWithValue($character1, 1);
+        $this->givenCharacterHasCodepointWithValue($character2, 2);
+        $this->givenTheRepositoryHasCharacters([$character1, $character2]);
+
+        $this->getByCodepoints(Codepoint\Collection::fromArray([Codepoint::fromInt(1)]))
+            ->shouldIterateLike([$character1]);
+    }
+
     public function it_exposes_all_available_characters(Character $character)
     {
         $this->givenCharacterHasCodepointWithValue($character, 1);

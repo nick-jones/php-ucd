@@ -61,6 +61,15 @@ class Database
     }
 
     /**
+     * @param Codepoint\Collection $codepoints
+     * @return Character\Collection|CodepointAssigned[]
+     */
+    public function getByCodepoints(Codepoint\Collection $codepoints)
+    {
+        return $this->sourceRepository->getByCodepoints($codepoints);
+    }
+
+    /**
      * @param Codepoint $codepoint
      * @return Character
      * @throws CharacterNotFoundException
