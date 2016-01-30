@@ -20,6 +20,7 @@ The primary interface to utilise is `UCD\Database`. This provides a number of me
 
 - `Database::getByCodepoint(Codepoint $codepoint)` - resolves a codepoint assigned entity
 - `Database::getCharacterByCodepoint(Codepoint $codepoint)` - as above, but will only return `Character` instances
+- `Database::getByCodepoints(Codepoint\Collection $codepoints)` - resolves multiple codepoint assigned entities
 - `Database::all()` - returns a `Collection` instance containing everything assigned a codepoint within the database
 - `Database::onlyCharacters()` - returns a `Collection` instance containing only `Character` instances
 - `Database::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
