@@ -61,4 +61,22 @@ class Collection extends TraversableBackedCollection
 
         return $builder->getCharacterClass();
     }
+
+    /**
+     * @param string $string
+     * @return static
+     */
+    public static function fromUTF8($string)
+    {
+        static $encoding = 'UTF-8';
+        $codepoints = [];
+
+        for ($i = 0; $i < mb_strlen($string, $encoding); $i++) {
+            $character = mb_substr($string, $i, 1, $encoding);
+            $codepoint = Codepoint::fromUTF8($character);
+            array_push($codepoints, $codepoint);
+        }
+
+        return static::fromArray($codepoints);
+    }
 }

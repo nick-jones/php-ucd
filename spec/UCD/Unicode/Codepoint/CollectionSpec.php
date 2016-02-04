@@ -104,6 +104,16 @@ class CollectionSpec extends ObjectBehavior
             ->shouldEqual('[\x{1}\x{2}\x{3}\x{21}]');
     }
 
+    public function it_can_be_constructed_from_a_UTF8_encoded_string()
+    {
+        $this->beConstructedThrough('fromUTF8', ['ab']);
+
+        $this->shouldIterateLike([
+            Codepoint::fromUTF8('a'),
+            Codepoint::fromUTF8('b')
+        ]);
+    }
+
     private function givenTheCollectionContains(array $codepoints)
     {
         $this->beConstructedWith(new \ArrayIterator($codepoints));
