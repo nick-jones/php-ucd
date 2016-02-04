@@ -147,6 +147,24 @@ class DatabaseSpec extends ObjectBehavior
             ->shouldReturn($ranges);
     }
 
+    public function it_can_provide_all_codepoint_assigned_entities_in_a_specific_block(Character\Collection $characters)
+    {
+        $codepoint = Codepoint::fromInt(1);
+        $ranges = Codepoint\Range\Collection::fromArray([$codepoint]);
+        $block = Block::fromValue(Block::AEGEAN_NUMBERS);
+
+        $this->repository
+            ->getCodepointsByBlock($block)
+            ->willReturn($ranges);
+
+        $this->repository
+            ->getByCodepoints($ranges->expand())
+            ->willReturn($characters);
+
+        $this->getCodepointsByBlock($block)
+            ->shouldReturn($ranges);
+    }
+
     private function givenTheRepositoryContains(array $items)
     {
         $unwrapped = array_map(function (Collaborator $c) {

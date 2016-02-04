@@ -144,6 +144,18 @@ class Database
     }
 
     /**
+     * @param Block $block
+     * @return Collection|Unicode\CodepointAssigned[]
+     */
+    public function getByBlock(Block $block)
+    {
+        $codepoints = $this->getCodepointsByBlock($block)
+            ->expand();
+
+        return $this->getByCodepoints($codepoints);
+    }
+
+    /**
      * @return int
      */
     public function getSize()
