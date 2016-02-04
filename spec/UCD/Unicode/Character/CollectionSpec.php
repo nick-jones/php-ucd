@@ -5,10 +5,13 @@ namespace spec\UCD\Unicode\Character;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Wrapper\Collaborator;
 
+use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\CodepointAssigned;
 use UCD\Unicode\Collection as CollectionInterface;
+use UCD\Unicode\NonCharacter;
+use UCD\Unicode\Surrogate;
 
 /**
  * @mixin Collection
@@ -64,6 +67,30 @@ class CollectionSpec extends ObjectBehavior
 
         $this->toArray()
             ->shouldReturn([$character]);
+    }
+
+    public function it_can_be_filtered_to_just_characters(Character $character, Surrogate $surrogate)
+    {
+        $this->givenTheCollectionContains([$character, $surrogate]);
+
+        $this->onlyCharacters()
+            ->shouldIterateLike([$character]);
+    }
+
+    public function it_can_be_filtered_to_just_non_characters(NonCharacter $nonCharacter, Character $character)
+    {
+        $this->givenTheCollectionContains([$nonCharacter, $character]);
+
+        $this->onlyNonCharacters()
+            ->shouldIterateLike([$nonCharacter]);
+    }
+
+    public function it_can_be_filtered_to_just_surrogates(Surrogate $surrogate, Character $character)
+    {
+        $this->givenTheCollectionContains([$surrogate, $character]);
+
+        $this->onlyNonCharacters()
+            ->shouldIterateLike([$surrogate]);
     }
 
     private function givenTheCollectionContains(array $items)

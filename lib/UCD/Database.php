@@ -57,7 +57,8 @@ class Database
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
-        return $this->sourceRepository->getByCodepoint($codepoint);
+        return $this->sourceRepository
+            ->getByCodepoint($codepoint);
     }
 
     /**
@@ -66,7 +67,8 @@ class Database
      */
     public function getByCodepoints(Codepoint\Collection $codepoints)
     {
-        return $this->sourceRepository->getByCodepoints($codepoints);
+        return $this->sourceRepository
+            ->getByCodepoints($codepoints);
     }
 
     /**
@@ -86,51 +88,39 @@ class Database
     }
 
     /**
-     * @return Collection
+     * @return Collection|CodepointAssigned[]
      */
     public function all()
     {
-        return $this->sourceRepository->getAll();
+        return $this->sourceRepository
+            ->getAll();
     }
 
     /**
-     * @return Collection
+     * @return Collection|Character[]
      */
     public function onlyCharacters()
     {
-        return $this->filterWith(function (CodepointAssigned $assigned) {
-            return $assigned instanceof Character;
-        });
+        return $this->all()
+            ->onlyCharacters();
     }
 
     /**
-     * @return Collection
+     * @return Collection|NonCharacter[]
      */
     public function onlyNonCharacters()
     {
-        return $this->filterWith(function (CodepointAssigned $assigned) {
-            return $assigned instanceof NonCharacter;
-        });
+        return $this->all()
+            ->onlyNonCharacters();
     }
 
     /**
-     * @return Collection
+     * @return Collection|Surrogate[]
      */
     public function onlySurrogates()
     {
-        return $this->filterWith(function (CodepointAssigned $assigned) {
-            return $assigned instanceof Surrogate;
-        });
-    }
-
-    /**
-     * @param callable $filter
-     * @return Collection
-     */
-    private function filterWith(callable $filter)
-    {
         return $this->all()
-            ->filterWith($filter);
+            ->onlySurrogates();
     }
 
     /**
@@ -140,12 +130,13 @@ class Database
      */
     public function getCodepointsByBlock(Block $block)
     {
-        return $this->sourceRepository->getCodepointsByBlock($block);
+        return $this->sourceRepository
+            ->getCodepointsByBlock($block);
     }
 
     /**
      * @param Block $block
-     * @return Collection|Unicode\CodepointAssigned[]
+     * @return Collection|CodepointAssigned[]
      */
     public function getByBlock(Block $block)
     {
