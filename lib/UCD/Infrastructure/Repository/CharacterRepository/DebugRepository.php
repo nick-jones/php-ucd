@@ -5,6 +5,7 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 use Psr\Log\LoggerInterface;
 
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\CodepointAssigned;
@@ -73,6 +74,17 @@ class DebugRepository implements Repository
         $this->log($message);
 
         return $this->delegate->getCodepointsByBlock($block);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCodepointsByCategory(GeneralCategory $category)
+    {
+        $message = $this->composeMessage(__FUNCTION__);
+        $this->log($message);
+
+        return $this->delegate->getCodepointsByCategory($category);
     }
 
     /**

@@ -8,7 +8,9 @@ use Prophecy\Argument;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Repository\BlockNotFoundException;
+use UCD\Unicode\Character\Repository\GeneralCategoryNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -84,7 +86,13 @@ class NULLRepositorySpec extends ObjectBehavior
         $this->shouldThrow(BlockNotFoundException::class)
             ->during('getCodepointsByBlock', [Block::fromValue(Block::ALCHEMICAL_SYMBOLS)]);
     }
-
+    
+    public function it_should_always_throw_a_CategoryNotFoundException_when_searching_by_category()
+    {
+        $this->shouldThrow(GeneralCategoryNotFoundException::class)
+            ->during('getCodepointsByCategory', [GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH)]);
+    }
+    
     private function givenCharacterHasCodepointWithValue(Character $character, $value)
     {
         $character->getCodepoint()

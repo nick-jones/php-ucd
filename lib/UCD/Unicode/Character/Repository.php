@@ -3,6 +3,7 @@
 namespace UCD\Unicode\Character;
 
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\CodepointAssigned;
@@ -32,4 +33,10 @@ interface Repository extends \Countable
      * @return Codepoint\Range\Collection
      */
     public function getCodepointsByBlock(Block $block);
+
+    /**
+     * @param GeneralCategory $category
+     * @return Codepoint\Range\Collection
+     */
+    public function getCodepointsByCategory(GeneralCategory $category);
 }

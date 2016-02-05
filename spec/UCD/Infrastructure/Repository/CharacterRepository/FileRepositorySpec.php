@@ -7,6 +7,7 @@ use Prophecy\Argument;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
 use UCD\Unicode\Codepoint;
@@ -195,6 +196,23 @@ class FileRepositorySpec extends RepositoryBehaviour
             ->willReturn($r = [Codepoint\Range::between(Codepoint::fromInt(0), Codepoint::fromInt(1))]);
 
         $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS))
+            ->shouldBeLike(Collection::fromArray($r));
+    }
+
+    public function it_exposes_codepoints_for_a_requested_category(
+        $propertiesDirectory,
+        PropertyFile $file
+    ) {
+        $propertiesDirectory->getFileForProperty(Property::ofType(Property::GENERAL_CATEGORY))
+            ->willReturn($file);
+
+        $file->read()
+            ->willReturn([GeneralCategory::SYMBOL_MATH => 's:{}']);
+
+        $this->serializer->unserialize('s:{}')
+            ->willReturn($r = [Codepoint\Range::between(Codepoint::fromInt(0), Codepoint::fromInt(1))]);
+
+        $this->getCodepointsByCategory(GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH))
             ->shouldBeLike(Collection::fromArray($r));
     }
 

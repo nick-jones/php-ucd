@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugRepository;
@@ -85,13 +86,34 @@ class DebugRepositorySpec extends RepositoryBehaviour
         $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS));
     }
 
-    public function it_delegates_getCodepointsByBlock_calls($repository, Character $character)
+    public function it_delegates_getCodepointsByBlock_calls($repository, Codepoint\Range\Collection $ranges)
     {
-        $repository->getAll()
-            ->willReturn([$character]);
+        $block = Block::fromValue(Block::CYRILLIC);
 
-        $this->getAll()
-            ->shouldReturn([$character]);
+        $repository->getCodepointsByBlock($block)
+            ->willReturn($ranges);
+
+        $this->getCodepointsByBlock($block)
+            ->shouldReturn($ranges);
+    }
+
+    public function it_logs_getCodepointsByCategory_calls($logger)
+    {
+        $logger->info(Argument::containingString('Repository::getCodepointsByCategory/'))
+            ->shouldBeCalled();
+
+        $this->getCodepointsByCategory(GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH));
+    }
+
+    public function it_delegates_getCodepointsByCategory_calls($repository, Codepoint\Range\Collection $ranges)
+    {
+        $category = GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH);
+
+        $repository->getCodepointsByCategory($category)
+            ->willReturn($ranges);
+
+        $this->getCodepointsByCategory($category)
+            ->shouldReturn($ranges);
     }
     
     public function it_logs_count_calls($logger)

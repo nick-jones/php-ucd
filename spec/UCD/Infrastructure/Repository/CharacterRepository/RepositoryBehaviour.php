@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Codepoint;
 
 class RepositoryBehaviour extends ObjectBehavior
@@ -33,7 +34,24 @@ class RepositoryBehaviour extends ObjectBehavior
             new General\Names(new General\Name\Unassigned()),
             $block,
             new General\Version(General\Version::UNKNOWN),
-            new General\GeneralCategory(General\GeneralCategory::LETTER_TITLECASE)
+            new GeneralCategory(GeneralCategory::LETTER_TITLECASE)
+        );
+
+        $character->getGeneralProperties()
+            ->willReturn($general);
+    }
+
+    /**
+     * @param Character $character
+     * @param GeneralCategory $category
+     */
+    protected function givenCharacterResidesInCategory($character, $category)
+    {
+        $general = new General(
+            new General\Names(new General\Name\Unassigned()),
+            new Block(Block::CYRILLIC),
+            new General\Version(General\Version::UNKNOWN),
+            $category
         );
 
         $character->getGeneralProperties()

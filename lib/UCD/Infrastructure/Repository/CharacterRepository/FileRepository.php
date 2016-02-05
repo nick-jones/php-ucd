@@ -2,9 +2,11 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
+use UCD\Exception;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
@@ -242,29 +244,46 @@ class FileRepository implements WritableRepository
      */
     public function getCodepointsByBlock(Block $block)
     {
-        $property = Property::ofType(Property::BLOCK);
-        $codepoints = $this->resolveCodepointsByProperty($property, (string)$block);
+        return $this->resolveCodepointsByProperty(
+            Property::ofType(Property::BLOCK),
+            (string)$block,
+            Repository\BlockNotFoundException::withBlock($block)
+        );
+    }
 
-        if ($codepoints === null) {
-            throw Repository\BlockNotFoundException::withBlock($block);
-        }
-
-        return Codepoint\Range\Collection::fromArray($codepoints);
+    /**
+     * {@inheritDoc}
+     */
+    public function getCodepointsByCategory(GeneralCategory $category)
+    {
+        return $this->resolveCodepointsByProperty(
+            Property::ofType(Property::GENERAL_CATEGORY),
+            (string)$category,
+            Repository\GeneralCategoryNotFoundException::withCategory($category)
+        );
     }
 
     /**
      * @param Property $property
      * @param string $key
-     * @return Codepoint\Range[]|null
+     * @param Exception $notFoundException
+     * @return Codepoint\Range[]
+     * @throws Exception
      */
-    private function resolveCodepointsByProperty(Property $property, $key)
+    private function resolveCodepointsByProperty(Property $property, $key, Exception $notFoundException)
     {
         $file = $this->propertiesDirectory->getFileForProperty($property);
         $map = $file->read();
 
-        return array_key_exists($key, $map)
+        $codepoints = array_key_exists($key, $map)
             ? $this->serializer->unserialize($map[$key])
-            : null;
+            : [];
+
+        if (count($codepoints) === 0) {
+            throw $notFoundException;
+        }
+
+        return Codepoint\Range\Collection::fromArray($codepoints);
     }
 
     /**

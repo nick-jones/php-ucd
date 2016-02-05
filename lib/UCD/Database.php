@@ -5,6 +5,7 @@ namespace UCD;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
@@ -141,6 +142,29 @@ class Database
     public function getByBlock(Block $block)
     {
         $codepoints = $this->getCodepointsByBlock($block)
+            ->expand();
+
+        return $this->getByCodepoints($codepoints);
+    }
+
+    /**
+     * @param GeneralCategory $category
+     * @throws Repository\BlockNotFoundException
+     * @return Codepoint\Range\Collection
+     */
+    public function getCodepointsByCategory(GeneralCategory $category)
+    {
+        return $this->sourceRepository
+            ->getCodepointsByCategory($category);
+    }
+
+    /**
+     * @param GeneralCategory $category
+     * @return Collection|CodepointAssigned[]
+     */
+    public function getByCategory(GeneralCategory $category)
+    {
+        $codepoints = $this->getCodepointsByCategory($category)
             ->expand();
 
         return $this->getByCodepoints($codepoints);

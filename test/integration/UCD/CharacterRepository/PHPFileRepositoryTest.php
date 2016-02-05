@@ -25,6 +25,11 @@ class PHPFileRepositoryTest extends TestCase
         $content = sprintf("<?php\nreturn %s;", var_export(['ASCII' => serialize($collection->toArray())], true));
         file_put_contents($path, $content);
 
+        $path = $this->fs->path('/props/gc.php');
+        $collection = Codepoint\Range\Collection::fromArray([Codepoint\Range::between($codepoint, $codepoint)]);
+        $content = sprintf("<?php\nreturn %s;", var_export(['Cc' => serialize($collection->toArray())], true));
+        file_put_contents($path, $content);
+
         $this->registerContainerProviders();
         $this->container[ConfigurationProvider::CONFIG_KEY_DB_PATH] = $dbPath;
         $this->container[ConfigurationProvider::CONFIG_KEY_PROPS_PATH] = $propsPath;

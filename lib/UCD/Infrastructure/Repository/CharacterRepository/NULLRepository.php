@@ -12,7 +12,7 @@ use UCD\Unicode\Character\Repository;
 class NULLRepository implements WritableRepository
 {
     use Repository\Capability\Notify;
-    use Repository\Capability\BlockSearchByIteration;
+    use Repository\Capability\PropertySearchByIteration;
 
     /**
      * {@inheritDoc}

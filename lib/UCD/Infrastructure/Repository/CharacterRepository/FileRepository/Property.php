@@ -7,6 +7,15 @@ use UCD\Exception\InvalidArgumentException;
 class Property
 {
     const BLOCK = 'block';
+    const GENERAL_CATEGORY = 'gc';
+
+    /**
+     * @var bool[]
+     */
+    private static $valid = [
+        self::BLOCK => true,
+        self::GENERAL_CATEGORY => true
+    ];
 
     /**
      * @var string
@@ -19,11 +28,21 @@ class Property
      */
     private function __construct($type)
     {
-        if ($type !== self::BLOCK) {
+        if (!$this->isKnownType($type)) {
             throw new InvalidArgumentException();
         }
 
         $this->type = $type;
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    private function isKnownType($type)
+    {
+        return array_key_exists($type, self::$valid)
+            && self::$valid[$type] === true;
     }
 
     /**

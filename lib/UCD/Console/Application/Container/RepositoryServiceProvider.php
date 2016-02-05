@@ -7,6 +7,7 @@ use Pimple\Container;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\BlockKeyGenerator;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\GeneralCategoryKeyGenerator;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFile\PHPPropertyFileDirectory;
@@ -77,10 +78,19 @@ class RepositoryServiceProvider extends ServiceProvider
             'pft.property_aggregators.block' => function () {
                 return new AggregatorRelay(new BlockKeyGenerator(), new Factory());
             },
+            'pft.property_aggregators.general_category' => function () {
+                return new AggregatorRelay(new GeneralCategoryKeyGenerator(), new Factory());
+            },
             'pfr.property_aggregators' => function (Container $container) {
                 $aggregators = new PropertyAggregators();
-                $block = $container['pft.property_aggregators.block'];
-                $aggregators->registerAggregatorRelay(Property::ofType(Property::BLOCK), $block);
+                $aggregators->registerAggregatorRelay(
+                    Property::ofType(Property::BLOCK),
+                    $container['pft.property_aggregators.block']
+                );
+                $aggregators->registerAggregatorRelay(
+                    Property::ofType(Property::GENERAL_CATEGORY),
+                    $container['pft.property_aggregators.general_category']
+                );
                 return $aggregators;
             },
             'repository.php' => function (Container $container) {

@@ -6,6 +6,7 @@ use Prophecy\Argument;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Repository\BlockNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
@@ -94,6 +95,22 @@ class XMLRepositorySpec extends RepositoryBehaviour
         $this->givenTheXMLParsesTo([$c1, $c2, $c3]);
 
         $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS))
+            ->shouldIterateLike([Range::between(Codepoint::fromInt(1), Codepoint::fromInt(2))]);
+    }
+
+    public function it_exposes_codepoints_for_a_requested_category(Character $c1, Character $c2, Character $c3)
+    {
+        $this->givenCharacterHasCodepointWithValue($c1, 1);
+        $this->givenCharacterHasCodepointWithValue($c2, 2);
+        $this->givenCharacterHasCodepointWithValue($c3, 3);
+
+        $this->givenCharacterResidesInCategory($c1, GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH));
+        $this->givenCharacterResidesInCategory($c2, GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH));
+        $this->givenCharacterResidesInCategory($c3, GeneralCategory::fromValue(GeneralCategory::NUMBER_LETTER));
+
+        $this->givenTheXMLParsesTo([$c1, $c2, $c3]);
+
+        $this->getCodepointsByCategory(GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH))
             ->shouldIterateLike([Range::between(Codepoint::fromInt(1), Codepoint::fromInt(2))]);
     }
 

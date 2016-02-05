@@ -8,6 +8,7 @@ use UCD\Console\Application\Container\RepositoryServiceProvider;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Console\Application\Container;
@@ -78,7 +79,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $age = new Properties\General\Version(Properties\General\Version::V8_0);
         $primary = new Properties\General\Name\Assigned('Name');
         $names = new Properties\General\Names($primary);
-        $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::LETTER_LOWERCASE);
+        $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::OTHER_CONTROL);
         $combining = new Properties\Normalization\Combining(Properties\Normalization\Combining::ABOVE);
         $classing = new Properties\Bidirectionality\Classing(Properties\Bidirectionality\Classing::COMMON_SEPARATOR);
         $mirroring = new Properties\Bidirectionality\Mirroring(true);
