@@ -1,12 +1,12 @@
 <?php
 
-namespace UCD\Unicode;
+namespace UCD\Unicode\Codepoint;
 
 use UCD\Exception\InvalidArgumentException;
-use UCD\Unicode\AggregatorRelay\KeyGenerator;
-use UCD\Unicode\Codepoint\Aggregator;
+
 use UCD\Unicode\Codepoint\Aggregator\Factory;
-use UCD\Unicode\Codepoint\Range;
+use UCD\Unicode\Codepoint\AggregatorRelay\KeyGenerator;
+use UCD\Unicode\CodepointAssigned;
 
 class AggregatorRelay
 {

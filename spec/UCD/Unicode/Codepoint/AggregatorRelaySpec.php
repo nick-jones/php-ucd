@@ -1,13 +1,14 @@
 <?php
 
-namespace spec\UCD\Unicode;
+namespace spec\UCD\Unicode\Codepoint;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use UCD\Unicode\AggregatorRelay;
-use UCD\Unicode\AggregatorRelay\KeyGenerator;
+
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Codepoint\Aggregator;
+use UCD\Unicode\Codepoint\AggregatorRelay;
+use UCD\Unicode\Codepoint\AggregatorRelay\KeyGenerator;
 use UCD\Unicode\Codepoint\Range\Collection;
 use UCD\Unicode\CodepointAssigned;
 

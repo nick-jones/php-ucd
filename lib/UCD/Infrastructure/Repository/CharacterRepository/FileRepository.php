@@ -2,7 +2,6 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
-use UCD\Unicode\AggregatorRelay;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
@@ -10,6 +9,7 @@ use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
 use UCD\Unicode\Codepoint;
+use UCD\Unicode\Codepoint\AggregatorRelay;
 use UCD\Unicode\CodepointAssigned;
 
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\CharacterSlicer;

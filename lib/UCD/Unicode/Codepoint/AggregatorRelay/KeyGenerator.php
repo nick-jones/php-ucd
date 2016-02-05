@@ -1,6 +1,6 @@
 <?php
 
-namespace UCD\Unicode\AggregatorRelay;
+namespace UCD\Unicode\Codepoint\AggregatorRelay;
 
 use UCD\Unicode\CodepointAssigned;
 

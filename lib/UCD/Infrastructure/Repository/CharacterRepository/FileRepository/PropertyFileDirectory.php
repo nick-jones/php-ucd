@@ -3,7 +3,6 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 
 use UCD\Exception\UnexpectedValueException;
-use UCD\Unicode\AggregatorRelay;
 
 abstract class PropertyFileDirectory
 {

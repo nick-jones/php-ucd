@@ -27,8 +27,9 @@ use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParse
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\ShapingParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\SurrogateParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\XMLReader;
-use UCD\Unicode\AggregatorRelay;
+
 use UCD\Unicode\Codepoint\Aggregator\Factory;
+use UCD\Unicode\Codepoint\AggregatorRelay;
 
 class RepositoryServiceProvider extends ServiceProvider
 {

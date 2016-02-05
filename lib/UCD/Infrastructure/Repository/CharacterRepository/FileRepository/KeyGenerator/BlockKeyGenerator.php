@@ -2,7 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator;
 
-use UCD\Unicode\AggregatorRelay\KeyGenerator;
+use UCD\Unicode\Codepoint\AggregatorRelay\KeyGenerator;
 use UCD\Unicode\CodepointAssigned;
 
 class BlockKeyGenerator implements KeyGenerator

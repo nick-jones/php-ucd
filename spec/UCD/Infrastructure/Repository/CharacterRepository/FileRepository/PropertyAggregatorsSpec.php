@@ -6,7 +6,7 @@ use PhpSpec\ObjectBehavior;
 use UCD\Exception\UnexpectedValueException;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
-use UCD\Unicode\AggregatorRelay;
+use UCD\Unicode\Codepoint\AggregatorRelay;
 
 /**
  * @mixin PropertyAggregators

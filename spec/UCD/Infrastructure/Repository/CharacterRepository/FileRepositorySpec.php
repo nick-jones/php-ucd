@@ -4,18 +4,18 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository;
 
 use Prophecy\Argument;
 
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFile;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFileDirectory;
-use UCD\Unicode\AggregatorRelay;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
 use UCD\Unicode\Codepoint;
+use UCD\Unicode\Codepoint\AggregatorRelay;
 
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
