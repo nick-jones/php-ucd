@@ -5,7 +5,7 @@
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat-square)](https://php.net/)
 
 This project aims to present a PHP interface into the [Unicode Character Database](http://unicode.org/ucd/) (UCD).
-It provides a means to lookup, filter, and interrogate the metadata of characters that reside within the UCD.
+It provides a means to lookup, filter, and interrogate the metadata & properties of unicode characters.
 
 ## Installation
 
@@ -23,6 +23,8 @@ The primary interface to utilise is `UCD\Database`. This provides a number of me
 - `Database::getByCodepoints(Codepoint\Collection $codepoints)` - resolves multiple codepoint assigned entities
 - `Database::getCodepointsByBlock(Block $block)` - resolves codepoints residing in the supplied block
 - `Database::getByBlock(Block $block)` - resolves codepoint assigned entities residing in the supplied block
+- `Database::getCodepointsByCategory(GeneralCategory $category)` - resolves codepoints residing in the supplied category
+- `Database::getByCategory(GeneralCategory $category)` - resolves codepoint assigned entities residing in the supplied category
 - `Database::all()` - returns a `Collection` instance containing everything assigned a codepoint within the database
 - `Database::onlyCharacters()` - returns a `Collection` instance containing only `Character` instances
 - `Database::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
