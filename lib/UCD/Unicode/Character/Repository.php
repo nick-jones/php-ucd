@@ -19,12 +19,12 @@ interface Repository extends \Countable
 
     /**
      * @param Codepoint\Collection|Codepoint[] $codepoints
-     * @return CodepointAssigned[]
+     * @return Collection|CodepointAssigned[]
      */
     public function getByCodepoints(Codepoint\Collection $codepoints);
 
     /**
-     * @return Collection
+     * @return Collection|CodepointAssigned[]
      */
     public function getAll();
 

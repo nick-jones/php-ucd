@@ -55,7 +55,7 @@ abstract class PropertyFileDirectory
 
     /**
      * @param Property $property
-     * @param Range[] $ranges
+     * @param string[] $ranges
      */
     public function writeProperty(Property $property, array $ranges)
     {

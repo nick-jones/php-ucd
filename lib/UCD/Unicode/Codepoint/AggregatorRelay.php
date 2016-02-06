@@ -21,6 +21,11 @@ class AggregatorRelay
     private $aggregators = [];
 
     /**
+     * @var Factory
+     */
+    private $aggregatorFactory;
+
+    /**
      * @param KeyGenerator $keyGenerator
      * @param Factory $aggregatorFactory
      */
