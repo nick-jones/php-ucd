@@ -9,7 +9,6 @@ use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
-use UCD\Unicode\Codepoint\Aggregator\Factory;
 use UCD\Unicode\Codepoint\AggregatorRelay;
 use UCD\Unicode\CodepointAssigned;
 use UCD\Unicode\NonCharacter;
@@ -18,11 +17,9 @@ use UCD\Unicode\Surrogate;
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\OutOfRangeException;
 
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\BlockKeyGenerator;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
 
 class Database
 {
@@ -188,8 +185,6 @@ class Database
         $propsPathInfo = new \SplFileInfo(sprintf('%s/../../resources/generated/props', __DIR__));
         $propertiesDirectory = FileRepository\PropertyFile\PHPPropertyFileDirectory::fromPath($propsPathInfo);
         $aggregators = new FileRepository\PropertyAggregators();
-        $block = new AggregatorRelay(new BlockKeyGenerator(), new Factory());
-        $aggregators->registerAggregatorRelay(Property::ofType(Property::BLOCK), $block);
         $serializer = new PHPSerializer();
 
         return new FileRepository($charactersDirectory, $propertiesDirectory, $aggregators, $serializer);
