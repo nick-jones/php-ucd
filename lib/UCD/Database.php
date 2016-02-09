@@ -138,10 +138,9 @@ class Database
      */
     public function getByBlock(Block $block)
     {
-        $codepoints = $this->getCodepointsByBlock($block)
-            ->expand();
-
-        return $this->getByCodepoints($codepoints);
+        return $this->getByCodepointRanges(
+            $this->getCodepointsByBlock($block)
+        );
     }
 
     /**
@@ -161,10 +160,20 @@ class Database
      */
     public function getByCategory(GeneralCategory $category)
     {
-        $codepoints = $this->getCodepointsByCategory($category)
-            ->expand();
+        return $this->getByCodepointRanges(
+            $this->getCodepointsByCategory($category)
+        );
+    }
 
-        return $this->getByCodepoints($codepoints);
+    /**
+     * @param Codepoint\Range\Collection $ranges
+     * @return CodepointAssigned[]
+     */
+    private function getByCodepointRanges(Codepoint\Range\Collection $ranges)
+    {
+        return $this->getByCodepoints(
+            $ranges->expand()
+        );
     }
 
     /**
