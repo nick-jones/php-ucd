@@ -36,7 +36,7 @@ class Collection extends TraversableBackedCollection
     /**
      * @return static|Character[]
      */
-    public function onlyCharacters()
+    public function getCharacters()
     {
         return $this->filterWith(function (CodepointAssigned $assigned) {
             return $assigned instanceof Character;
@@ -46,7 +46,7 @@ class Collection extends TraversableBackedCollection
     /**
      * @return static|NonCharacter[]
      */
-    public function onlyNonCharacters()
+    public function getNonCharacters()
     {
         return $this->filterWith(function (CodepointAssigned $assigned) {
             return $assigned instanceof NonCharacter;
@@ -56,7 +56,7 @@ class Collection extends TraversableBackedCollection
     /**
      * @return static|Surrogate[]
      */
-    public function onlySurrogates()
+    public function getSurrogates()
     {
         return $this->filterWith(function (CodepointAssigned $assigned) {
             return $assigned instanceof Surrogate;

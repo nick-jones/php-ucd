@@ -100,7 +100,7 @@ class Database
     public function onlyCharacters()
     {
         return $this->all()
-            ->onlyCharacters();
+            ->getCharacters();
     }
 
     /**
@@ -109,7 +109,7 @@ class Database
     public function onlyNonCharacters()
     {
         return $this->all()
-            ->onlyNonCharacters();
+            ->getNonCharacters();
     }
 
     /**
@@ -118,7 +118,7 @@ class Database
     public function onlySurrogates()
     {
         return $this->all()
-            ->onlySurrogates();
+            ->getSurrogates();
     }
 
     /**

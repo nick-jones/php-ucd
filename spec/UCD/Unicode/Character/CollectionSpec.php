@@ -73,7 +73,7 @@ class CollectionSpec extends ObjectBehavior
     {
         $this->givenTheCollectionContains([$character, $surrogate]);
 
-        $this->onlyCharacters()
+        $this->getCharacters()
             ->shouldIterateLike([$character]);
     }
 
@@ -81,7 +81,7 @@ class CollectionSpec extends ObjectBehavior
     {
         $this->givenTheCollectionContains([$nonCharacter, $character]);
 
-        $this->onlyNonCharacters()
+        $this->getNonCharacters()
             ->shouldIterateLike([$nonCharacter]);
     }
 
@@ -89,7 +89,7 @@ class CollectionSpec extends ObjectBehavior
     {
         $this->givenTheCollectionContains([$surrogate, $character]);
 
-        $this->onlyNonCharacters()
+        $this->getNonCharacters()
             ->shouldIterateLike([$surrogate]);
     }
 
