@@ -184,17 +184,17 @@ class DatabaseSpec extends ObjectBehavior
     ) {
         $codepoint = Codepoint::fromInt(1);
         $ranges = Codepoint\Range\Collection::fromArray([$codepoint]);
-        $block = GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH);
+        $category = GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH);
 
         $this->repository
-            ->getCodepointsByCategory($block)
+            ->getCodepointsByCategory($category)
             ->willReturn($ranges);
 
         $this->repository
             ->getByCodepoints($ranges->expand())
             ->willReturn($characters);
 
-        $this->getByCategory($block)
+        $this->getByCategory($category)
             ->shouldReturn($characters);
     }
 
