@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use UCD\Console\Application\Command\RepositoryTransferCommand;
 use UCD\Console\Application\Command\SearchCommand;
+use UCD\Console\Application\Container as UCDContainer;
 
 class ApplicationServiceProvider extends ServiceProvider
 {
@@ -64,10 +65,10 @@ class ApplicationServiceProvider extends ServiceProvider
     private function setupCommands(Container $container)
     {
         $this->addMany($container, [
-            'command.repository_transfer' => function (Container $container) {
+            'command.repository_transfer' => function (UCDContainer $container) {
                 return new RepositoryTransferCommand($container);
             },
-            'command.search' => function (Container $container) {
+            'command.search' => function (UCDContainer $container) {
                 return new SearchCommand($container);
             }
         ]);

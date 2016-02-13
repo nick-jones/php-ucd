@@ -110,7 +110,9 @@ class FileRepository implements WritableRepository
         foreach ($codepoints as $codepoint) {
             try {
                 yield $this->getByCodepoint($codepoint);
-            } catch (CharacterNotFoundException $e) { }
+            } catch (CharacterNotFoundException $e) {
+                // Missing characters are skipped
+            }
         }
     }
 

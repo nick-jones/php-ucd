@@ -45,7 +45,9 @@ class InMemoryRepository implements WritableRepository
             try {
                 $character = $this->getByCodepoint($codepoint);
                 array_push($results, $character);
-            } catch (CharacterNotFoundException $e) { }
+            } catch (CharacterNotFoundException $e) {
+                // Missing characters are skipped
+            }
         }
 
         return Character\Collection::fromArray($results);
