@@ -5,8 +5,7 @@ namespace UCD\Infrastructure\Repository\CharacterRepository;
 use UCD\Exception;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
-use UCD\Unicode\Character\Properties\General\Block;
-use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
@@ -244,7 +243,7 @@ class FileRepository implements WritableRepository
     /**
      * {@inheritDoc}
      */
-    public function getCodepointsByBlock(Block $block)
+    public function getCodepointsByBlock(Properties\General\Block $block)
     {
         return $this->resolveCodepointsByProperty(
             Property::ofType(Property::BLOCK),
@@ -256,7 +255,7 @@ class FileRepository implements WritableRepository
     /**
      * {@inheritDoc}
      */
-    public function getCodepointsByCategory(GeneralCategory $category)
+    public function getCodepointsByCategory(Properties\General\GeneralCategory $category)
     {
         return $this->resolveCodepointsByProperty(
             Property::ofType(Property::GENERAL_CATEGORY),
