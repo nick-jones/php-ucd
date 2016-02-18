@@ -2,9 +2,16 @@
 
 all: test db
 
-test:
+test: test-spec test-integration test-smoke
+
+test-spec:
 	./vendor/bin/phpspec run
+
+test-integration:
 	./vendor/bin/phpunit
+
+test-smoke:
+	./bin/ucd search 2603 > /dev/null
 
 clean:
 	rm -f resources/ucd.all.flat.*
