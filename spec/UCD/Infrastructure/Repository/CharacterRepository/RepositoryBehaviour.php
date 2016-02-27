@@ -34,7 +34,8 @@ class RepositoryBehaviour extends ObjectBehavior
             new General\Names(new General\Name\Unassigned()),
             $block,
             new General\Version(General\Version::UNKNOWN),
-            new GeneralCategory(GeneralCategory::LETTER_TITLECASE)
+            new GeneralCategory(GeneralCategory::LETTER_TITLECASE),
+            new General\Script(General\Script::COMMON)
         );
 
         $character->getGeneralProperties()
@@ -51,7 +52,8 @@ class RepositoryBehaviour extends ObjectBehavior
             new General\Names(new General\Name\Unassigned()),
             new Block(Block::CYRILLIC),
             new General\Version(General\Version::UNKNOWN),
-            $category
+            $category,
+            new General\Script(General\Script::COMMON)
         );
 
         $character->getGeneralProperties()

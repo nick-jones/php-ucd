@@ -9,6 +9,7 @@ use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Character\Properties\General\Name\Assigned;
 use UCD\Unicode\Character\Properties\General\Name\Unassigned;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Character\Properties\General\Version;
 use UCD\Unicode\Codepoint;
 
@@ -22,7 +23,7 @@ class GeneralParserSpec extends ObjectBehavior
     const XML_DATA = <<<XML
 <ucd xmlns="http://www.unicode.org/ns/2003/ucd/1.0">
    <repertoire>
-      <char age="1.1" na="" na1="NULL" blk="ASCII" gc="Cc"/>
+      <char age="1.1" na="" na1="NULL" blk="ASCII" gc="Cc" sc="Mlym"/>
    </repertoire>
 </ucd>
 XML;
@@ -35,7 +36,8 @@ XML;
         $block = new Block(Block::BASIC_LATIN);
         $age = new Version(Version::V1_1);
         $generalCategory = new GeneralCategory(GeneralCategory::OTHER_CONTROL);
-        $expected = new General($names, $block, $age, $generalCategory);
+        $script = new Script(Script::MALAYALAM);
+        $expected = new General($names, $block, $age, $generalCategory, $script);
 
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(self::XML_DATA);

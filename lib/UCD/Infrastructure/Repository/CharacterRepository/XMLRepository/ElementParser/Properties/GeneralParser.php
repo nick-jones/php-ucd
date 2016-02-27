@@ -9,6 +9,7 @@ use UCD\Unicode\Character\Properties\General\Name\Assigned;
 use UCD\Unicode\Character\Properties\General\Name\Unassigned;
 use UCD\Unicode\Character\Properties\General\Names;
 use UCD\Unicode\Character\Properties\General\Name;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Character\Properties\General\Version;
 
 class GeneralParser extends BaseParser
@@ -18,6 +19,7 @@ class GeneralParser extends BaseParser
     const ATTR_NAME_VERSION_1 = 'na1';
     const ATTR_BLOCK = 'blk';
     const ATTR_GENERAL_CATEGORY = 'gc';
+    const ATTR_SCRIPT = 'sc';
 
     /**
      * @return General
@@ -28,8 +30,9 @@ class GeneralParser extends BaseParser
         $block = $this->parseBlock();
         $age = $this->parseAge();
         $generalCategory = $this->parseGeneralCategory();
+        $script = $this->parseScript();
 
-        return new General($names, $block, $age, $generalCategory);
+        return new General($names, $block, $age, $generalCategory, $script);
     }
 
     /**
@@ -100,5 +103,13 @@ class GeneralParser extends BaseParser
     private function parseGeneralCategory()
     {
         return new GeneralCategory($this->getAttribute(self::ATTR_GENERAL_CATEGORY));
+    }
+
+    /**
+     * @return Script
+     */
+    private function parseScript()
+    {
+        return new Script($this->getAttribute(self::ATTR_SCRIPT));
     }
 }

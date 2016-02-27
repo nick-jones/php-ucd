@@ -47,7 +47,8 @@ XML;
         $names = new Properties\General\Names($primary, [], $primary);
         $block = new Properties\General\Block(Properties\General\Block::ARABIC_PRESENTATION_FORMS_A);
         $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::OTHER_NOT_ASSIGNED);
-        $properties = new Properties\General($names, $block, $age, $cat);
+        $script = new Properties\General\Script(Properties\General\Script::UNKNOWN);
+        $properties = new Properties\General($names, $block, $age, $cat, $script);
         $codepoint = Codepoint::fromInt(64976);
         $character = new NonCharacter($codepoint, $properties);
 

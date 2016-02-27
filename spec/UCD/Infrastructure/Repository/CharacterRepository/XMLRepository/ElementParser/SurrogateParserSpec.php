@@ -48,7 +48,8 @@ XML;
         $names = new Properties\General\Names($primary, [], $primary);
         $block = new Properties\General\Block(Properties\General\Block::HIGH_SURROGATES);
         $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::OTHER_SURROGATE);
-        $properties = new Properties\General($names, $block, $age, $cat);
+        $script = new Properties\General\Script(Properties\General\Script::UNKNOWN);
+        $properties = new Properties\General($names, $block, $age, $cat, $script);
         $codepoint = Codepoint::fromInt(55296);
         $character = new Surrogate($codepoint, $properties);
 

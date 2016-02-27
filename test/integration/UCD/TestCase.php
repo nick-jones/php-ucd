@@ -89,7 +89,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $decomp = new Properties\Normalization\Decomposition\Assigned($decompositionType, []);
         $numericType = new Properties\Numericity\NumericType(Properties\Numericity\NumericType::NONE);
         $numericity = new Properties\Numericity\NonNumeric($numericType);
-        $general = new Properties\General($names, $block ?: new Block(Block::BASIC_LATIN), $age, $cat);
+        $script = new Properties\General\Script(Properties\General\Script::COMMON);
+        $general = new Properties\General($names, $block ?: new Block(Block::BASIC_LATIN), $age, $cat, $script);
         $normalization = new Properties\Normalization($combining, $decomp);
         $joiningGroup = new Properties\Shaping\JoiningGroup(Properties\Shaping\JoiningGroup::NO_JOINING_GROUP);
         $joiningType = new Properties\Shaping\JoiningType(Properties\Shaping\JoiningType::NON_JOINING);
