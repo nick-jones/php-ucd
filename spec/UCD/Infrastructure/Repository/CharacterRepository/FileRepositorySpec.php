@@ -12,6 +12,7 @@ use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Character\WritableRepository;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Codepoint\AggregatorRelay;
+use UCD\Unicode\Codepoint\Range\Collection;
 
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
@@ -21,8 +22,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile\PHPRangeFile;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileDirectory;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer\PHPSerializer;
-use UCD\Unicode\Codepoint\Range\Collection;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
 
 /**
  * @mixin FileRepository
@@ -35,7 +35,7 @@ class FileRepositorySpec extends RepositoryBehaviour
         RangeFileDirectory $charactersDirectory,
         PropertyFileDirectory $propertiesDirectory,
         PropertyAggregators $aggregators,
-        PHPSerializer $serializer
+        Serializer $serializer
     ) {
         $aggregators->getIterator()
             ->willReturn(new \ArrayIterator());

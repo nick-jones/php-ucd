@@ -16,8 +16,9 @@ use UCD\Unicode\Codepoint\Range;
  */
 class PropertyFileSpec extends ObjectBehavior
 {
-    public function let(File $file, Property $property)
+    public function let(File $file)
     {
+        $property = Property::ofType(Property::BLOCK);
         $this->beConstructedWith($file, $property);
     }
 

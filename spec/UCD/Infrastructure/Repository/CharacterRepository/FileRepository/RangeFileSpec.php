@@ -13,8 +13,9 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
  */
 class RangeFileSpec extends ObjectBehavior
 {
-    public function let(File $file, Range $range)
+    public function let(File $file)
     {
+        $range = new Range(1, 1);
         $this->beConstructedWith($file, $range, 1);
     }
 

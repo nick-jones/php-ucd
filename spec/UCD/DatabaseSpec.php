@@ -46,11 +46,10 @@ class DatabaseSpec extends ObjectBehavior
             ->shouldReturn($entity);
     }
 
-    public function it_can_locate_multiple_codepoint_assigned_entities_by_codepoints(Character\Collection $characters)
+    public function it_can_locate_multiple_codepoint_assigned_entities_by_codepoints()
     {
-        $codepoints = Codepoint\Collection::fromArray([
-            Codepoint::fromInt(1)
-        ]);
+        $characters = Character\Collection::fromArray([]);
+        $codepoints = Codepoint\Collection::fromArray([Codepoint::fromInt(1)]);
 
         $this->repository
             ->getByCodepoints($codepoints)
@@ -148,8 +147,9 @@ class DatabaseSpec extends ObjectBehavior
             ->shouldReturn($ranges);
     }
 
-    public function it_can_provide_all_codepoint_assigned_entities_in_a_specific_block(Character\Collection $characters)
+    public function it_can_provide_all_codepoint_assigned_entities_in_a_specific_block()
     {
+        $characters = Character\Collection::fromArray([]);
         $codepoint = Codepoint::fromInt(1);
         $ranges = Codepoint\Range\Collection::fromArray([$codepoint]);
         $block = Block::fromValue(Block::AEGEAN_NUMBERS);
@@ -179,9 +179,9 @@ class DatabaseSpec extends ObjectBehavior
             ->shouldReturn($ranges);
     }
 
-    public function it_can_provide_all_codepoint_assigned_entities_in_a_given_general_category(
-        Character\Collection $characters
-    ) {
+    public function it_can_provide_all_codepoint_assigned_entities_in_a_given_general_category()
+    {
+        $characters = Character\Collection::fromArray([]);
         $codepoint = Codepoint::fromInt(1);
         $ranges = Codepoint\Range\Collection::fromArray([$codepoint]);
         $category = GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH);

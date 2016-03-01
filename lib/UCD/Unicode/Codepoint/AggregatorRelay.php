@@ -21,18 +21,11 @@ class AggregatorRelay
     private $aggregators = [];
 
     /**
-     * @var Factory
-     */
-    private $aggregatorFactory;
-
-    /**
      * @param KeyGenerator $keyGenerator
-     * @param Factory $aggregatorFactory
      */
-    public function __construct(KeyGenerator $keyGenerator, Factory $aggregatorFactory)
+    public function __construct(KeyGenerator $keyGenerator)
     {
         $this->keyGenerator = $keyGenerator;
-        $this->aggregatorFactory = $aggregatorFactory;
     }
 
     /**
@@ -64,18 +57,10 @@ class AggregatorRelay
         $key = $this->keyGenerator->generateFor($entity);
 
         if (!array_key_exists($key, $this->aggregators)) {
-            $this->aggregators[$key] = $this->aggregatorFactory->create();
+            $this->aggregators[$key] = new Aggregator();
         }
 
         return $this->aggregators[$key];
-    }
-
-    /**
-     * @return Aggregator[]
-     */
-    public function getAll()
-    {
-        return $this->aggregators;
     }
 
     /**

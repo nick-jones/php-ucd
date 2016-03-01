@@ -13,10 +13,9 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFil
  */
 class PropertyFilesSpec extends ObjectBehavior
 {
-    public function it_can_resolve_a_property_file_for_a_given_property(Property $property, PropertyFile $file)
+    public function it_can_resolve_a_property_file_for_a_given_property(PropertyFile $file)
     {
-        $property->__toString()
-            ->willReturn('x');
+        $property = Property::ofType(Property::BLOCK);
 
         $file->getProperty()
             ->willReturn($property);
@@ -27,10 +26,9 @@ class PropertyFilesSpec extends ObjectBehavior
             ->shouldReturn($file);
     }
 
-    public function it_throws_UnexpectedValueException_if_no_file_exists_for_a_supplied_property(Property $property)
+    public function it_throws_UnexpectedValueException_if_no_file_exists_for_a_supplied_property()
     {
-        $property->__toString()
-            ->willReturn('x');
+        $property = Property::ofType(Property::BLOCK);
 
         $this->shouldThrow(UnexpectedValueException::class)
             ->duringGetByProperty($property);

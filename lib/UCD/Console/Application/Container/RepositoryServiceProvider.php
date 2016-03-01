@@ -76,10 +76,10 @@ class RepositoryServiceProvider extends ServiceProvider
                 return PHPPropertyFileDirectory::fromPath($container['pfr.properties_path']);
             },
             'pft.property_aggregators.block' => function () {
-                return new AggregatorRelay(new BlockKeyGenerator(), new Factory());
+                return new AggregatorRelay(new BlockKeyGenerator());
             },
             'pft.property_aggregators.general_category' => function () {
-                return new AggregatorRelay(new GeneralCategoryKeyGenerator(), new Factory());
+                return new AggregatorRelay(new GeneralCategoryKeyGenerator());
             },
             'pfr.property_aggregators' => function (Container $container) {
                 $aggregators = new PropertyAggregators();

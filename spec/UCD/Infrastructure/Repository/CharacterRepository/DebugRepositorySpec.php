@@ -69,8 +69,10 @@ class DebugRepositorySpec extends RepositoryBehaviour
         $this->getAll();
     }
 
-    public function it_delegates_getAll_calls($repository, Character\Collection $collection)
+    public function it_delegates_getAll_calls($repository)
     {
+        $collection =  Character\Collection::fromArray([]);
+
         $repository->getAll()
             ->willReturn($collection);
 
@@ -86,8 +88,9 @@ class DebugRepositorySpec extends RepositoryBehaviour
         $this->getCodepointsByBlock(Block::fromValue(Block::AEGEAN_NUMBERS));
     }
 
-    public function it_delegates_getCodepointsByBlock_calls($repository, Codepoint\Range\Collection $ranges)
+    public function it_delegates_getCodepointsByBlock_calls($repository)
     {
+        $ranges = Codepoint\Range\Collection::fromArray([]);
         $block = Block::fromValue(Block::CYRILLIC);
 
         $repository->getCodepointsByBlock($block)
@@ -105,8 +108,9 @@ class DebugRepositorySpec extends RepositoryBehaviour
         $this->getCodepointsByCategory(GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH));
     }
 
-    public function it_delegates_getCodepointsByCategory_calls($repository, Codepoint\Range\Collection $ranges)
+    public function it_delegates_getCodepointsByCategory_calls($repository)
     {
+        $ranges = Codepoint\Range\Collection::fromArray([]);
         $category = GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH);
 
         $repository->getCodepointsByCategory($category)
