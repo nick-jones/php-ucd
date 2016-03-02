@@ -111,7 +111,7 @@ Locating an individual character by its codepoint value is trivial:
 use UCD\Database;
 use UCD\Unicode\Codepoint;
 
-$collection = Database::fromDisk();
+$database = Database::fromDisk();
 $codepoint = Codepoint::fromInt(9731);
 // ..or $codepoint = Codepoint::fromHex('2603');
 // ..or $codepoint = Codepoint::fromUTF8('☃');
@@ -128,9 +128,11 @@ It is just as trivial to interrogate multiple codepoints. For example, you could
 residing within a string:
 
 ```php
+use UCD\Database;
 use UCD\Unicode\Codepoint;
 
-$string = 'F̶͉̌̔̂̂';
+$database = Database::fromDisk();
+$string = 'abc';
 $codepoints = Codepoint\Collection::fromUTF8($string);
 $assigned = $database->getByCodepoints($codepoints);
 
@@ -143,13 +145,9 @@ foreach ($assigned->getCharacters() as $character) {
 }
 
 // outputting:
-//  U+46: LATIN CAPITAL LETTER F
-//  U+336: COMBINING LONG STROKE OVERLAY
-//  U+349: COMBINING LEFT ANGLE BELOW
-//  U+30C: COMBINING CARON
-//  U+314: COMBINING REVERSED COMMA ABOVE
-//  U+302: COMBINING CIRCUMFLEX ACCENT
-//  U+302: COMBINING CIRCUMFLEX ACCENT
+//  U+61: LATIN SMALL LETTER A
+//  U+62: LATIN SMALL LETTER B
+//  U+63: LATIN SMALL LETTER C
 ```
 
 ### Regex Building
