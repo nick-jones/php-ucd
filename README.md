@@ -124,10 +124,38 @@ $names = $general->getNames();
 printf("%s: %s\n", $character->getCodepoint(), $names->getPrimary());
 ```
 
+It is just as trivial to interrogate multiple codepoints. For example, you could print the name of every codepoint
+residing within a string:
+
+```php
+use UCD\Unicode\Codepoint;
+
+$string = 'F̶͉̌̔̂̂';
+$codepoints = Codepoint\Collection::fromUTF8($string);
+$assigned = $database->getByCodepoints($codepoints);
+
+foreach ($assigned->getCharacters() as $character) {
+    $properties = $character->getProperties();
+    $general = $properties->getGeneral();
+    $names = $general->getNames();
+
+    printf("%s: %s\n", $character->getCodepoint(), $names->getPrimary());
+}
+
+// outputting:
+//  U+46: LATIN CAPITAL LETTER F
+//  U+336: COMBINING LONG STROKE OVERLAY
+//  U+349: COMBINING LEFT ANGLE BELOW
+//  U+30C: COMBINING CARON
+//  U+314: COMBINING REVERSED COMMA ABOVE
+//  U+302: COMBINING CIRCUMFLEX ACCENT
+//  U+302: COMBINING CIRCUMFLEX ACCENT
+```
+
 ### Regex Building
 
-The library provides a means to produce regular expression characters classes based codepoints that have been
-extracted or aggregated from a character collection. For example, if you wanted to produce a regular expression
+The library provides a means to build regular expression characters classes based codepoints that have been
+extracted or aggregated from a collection of characters. For example, if you wanted to produce a regular expression
 that matched numeric flavour bengali characters, then you could use something along the lines of:
 
 ```php
@@ -194,5 +222,5 @@ currently covered:
 
 ## Tests
 
-[PhpSpec](http://www.phpspec.net/) and [PHPUnit](https://phpunit.de/) backed integration tests are provided.
-The easiest way to run them is via the Makefile; simply run `make test`.
+[PhpSpec](http://www.phpspec.net/) class specifications and [PHPUnit](https://phpunit.de/) backed integration tests are 
+provided. The easiest way to run them is via the Makefile; simply run `make test`.
