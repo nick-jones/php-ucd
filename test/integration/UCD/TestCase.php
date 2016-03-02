@@ -3,12 +3,10 @@
 namespace integration\UCD;
 
 use UCD\Console\Application\Container\ApplicationServiceProvider;
-use UCD\Console\Application\Container\ConfigurationProvider;
 use UCD\Console\Application\Container\RepositoryServiceProvider;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
-use UCD\Unicode\Character\Properties\General\GeneralCategory;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Console\Application\Container;

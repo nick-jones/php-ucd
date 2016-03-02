@@ -2,12 +2,14 @@
 
 namespace integration\UCD\Command;
 
+use integration\UCD\TestCase as BaseTestCase;
+
 use Hamcrest\MatcherAssert as ha;
 use Hamcrest\Matchers as hm;
-use integration\UCD\TestCase as BaseTestCase;
-use Pimple\Container;
+
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+
 use UCD\Console\Application\Command\SearchCommand;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Codepoint;
