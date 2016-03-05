@@ -25,6 +25,8 @@ The primary interface to utilise is `UCD\Database`. This provides a number of me
 - `Database::getByBlock(Block $block)` - resolves codepoint assigned entities residing in the supplied block
 - `Database::getCodepointsByCategory(GeneralCategory $category)` - resolves codepoints residing in the supplied category
 - `Database::getByCategory(GeneralCategory $category)` - resolves codepoint assigned entities residing in the supplied category
+- `Database::getCodepointsByScript(Script $script)` - resolves codepoints residing in the supplied script
+- `Database::getByScript(Script $script)` - resolves codepoint assigned entities residing in the supplied script
 - `Database::all()` - returns a `Collection` instance containing everything assigned a codepoint within the database
 - `Database::onlyCharacters()` - returns a `Collection` instance containing only `Character` instances
 - `Database::onlyNonCharacters()` - returns a `Collection` instance containing only `NonCharacter` instances
