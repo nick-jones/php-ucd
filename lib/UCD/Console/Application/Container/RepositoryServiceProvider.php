@@ -8,6 +8,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\DebugWritableRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\BlockKeyGenerator;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\GeneralCategoryKeyGenerator;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\KeyGenerator\ScriptKeyGenerator;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Property;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAggregators;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFile\PHPPropertyFileDirectory;
@@ -81,6 +82,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'pft.property_aggregators.general_category' => function () {
                 return new AggregatorRelay(new GeneralCategoryKeyGenerator());
             },
+            'pft.property_aggregators.script' => function () {
+                return new AggregatorRelay(new ScriptKeyGenerator());
+            },
             'pfr.property_aggregators' => function (Container $container) {
                 $aggregators = new PropertyAggregators();
                 $aggregators->registerAggregatorRelay(
@@ -90,6 +94,10 @@ class RepositoryServiceProvider extends ServiceProvider
                 $aggregators->registerAggregatorRelay(
                     Property::ofType(Property::GENERAL_CATEGORY),
                     $container['pft.property_aggregators.general_category']
+                );
+                $aggregators->registerAggregatorRelay(
+                    Property::ofType(Property::SCRIPT),
+                    $container['pft.property_aggregators.script']
                 );
                 return $aggregators;
             },
