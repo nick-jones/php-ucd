@@ -8,13 +8,15 @@ class Property
 {
     const BLOCK = 'block';
     const GENERAL_CATEGORY = 'gc';
+    const SCRIPT = 'script';
 
     /**
      * @var bool[]
      */
     private static $valid = [
         self::BLOCK => true,
-        self::GENERAL_CATEGORY => true
+        self::GENERAL_CATEGORY => true,
+        self::SCRIPT => true
     ];
 
     /**

@@ -7,6 +7,7 @@ use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Codepoint;
 
 class RepositoryBehaviour extends ObjectBehavior
@@ -35,7 +36,7 @@ class RepositoryBehaviour extends ObjectBehavior
             $block,
             new General\Version(General\Version::UNKNOWN),
             new GeneralCategory(GeneralCategory::LETTER_TITLECASE),
-            new General\Script(General\Script::COMMON)
+            new Script(Script::COMMON)
         );
 
         $character->getGeneralProperties()
@@ -53,7 +54,25 @@ class RepositoryBehaviour extends ObjectBehavior
             new Block(Block::CYRILLIC),
             new General\Version(General\Version::UNKNOWN),
             $category,
-            new General\Script(General\Script::COMMON)
+            new Script(Script::COMMON)
+        );
+
+        $character->getGeneralProperties()
+            ->willReturn($general);
+    }
+
+    /**
+     * @param Character $character
+     * @param Script $script
+     */
+    protected function givenCharacterResidesInScript($character, $script)
+    {
+        $general = new General(
+            new General\Names(new General\Name\Unassigned()),
+            new Block(Block::CYRILLIC),
+            new General\Version(General\Version::UNKNOWN),
+            new GeneralCategory(GeneralCategory::LETTER_TITLECASE),
+            $script
         );
 
         $character->getGeneralProperties()

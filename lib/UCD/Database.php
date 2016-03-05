@@ -6,6 +6,7 @@ use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
@@ -162,6 +163,28 @@ class Database
     {
         return $this->getByCodepointRanges(
             $this->getCodepointsByCategory($category)
+        );
+    }
+
+    /**
+     * @param Script $script
+     * @throws Repository\BlockNotFoundException
+     * @return Codepoint\Range\Collection
+     */
+    public function getCodepointsByScript(Script $script)
+    {
+        return $this->sourceRepository
+            ->getCodepointsByScript($script);
+    }
+
+    /**
+     * @param Script $script
+     * @return Collection|CodepointAssigned[]
+     */
+    public function getByScript(Script $script)
+    {
+        return $this->getByCodepointRanges(
+            $this->getCodepointsByScript($script)
         );
     }
 

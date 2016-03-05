@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository;
 use UCD\Infrastructure\Repository\CharacterRepository\DebugRepository;
@@ -119,7 +120,27 @@ class DebugRepositorySpec extends RepositoryBehaviour
         $this->getCodepointsByCategory($category)
             ->shouldReturn($ranges);
     }
-    
+
+    public function it_logs_getCodepointsByScript_calls($logger)
+    {
+        $logger->info(Argument::containingString('Repository::getCodepointsByScript/'))
+            ->shouldBeCalled();
+
+        $this->getCodepointsByScript(Script::fromValue(Script::SAMARITAN));
+    }
+
+    public function it_delegates_getCodepointsByScript_calls($repository)
+    {
+        $ranges = Codepoint\Range\Collection::fromArray([]);
+        $script = Script::fromValue(Script::SAMARITAN);
+
+        $repository->getCodepointsByScript($script)
+            ->willReturn($ranges);
+
+        $this->getCodepointsByScript($script)
+            ->shouldReturn($ranges);
+    }
+
     public function it_logs_count_calls($logger)
     {
         $logger->info(Argument::containingString('Repository::count/'))

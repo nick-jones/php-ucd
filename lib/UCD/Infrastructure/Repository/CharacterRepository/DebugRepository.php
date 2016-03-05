@@ -6,9 +6,9 @@ use Psr\Log\LoggerInterface;
 
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository;
-use UCD\Unicode\CodepointAssigned;
 
 class DebugRepository implements Repository
 {
@@ -85,6 +85,17 @@ class DebugRepository implements Repository
         $this->log($message);
 
         return $this->delegate->getCodepointsByCategory($category);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCodepointsByScript(Script $script)
+    {
+        $message = $this->composeMessage(__FUNCTION__);
+        $this->log($message);
+
+        return $this->delegate->getCodepointsByScript($script);
     }
 
     /**

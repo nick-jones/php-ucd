@@ -5,8 +5,10 @@ namespace UCD\Unicode\Character\Repository\Capability;
 use UCD\Exception;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Character\Repository\BlockNotFoundException;
 use UCD\Unicode\Character\Repository\GeneralCategoryNotFoundException;
+use UCD\Unicode\Character\Repository\ScriptNotFoundException;
 use UCD\Unicode\Codepoint\Aggregator;
 use UCD\Unicode\Codepoint\Range;
 use UCD\Unicode\CodepointAssigned;
@@ -44,6 +46,23 @@ trait PropertySearchByIteration
         return $this->aggregatePropertiesWith(
             $comparator,
             GeneralCategoryNotFoundException::withCategory($category)
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCodepointsByScript(Script $script)
+    {
+        $comparator = function (CodepointAssigned $item) use ($script) {
+            return $item->getGeneralProperties()
+                ->getScript()
+                ->equals($script);
+        };
+
+        return $this->aggregatePropertiesWith(
+            $comparator,
+            ScriptNotFoundException::withScript($script)
         );
     }
 

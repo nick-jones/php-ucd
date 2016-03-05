@@ -7,6 +7,7 @@ use integration\UCD\TestCase as BaseTestCase;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -118,6 +119,17 @@ abstract class TestCase extends BaseTestCase
     {
         $category = GeneralCategory::fromValue(GeneralCategory::OTHER_CONTROL);
         $codepoints = $this->repository->getCodepointsByCategory($category);
+
+        ha::assertThat('count', count($codepoints), hm::is(hm::equalTo(1)));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_provide_all_codepoints_residing_in_a_specific_script()
+    {
+        $script = Script::fromValue(Script::COMMON);
+        $codepoints = $this->repository->getCodepointsByScript($script);
 
         ha::assertThat('count', count($codepoints), hm::is(hm::equalTo(1)));
     }

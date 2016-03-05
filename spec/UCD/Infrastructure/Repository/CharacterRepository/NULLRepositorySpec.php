@@ -9,8 +9,10 @@ use Prophecy\Argument;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Character\Repository\BlockNotFoundException;
 use UCD\Unicode\Character\Repository\GeneralCategoryNotFoundException;
+use UCD\Unicode\Character\Repository\ScriptNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
@@ -92,7 +94,13 @@ class NULLRepositorySpec extends ObjectBehavior
         $this->shouldThrow(GeneralCategoryNotFoundException::class)
             ->during('getCodepointsByCategory', [GeneralCategory::fromValue(GeneralCategory::SYMBOL_MATH)]);
     }
-    
+
+    public function it_should_always_throw_a_ScriptNotFoundException_when_searching_by_script()
+    {
+        $this->shouldThrow(ScriptNotFoundException::class)
+            ->during('getCodepointsByScript', [Script::fromValue(Script::COMMON)]);
+    }
+
     private function givenCharacterHasCodepointWithValue(Character $character, $value)
     {
         $character->getCodepoint()

@@ -4,6 +4,7 @@ namespace UCD\Unicode\Character;
 
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\CodepointAssigned;
@@ -39,4 +40,10 @@ interface Repository extends \Countable
      * @return Codepoint\Range\Collection
      */
     public function getCodepointsByCategory(GeneralCategory $category);
+
+    /**
+     * @param Script $script
+     * @return Codepoint\Range\Collection
+     */
+    public function getCodepointsByScript(Script $script);
 }

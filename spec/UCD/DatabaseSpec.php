@@ -12,6 +12,7 @@ use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties\General\Block;
 use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Character\Repository;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
@@ -195,6 +196,38 @@ class DatabaseSpec extends ObjectBehavior
             ->willReturn($characters);
 
         $this->getByCategory($category)
+            ->shouldReturn($characters);
+    }
+
+    public function it_can_provide_all_codepoints_residing_in_a_given_script()
+    {
+        $ranges = Codepoint\Range\Collection::fromArray([]);
+        $script = Script::fromValue(Script::COMMON);
+
+        $this->repository
+            ->getCodepointsByScript($script)
+            ->willReturn($ranges);
+
+        $this->getCodepointsByScript($script)
+            ->shouldReturn($ranges);
+    }
+
+    public function it_can_provide_all_codepoint_assigned_entities_in_a_given_script()
+    {
+        $characters = Character\Collection::fromArray([]);
+        $codepoint = Codepoint::fromInt(1);
+        $ranges = Codepoint\Range\Collection::fromArray([$codepoint]);
+        $script = Script::fromValue(Script::COMMON);
+
+        $this->repository
+            ->getCodepointsByScript($script)
+            ->willReturn($ranges);
+
+        $this->repository
+            ->getByCodepoints($ranges->expand())
+            ->willReturn($characters);
+
+        $this->getByScript($script)
             ->shouldReturn($characters);
     }
 

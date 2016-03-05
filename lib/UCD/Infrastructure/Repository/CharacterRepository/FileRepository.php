@@ -265,6 +265,18 @@ class FileRepository implements WritableRepository
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getCodepointsByScript(Properties\General\Script $script)
+    {
+        return $this->resolveCodepointsByProperty(
+            Property::ofType(Property::SCRIPT),
+            (string)$script,
+            Repository\ScriptNotFoundException::withScript($script)
+        );
+    }
+
+    /**
      * @param Property $property
      * @param string $key
      * @param Exception $notFoundException
