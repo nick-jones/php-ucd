@@ -1,4 +1,4 @@
-.PHONY: all test clean db
+.PHONY: all test clean db generate
 
 all: test db
 
@@ -19,13 +19,13 @@ clean:
 	rm -rf resources/generated/props
 
 db: clean resources/generated/ucd resources/generated/props
+	./bin/ucd repository-transfer xml php
 
 resources/generated/props: resources/ucd.all.flat.xml
 	mkdir -p $@
 
 resources/generated/ucd: resources/ucd.all.flat.xml
 	mkdir -p $@
-	./bin/ucd repository-transfer xml php
 
 resources/ucd.all.flat.xml: resources/ucd.all.flat.zip
 	unzip -o -d resources/ $<
