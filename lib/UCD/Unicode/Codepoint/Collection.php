@@ -5,6 +5,7 @@ namespace UCD\Unicode\Codepoint;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Codepoint\Range\RangeRegexBuilder;
 use UCD\Unicode\Collection\TraversableBackedCollection;
+use UCD\Unicode\TransformationFormat;
 
 class Collection extends TraversableBackedCollection
 {
@@ -68,15 +69,51 @@ class Collection extends TraversableBackedCollection
      */
     public static function fromUTF8($string)
     {
-        static $encoding = 'UTF-8';
-        $codepoints = [];
+        return self::fromEncodedString(
+            $string,
+            TransformationFormat::ofType(TransformationFormat::EIGHT)
+        );
+    }
 
-        for ($i = 0; $i < mb_strlen($string, $encoding); $i++) {
-            $character = mb_substr($string, $i, 1, $encoding);
-            $codepoint = Codepoint::fromUTF8($character);
-            array_push($codepoints, $codepoint);
-        }
+    /**
+     * @param string $string
+     * @return static
+     */
+    public static function fromUTF16($string)
+    {
+        return self::fromEncodedString(
+            $string,
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN)
+        );
+    }
 
-        return static::fromArray($codepoints);
+    /**
+     * @param string $string
+     * @return static
+     */
+    public static function fromUTF32($string)
+    {
+        return self::fromEncodedString(
+            $string,
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO)
+        );
+    }
+
+    /**
+     * @param string $string
+     * @param TransformationFormat $encoding
+     * @return static
+     */
+    public static function fromEncodedString($string, TransformationFormat $encoding)
+    {
+        $characters = TransformationFormat\StringUtility::split($string, $encoding);
+
+        $mapper = function ($character) use ($encoding) {
+            return Codepoint::fromEncodedCharacter($character, $encoding);
+        };
+
+        return static::fromArray(
+            array_map($mapper, $characters)
+        );
     }
 }

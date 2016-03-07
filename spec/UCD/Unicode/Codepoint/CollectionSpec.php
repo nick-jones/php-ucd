@@ -109,8 +109,28 @@ class CollectionSpec extends ObjectBehavior
         $this->beConstructedThrough('fromUTF8', ['ab']);
 
         $this->shouldIterateLike([
-            Codepoint::fromUTF8('a'),
-            Codepoint::fromUTF8('b')
+            Codepoint::fromInt(97),
+            Codepoint::fromInt(98)
+        ]);
+    }
+
+    public function it_can_be_constructed_from_a_UTF16_encoded_string()
+    {
+        $this->beConstructedThrough('fromUTF16', ["\x00\x61\x00\x62"]);
+
+        $this->shouldIterateLike([
+            Codepoint::fromInt(97),
+            Codepoint::fromInt(98)
+        ]);
+    }
+
+    public function it_can_be_constructed_from_a_UTF32_encoded_string()
+    {
+        $this->beConstructedThrough('fromUTF32', ["\x00\x00\x00\x61\x00\x00\x00\x62"]);
+
+        $this->shouldIterateLike([
+            Codepoint::fromInt(97),
+            Codepoint::fromInt(98)
         ]);
     }
 

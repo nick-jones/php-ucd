@@ -65,4 +65,23 @@ class StringUtility
 
         return self::$iconvMap[$format->getType()];
     }
+
+    /**
+     * @param string $string
+     * @param TransformationFormat $format
+     * @return string[]
+     * @throws InvalidArgumentException
+     */
+    public static function split($string, TransformationFormat $format)
+    {
+        $encoding = self::mapFormat($format);
+        $characters = [];
+
+        for ($i = 0; $i < iconv_strlen($string, $encoding); $i++) {
+            $character = iconv_substr($string, $i, 1, $encoding);
+            array_push($characters, $character);
+        }
+
+        return $characters;
+    }
 }

@@ -58,9 +58,10 @@ class Codepoint implements Comparable
      */
     public static function fromUTF8($value)
     {
-        $transformationFormat = TransformationFormat::ofType(TransformationFormat::EIGHT);
-
-        return self::fromEncodedCharacter($value, $transformationFormat);
+        return self::fromEncodedCharacter(
+            $value,
+            TransformationFormat::ofType(TransformationFormat::EIGHT)
+        );
     }
 
     /**
@@ -70,9 +71,10 @@ class Codepoint implements Comparable
      */
     public static function fromUTF16($value)
     {
-        $transformationFormat = TransformationFormat::ofType(TransformationFormat::SIXTEEN);
-
-        return self::fromEncodedCharacter($value, $transformationFormat);
+        return self::fromEncodedCharacter(
+            $value,
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN)
+        );
     }
 
     /**
