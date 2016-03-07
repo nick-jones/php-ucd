@@ -63,6 +63,38 @@ class CodepointSpec extends ObjectBehavior
             ->duringInstantiation();
     }
 
+    public function it_can_be_created_from_a_UTF16_encoded_character()
+    {
+        $this->beConstructedThrough('fromUTF16', ["\xD8\x01\xDC\x37"]); // D801 (high) DC37 (low)
+
+        $this->getValue()
+            ->shouldReturn(0x10437);
+    }
+
+    public function it_throws_if_the_provided_UTF16_string_is_not_exactly_one_character()
+    {
+        $this->beConstructedThrough('fromUTF16', ["\xD8\x01\xDC\x37\x00\x24"]);
+
+        $this->shouldThrow(InvalidArgumentException::class)
+            ->duringInstantiation();
+    }
+
+    public function it_can_be_created_from_a_UTF32_encoded_character()
+    {
+        $this->beConstructedThrough('fromUTF32', ["\x00\x01\x04\x37"]);
+
+        $this->getValue()
+            ->shouldReturn(0x10437);
+    }
+
+    public function it_throws_if_the_provided_UTF32_string_is_not_exactly_one_character()
+    {
+        $this->beConstructedThrough('fromUTF32', ["\x00\x01\x04\x37\x00\x00\x00\x24"]);
+
+        $this->shouldThrow(InvalidArgumentException::class)
+            ->duringInstantiation();
+    }
+
     public function it_should_be_comparable()
     {
         $this->beConstructedThrough('fromInt', [0x10]);

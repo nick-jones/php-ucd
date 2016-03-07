@@ -35,7 +35,7 @@ class Codepoint implements Comparable
 
     /**
      * @param string $value
-     * @return Codepoint
+     * @return self
      */
     public static function fromHex($value)
     {
@@ -44,7 +44,7 @@ class Codepoint implements Comparable
 
     /**
      * @param int $value
-     * @return Codepoint
+     * @return self
      */
     public static function fromInt($value)
     {
@@ -53,18 +53,56 @@ class Codepoint implements Comparable
 
     /**
      * @param string $value
-     * @return Codepoint
+     * @return self
      * @throws InvalidArgumentException
      */
     public static function fromUTF8($value)
     {
-        if (iconv_strlen($value, 'UTF-8') !== 1) {
-            throw new InvalidArgumentException('Single character must be provided');
+        $transformationFormat = TransformationFormat::ofType(TransformationFormat::EIGHT);
+
+        return self::fromEncodedCharacter($value, $transformationFormat);
+    }
+
+    /**
+     * @param string $value
+     * @return self
+     * @throws InvalidArgumentException
+     */
+    public static function fromUTF16($value)
+    {
+        $transformationFormat = TransformationFormat::ofType(TransformationFormat::SIXTEEN);
+
+        return self::fromEncodedCharacter($value, $transformationFormat);
+    }
+
+    /**
+     * @param string $character
+     * @param TransformationFormat $encoding
+     * @return self
+     * @throws InvalidArgumentException
+     */
+    public static function fromEncodedCharacter($character, TransformationFormat $encoding)
+    {
+        $convertTo = TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN);
+        $converted = TransformationFormat\StringUtility::convertCharacter($character, $encoding, $convertTo);
+
+        return self::fromUTF32($converted);
+    }
+
+    /**
+     * @param string $value
+     * @return self
+     * @throws InvalidArgumentException
+     */
+    public static function fromUTF32($value)
+    {
+        if (strlen($value) !== 4) {
+            throw new InvalidArgumentException('Single UTF-32 encoded character must be provided');
         }
 
-        $unpacked = unpack('N', iconv('UTF-8', 'UTF-32BE', $value));
+        $unpacked = unpack('N', $value);
 
-        return new self(
+        return self::fromInt(
             array_shift($unpacked)
         );
     }
