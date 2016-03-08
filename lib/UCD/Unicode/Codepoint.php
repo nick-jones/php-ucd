@@ -110,6 +110,47 @@ class Codepoint implements Comparable
     }
 
     /**
+     * @return string
+     */
+    public function toUTF8()
+    {
+        return $this->toEncodedCharacter(
+            TransformationFormat::ofType(TransformationFormat::EIGHT)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function toUTF16()
+    {
+        return $this->toEncodedCharacter(
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_BIG_ENDIAN)
+        );
+    }
+
+    /**
+     * @param TransformationFormat $encoding
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public function toEncodedCharacter(TransformationFormat $encoding)
+    {
+        $character = $this->toUTF32();
+        $convertFrom = TransformationFormat::ofType(TransformationFormat::THIRTY_TWO);
+
+        return TransformationFormat\StringUtility::convertCharacter($character, $convertFrom, $encoding);
+    }
+
+    /**
+     * @return string
+     */
+    public function toUTF32()
+    {
+        return pack('N', $this->value);
+    }
+
+    /**
      * @return int
      */
     public function getValue()

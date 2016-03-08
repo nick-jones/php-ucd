@@ -95,6 +95,30 @@ class CodepointSpec extends ObjectBehavior
             ->duringInstantiation();
     }
 
+    public function it_can_provide_a_UTF8_representation_of_its_value()
+    {
+        $this->beConstructedThrough('fromInt', [0x1F377]);
+
+        $this->toUTF8()
+            ->shouldReturn("\xF0\x9F\x8D\xB7");
+    }
+
+    public function it_can_provide_a_UTF16_representation_of_its_value()
+    {
+        $this->beConstructedThrough('fromInt', [0x1F377]);
+
+        $this->toUTF16()
+            ->shouldReturn("\xD8\x3C\xDF\x77");
+    }
+
+    public function it_can_provide_a_UTF32_representation_of_its_value()
+    {
+        $this->beConstructedThrough('fromInt', [0x1F377]);
+
+        $this->toUTF32()
+            ->shouldReturn("\x00\x01\xF3\x77");
+    }
+
     public function it_should_be_comparable()
     {
         $this->beConstructedThrough('fromInt', [0x10]);
