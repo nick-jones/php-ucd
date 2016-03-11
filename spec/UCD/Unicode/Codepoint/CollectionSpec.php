@@ -134,6 +134,30 @@ class CollectionSpec extends ObjectBehavior
         ]);
     }
 
+    public function it_can_provide_a_UTF8_representation_of_its_values()
+    {
+        $this->givenTheCollectionContains([Codepoint::fromInt(0x1F377), Codepoint::fromInt(0x61)]);
+
+        $this->toUTF8()
+            ->shouldReturn("\xF0\x9F\x8D\xB7\x61");
+    }
+
+    public function it_can_provide_a_UTF16_representation_of_its_values()
+    {
+        $this->givenTheCollectionContains([Codepoint::fromInt(0x1F377), Codepoint::fromInt(0x61)]);
+
+        $this->toUTF16()
+            ->shouldReturn("\xD8\x3C\xDF\x77\x00\x61");
+    }
+
+    public function it_can_provide_a_UTF32_representation_of_its_values()
+    {
+        $this->givenTheCollectionContains([Codepoint::fromInt(0x1F377), Codepoint::fromInt(0x61)]);
+
+        $this->toUTF32()
+            ->shouldReturn("\x00\x01\xF3\x77\x00\x00\x00\x61");
+    }
+
     private function givenTheCollectionContains(array $codepoints)
     {
         $this->beConstructedWith(new \ArrayIterator($codepoints));

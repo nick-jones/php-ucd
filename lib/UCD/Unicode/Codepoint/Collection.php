@@ -116,4 +116,49 @@ class Collection extends TraversableBackedCollection
             array_map($mapper, $characters)
         );
     }
+
+    /**
+     * @return string
+     */
+    public function toUTF8()
+    {
+        return $this->toEncodedString(
+            TransformationFormat::ofType(TransformationFormat::EIGHT)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function toUTF16()
+    {
+        return $this->toEncodedString(
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_BIG_ENDIAN)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function toUTF32()
+    {
+        return $this->toEncodedString(
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN)
+        );
+    }
+
+    /**
+     * @param TransformationFormat $encoding
+     * @return string
+     */
+    public function toEncodedString(TransformationFormat $encoding)
+    {
+        $characters = '';
+
+        $this->traverseWith(function (Codepoint $codepoint) use ($encoding, &$characters) {
+            $characters .= $codepoint->toEncodedCharacter($encoding);
+        });
+
+        return $characters;
+    }
 }
