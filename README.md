@@ -63,7 +63,6 @@ the `Numericity` property. For example:
 ```php
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
-use UCD\View\CharacterView;
 use UCD\Database;
 
 $filter = function (Character $character) {
@@ -80,8 +79,7 @@ $dumper = function (Character $character) {
     $properties = $character->getProperties();
     $numerity = $properties->getNumericity();
     $number = $numerity->getNumber();
-    $view = new CharacterView($character);
-    $utf8 = $view->asUTF8();
+    $utf8 = $codepoint->toUTF8();
 
     printf("%s: %s (~ %s)\n", $codepoint, $utf8, $number);
 };

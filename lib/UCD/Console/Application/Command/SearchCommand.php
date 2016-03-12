@@ -2,6 +2,8 @@
 
 namespace UCD\Console\Application\Command;
 
+use SebastianBergmann\Exporter\Exporter;
+
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,7 +14,6 @@ use UCD\Database;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Exception\InvalidArgumentException;
-use UCD\View\CharacterView;
 
 class SearchCommand extends RepositoryUtilisingCommand
 {
@@ -45,6 +46,7 @@ class SearchCommand extends RepositoryUtilisingCommand
         $from = $input->getOption(self::OPTION_FROM);
         $repository = $this->getRepositoryByName($from);
         $db = new Database($repository);
+        $exporter = new Exporter();
 
         try {
             $character = $db->getCharacterByCodepoint($codepoint);
@@ -53,11 +55,9 @@ class SearchCommand extends RepositoryUtilisingCommand
             return 1;
         }
 
-        $view = new CharacterView($character);
-
         $output->writeln('<info>Character Found</info>');
-        $output->writeln(sprintf('Export: %s', $view->asExport()));
-        $output->writeln(sprintf('UTF-8: %s', $view->asUTF8()));
+        $output->writeln(sprintf('Export: %s', $exporter->export($character)));
+        $output->writeln(sprintf('UTF-8: %s', $codepoint->toUTF8()));
         $output->writeln(sprintf('Memory peak: %.5f MB', memory_get_peak_usage() / 1048576));
         $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
 
