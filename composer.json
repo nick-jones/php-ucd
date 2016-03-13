@@ -13,6 +13,7 @@
 
     "require": {
         "php": ">=5.5",
+        "ext-iconv": "*",
         "psr/log": "^1.0",
         "judev/php-intervaltree": "^2.0"
     },
