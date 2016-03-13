@@ -28,6 +28,10 @@ class StringUtility
      */
     public static function convertString($string, TransformationFormat $from, TransformationFormat $to)
     {
+        if ($from->equals($to)) {
+            return $string;
+        }
+
         $in = self::mapFormat($from);
         $out = self::mapFormat($to);
 

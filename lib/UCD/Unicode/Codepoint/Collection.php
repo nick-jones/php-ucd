@@ -3,9 +3,9 @@
 namespace UCD\Unicode\Codepoint;
 
 use UCD\Unicode\Codepoint;
-use UCD\Unicode\Codepoint\Range\RangeRegexBuilder;
 use UCD\Unicode\Collection\TraversableBackedCollection;
 use UCD\Unicode\TransformationFormat;
+use UCD\Unicode\TransformationFormat\StringUtility;
 
 class Collection extends TraversableBackedCollection
 {
@@ -79,11 +79,11 @@ class Collection extends TraversableBackedCollection
      * @param string $string
      * @return static
      */
-    public static function fromUTF16($string)
+    public static function fromUTF16LE($string)
     {
         return self::fromEncodedString(
             $string,
-            TransformationFormat::ofType(TransformationFormat::SIXTEEN)
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_LITTLE_ENDIAN)
         );
     }
 
@@ -91,11 +91,35 @@ class Collection extends TraversableBackedCollection
      * @param string $string
      * @return static
      */
-    public static function fromUTF32($string)
+    public static function fromUTF16BE($string)
     {
         return self::fromEncodedString(
             $string,
-            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO)
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_BIG_ENDIAN)
+        );
+    }
+
+    /**
+     * @param string $string
+     * @return static
+     */
+    public static function fromUTF32LE($string)
+    {
+        return self::fromEncodedString(
+            $string,
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_LITTLE_ENDIAN)
+        );
+    }
+
+    /**
+     * @param string $string
+     * @return static
+     */
+    public static function fromUTF32BE($string)
+    {
+        return self::fromEncodedString(
+            $string,
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN)
         );
     }
 
@@ -106,7 +130,7 @@ class Collection extends TraversableBackedCollection
      */
     public static function fromEncodedString($string, TransformationFormat $encoding)
     {
-        $characters = TransformationFormat\StringUtility::split($string, $encoding);
+        $characters = StringUtility::split($string, $encoding);
 
         $mapper = function ($character) use ($encoding) {
             return Codepoint::fromEncodedCharacter($character, $encoding);
@@ -130,7 +154,17 @@ class Collection extends TraversableBackedCollection
     /**
      * @return string
      */
-    public function toUTF16()
+    public function toUTF16LE()
+    {
+        return $this->toEncodedString(
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_LITTLE_ENDIAN)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function toUTF16BE()
     {
         return $this->toEncodedString(
             TransformationFormat::ofType(TransformationFormat::SIXTEEN_BIG_ENDIAN)
@@ -140,7 +174,17 @@ class Collection extends TraversableBackedCollection
     /**
      * @return string
      */
-    public function toUTF32()
+    public function toUTF32LE()
+    {
+        return $this->toEncodedString(
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_LITTLE_ENDIAN)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function toUTF32BE()
     {
         return $this->toEncodedString(
             TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN)
@@ -148,15 +192,15 @@ class Collection extends TraversableBackedCollection
     }
 
     /**
-     * @param TransformationFormat $encoding
+     * @param TransformationFormat $convertTo
      * @return string
      */
-    public function toEncodedString(TransformationFormat $encoding)
+    public function toEncodedString(TransformationFormat $convertTo)
     {
         $characters = '';
 
-        $this->traverseWith(function (Codepoint $codepoint) use ($encoding, &$characters) {
-            $characters .= $codepoint->toEncodedCharacter($encoding);
+        $this->traverseWith(function (Codepoint $codepoint) use ($convertTo, &$characters) {
+            $characters .= $codepoint->toEncodedCharacter($convertTo);
         });
 
         return $characters;

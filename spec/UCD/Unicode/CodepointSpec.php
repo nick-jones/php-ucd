@@ -63,33 +63,65 @@ class CodepointSpec extends ObjectBehavior
             ->duringInstantiation();
     }
 
-    public function it_can_be_created_from_a_UTF16_encoded_character()
+    public function it_can_be_created_from_a_UTF16BE_encoded_character()
     {
-        $this->beConstructedThrough('fromUTF16', ["\xD8\x01\xDC\x37"]); // D801 (high) DC37 (low)
+        $this->beConstructedThrough('fromUTF16BE', ["\xD8\x01\xDC\x37"]); // D801 (high) DC37 (low)
 
         $this->getValue()
             ->shouldReturn(0x10437);
     }
 
-    public function it_throws_if_the_provided_UTF16_string_is_not_exactly_one_character()
+    public function it_throws_if_the_provided_UTF16BE_string_is_not_exactly_one_character()
     {
-        $this->beConstructedThrough('fromUTF16', ["\xD8\x01\xDC\x37\x00\x24"]);
+        $this->beConstructedThrough('fromUTF16BE', ["\xD8\x01\xDC\x37\x00\x24"]);
 
         $this->shouldThrow(InvalidArgumentException::class)
             ->duringInstantiation();
     }
 
-    public function it_can_be_created_from_a_UTF32_encoded_character()
+    public function it_can_be_created_from_a_UTF16LE_encoded_character()
     {
-        $this->beConstructedThrough('fromUTF32', ["\x00\x01\x04\x37"]);
+        $this->beConstructedThrough('fromUTF16LE', ["\x01\xD8\x37\xDC"]); // D801 (high) DC37 (low)
 
         $this->getValue()
             ->shouldReturn(0x10437);
     }
 
-    public function it_throws_if_the_provided_UTF32_string_is_not_exactly_one_character()
+    public function it_throws_if_the_provided_UTF16LE_string_is_not_exactly_one_character()
     {
-        $this->beConstructedThrough('fromUTF32', ["\x00\x01\x04\x37\x00\x00\x00\x24"]);
+        $this->beConstructedThrough('fromUTF16LE', ["\x01\xD8\x37\xDC\x24\x00"]);
+
+        $this->shouldThrow(InvalidArgumentException::class)
+            ->duringInstantiation();
+    }
+
+    public function it_can_be_created_from_a_UTF32BE_encoded_character()
+    {
+        $this->beConstructedThrough('fromUTF32BE', ["\x00\x01\x04\x37"]);
+
+        $this->getValue()
+            ->shouldReturn(0x10437);
+    }
+
+    public function it_throws_if_the_provided_UTF32BE_string_is_not_exactly_one_character()
+    {
+        $this->beConstructedThrough('fromUTF32BE', ["\x00\x01\x04\x37\x00\x00\x00\x24"]);
+
+        $this->shouldThrow(InvalidArgumentException::class)
+            ->duringInstantiation();
+    }
+
+    public function it_can_be_created_from_a_UTF32LE_encoded_character()
+    {
+        $this->beConstructedThrough('fromUTF32LE', ["\x37\x04\x01\x00"]);
+
+        $this->getValue()
+            ->shouldReturn(0x10437);
+    }
+
+    public function it_throws_if_the_provided_UTF32LE_string_is_not_exactly_one_character()
+    {
+        $this->beConstructedThrough('fromUTF32LE', ["\x37\x04\x01\x00\x24\x00\x00\x00"]);
 
         $this->shouldThrow(InvalidArgumentException::class)
             ->duringInstantiation();
@@ -103,20 +135,36 @@ class CodepointSpec extends ObjectBehavior
             ->shouldReturn("\xF0\x9F\x8D\xB7");
     }
 
-    public function it_can_provide_a_UTF16_representation_of_its_value()
+    public function it_can_provide_a_UTF16BE_representation_of_its_value()
     {
         $this->beConstructedThrough('fromInt', [0x1F377]);
 
-        $this->toUTF16()
+        $this->toUTF16BE()
             ->shouldReturn("\xD8\x3C\xDF\x77");
     }
 
-    public function it_can_provide_a_UTF32_representation_of_its_value()
+    public function it_can_provide_a_UTF16LE_representation_of_its_value()
     {
         $this->beConstructedThrough('fromInt', [0x1F377]);
 
-        $this->toUTF32()
+        $this->toUTF16LE()
+            ->shouldReturn("\x3C\xD8\x77\xDF");
+    }
+
+    public function it_can_provide_a_UTF32BE_representation_of_its_value()
+    {
+        $this->beConstructedThrough('fromInt', [0x1F377]);
+
+        $this->toUTF32BE()
             ->shouldReturn("\x00\x01\xF3\x77");
+    }
+
+    public function it_can_provide_a_UTF32LE_representation_of_its_value()
+    {
+        $this->beConstructedThrough('fromInt', [0x1F377]);
+
+        $this->toUTF32LE()
+            ->shouldReturn("\x77\xF3\x01\x00");
     }
 
     public function it_should_be_comparable()

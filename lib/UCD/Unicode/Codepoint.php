@@ -4,6 +4,7 @@ namespace UCD\Unicode;
 
 use UCD\Exception\InvalidArgumentException;
 use UCD\Exception\OutOfRangeException;
+use UCD\Unicode\TransformationFormat\StringUtility;
 
 class Codepoint implements Comparable
 {
@@ -69,26 +70,12 @@ class Codepoint implements Comparable
      * @return self
      * @throws InvalidArgumentException
      */
-    public static function fromUTF16($value)
+    public static function fromUTF16LE($value)
     {
         return self::fromEncodedCharacter(
             $value,
-            TransformationFormat::ofType(TransformationFormat::SIXTEEN)
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_LITTLE_ENDIAN)
         );
-    }
-
-    /**
-     * @param string $character
-     * @param TransformationFormat $encoding
-     * @return self
-     * @throws InvalidArgumentException
-     */
-    public static function fromEncodedCharacter($character, TransformationFormat $encoding)
-    {
-        $convertTo = TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN);
-        $converted = TransformationFormat\StringUtility::convertCharacter($character, $encoding, $convertTo);
-
-        return self::fromUTF32($converted);
     }
 
     /**
@@ -96,13 +83,51 @@ class Codepoint implements Comparable
      * @return self
      * @throws InvalidArgumentException
      */
-    public static function fromUTF32($value)
+    public static function fromUTF16BE($value)
     {
-        if (strlen($value) !== 4) {
-            throw new InvalidArgumentException('Single UTF-32 encoded character must be provided');
-        }
+        return self::fromEncodedCharacter(
+            $value,
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_BIG_ENDIAN)
+        );
+    }
 
-        $unpacked = unpack('N', $value);
+    /**
+     * @param string $value
+     * @return self
+     * @throws InvalidArgumentException
+     */
+    public static function fromUTF32LE($value)
+    {
+        return self::fromEncodedCharacter(
+            $value,
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_LITTLE_ENDIAN)
+        );
+    }
+
+    /**
+     * @param string $value
+     * @return self
+     * @throws InvalidArgumentException
+     */
+    public static function fromUTF32BE($value)
+    {
+        return self::fromEncodedCharacter(
+            $value,
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN)
+        );
+    }
+
+    /**
+     * @param string $character
+     * @param TransformationFormat $convertFrom
+     * @return self
+     * @throws InvalidArgumentException
+     */
+    public static function fromEncodedCharacter($character, TransformationFormat $convertFrom)
+    {
+        $convertTo = TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN);
+        $character = StringUtility::convertCharacter($character, $convertFrom, $convertTo);
+        $unpacked = unpack('N', $character);
 
         return self::fromInt(
             array_shift($unpacked)
@@ -122,7 +147,17 @@ class Codepoint implements Comparable
     /**
      * @return string
      */
-    public function toUTF16()
+    public function toUTF16LE()
+    {
+        return $this->toEncodedCharacter(
+            TransformationFormat::ofType(TransformationFormat::SIXTEEN_LITTLE_ENDIAN)
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function toUTF16BE()
     {
         return $this->toEncodedCharacter(
             TransformationFormat::ofType(TransformationFormat::SIXTEEN_BIG_ENDIAN)
@@ -130,24 +165,36 @@ class Codepoint implements Comparable
     }
 
     /**
-     * @param TransformationFormat $encoding
      * @return string
-     * @throws InvalidArgumentException
      */
-    public function toEncodedCharacter(TransformationFormat $encoding)
+    public function toUTF32LE()
     {
-        $character = $this->toUTF32();
-        $convertFrom = TransformationFormat::ofType(TransformationFormat::THIRTY_TWO);
-
-        return TransformationFormat\StringUtility::convertCharacter($character, $convertFrom, $encoding);
+        return $this->toEncodedCharacter(
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_LITTLE_ENDIAN)
+        );
     }
 
     /**
      * @return string
      */
-    public function toUTF32()
+    public function toUTF32BE()
     {
-        return pack('N', $this->value);
+        return $this->toEncodedCharacter(
+            TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN)
+        );
+    }
+
+    /**
+     * @param TransformationFormat $convertTo
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public function toEncodedCharacter(TransformationFormat $convertTo)
+    {
+        $character = pack('N', $this->value);
+        $convertFrom = TransformationFormat::ofType(TransformationFormat::THIRTY_TWO_BIG_ENDIAN);
+
+        return StringUtility::convertCharacter($character, $convertFrom, $convertTo);
     }
 
     /**

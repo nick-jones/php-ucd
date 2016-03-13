@@ -114,9 +114,9 @@ class CollectionSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_can_be_constructed_from_a_UTF16_encoded_string()
+    public function it_can_be_constructed_from_a_UTF16BE_encoded_string()
     {
-        $this->beConstructedThrough('fromUTF16', ["\x00\x61\x00\x62"]);
+        $this->beConstructedThrough('fromUTF16BE', ["\x00\x61\x00\x62"]);
 
         $this->shouldIterateLike([
             Codepoint::fromInt(97),
@@ -124,9 +124,29 @@ class CollectionSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_can_be_constructed_from_a_UTF32_encoded_string()
+    public function it_can_be_constructed_from_a_UTF16LE_encoded_string()
     {
-        $this->beConstructedThrough('fromUTF32', ["\x00\x00\x00\x61\x00\x00\x00\x62"]);
+        $this->beConstructedThrough('fromUTF16LE', ["\x61\x00\x62\x00"]);
+
+        $this->shouldIterateLike([
+            Codepoint::fromInt(97),
+            Codepoint::fromInt(98)
+        ]);
+    }
+
+    public function it_can_be_constructed_from_a_UTF32BE_encoded_string()
+    {
+        $this->beConstructedThrough('fromUTF32BE', ["\x00\x00\x00\x61\x00\x00\x00\x62"]);
+
+        $this->shouldIterateLike([
+            Codepoint::fromInt(97),
+            Codepoint::fromInt(98)
+        ]);
+    }
+
+    public function it_can_be_constructed_from_a_UTF32LE_encoded_string()
+    {
+        $this->beConstructedThrough('fromUTF32LE', ["\x61\x00\x00\x00\x62\x00\x00\x00"]);
 
         $this->shouldIterateLike([
             Codepoint::fromInt(97),
@@ -142,20 +162,36 @@ class CollectionSpec extends ObjectBehavior
             ->shouldReturn("\xF0\x9F\x8D\xB7\x61");
     }
 
-    public function it_can_provide_a_UTF16_representation_of_its_values()
+    public function it_can_provide_a_UTF16BE_representation_of_its_values()
     {
         $this->givenTheCollectionContains([Codepoint::fromInt(0x1F377), Codepoint::fromInt(0x61)]);
 
-        $this->toUTF16()
+        $this->toUTF16BE()
             ->shouldReturn("\xD8\x3C\xDF\x77\x00\x61");
     }
 
-    public function it_can_provide_a_UTF32_representation_of_its_values()
+    public function it_can_provide_a_UTF16LE_representation_of_its_values()
     {
         $this->givenTheCollectionContains([Codepoint::fromInt(0x1F377), Codepoint::fromInt(0x61)]);
 
-        $this->toUTF32()
+        $this->toUTF16LE()
+            ->shouldReturn("\x3C\xD8\x77\xDF\x61\x00");
+    }
+
+    public function it_can_provide_a_UTF32BE_representation_of_its_values()
+    {
+        $this->givenTheCollectionContains([Codepoint::fromInt(0x1F377), Codepoint::fromInt(0x61)]);
+
+        $this->toUTF32BE()
             ->shouldReturn("\x00\x01\xF3\x77\x00\x00\x00\x61");
+    }
+
+    public function it_can_provide_a_UTF32LE_representation_of_its_values()
+    {
+        $this->givenTheCollectionContains([Codepoint::fromInt(0x1F377), Codepoint::fromInt(0x61)]);
+
+        $this->toUTF32LE()
+            ->shouldReturn("\x77\xF3\x01\x00\x61\x00\x00\x00");
     }
 
     private function givenTheCollectionContains(array $codepoints)

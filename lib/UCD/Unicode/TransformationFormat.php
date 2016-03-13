@@ -3,8 +3,9 @@
 namespace UCD\Unicode;
 
 use UCD\Exception\InvalidArgumentException;
+use UCD\Exception\UnexpectedValueException;
 
-final class TransformationFormat
+final class TransformationFormat implements Comparable
 {
     const EIGHT = '8NE';
     const SIXTEEN = '16NE';
@@ -60,5 +61,15 @@ final class TransformationFormat
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @param mixed $other
+     * @return bool
+     */
+    public function equals($other)
+    {
+        return $other instanceof self
+            && $other->type === $this->type;
     }
 }
