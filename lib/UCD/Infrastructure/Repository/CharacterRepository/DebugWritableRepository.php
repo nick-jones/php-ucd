@@ -35,8 +35,7 @@ class DebugWritableRepository extends DebugRepository implements WritableReposit
         $function = __FUNCTION__;
 
         $characters->traverseWith(function (CodepointAssigned $c) use ($function) {
-            $message = $this->composeMessage($function, [(string)$c->getCodepoint()]);
-            $this->log($message);
+            $this->logMethodCall($function, [(string)$c->getCodepoint()]);
         });
 
         $this->delegate->addMany($characters);

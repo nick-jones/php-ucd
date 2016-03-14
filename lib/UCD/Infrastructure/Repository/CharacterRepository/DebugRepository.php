@@ -37,8 +37,7 @@ class DebugRepository implements Repository
      */
     public function getByCodepoint(Codepoint $codepoint)
     {
-        $message = $this->composeMessage(__FUNCTION__, [$codepoint]);
-        $this->log($message);
+        $this->logMethodCall(__FUNCTION__, [$codepoint]);
 
         return $this->delegate->getByCodepoint($codepoint);
     }
@@ -48,8 +47,7 @@ class DebugRepository implements Repository
      */
     public function getByCodepoints(Codepoint\Collection $codepoints)
     {
-        $message = $this->composeMessage(__FUNCTION__, [$codepoints]);
-        $this->log($message);
+        $this->logMethodCall(__FUNCTION__, [$codepoints]);
 
         return $this->delegate->getByCodepoints($codepoints);
     }
@@ -59,8 +57,7 @@ class DebugRepository implements Repository
      */
     public function getAll()
     {
-        $message = $this->composeMessage(__FUNCTION__);
-        $this->log($message);
+        $this->logMethodCall(__FUNCTION__);
 
         return $this->delegate->getAll();
     }
@@ -70,8 +67,7 @@ class DebugRepository implements Repository
      */
     public function getCodepointsByBlock(Block $block)
     {
-        $message = $this->composeMessage(__FUNCTION__);
-        $this->log($message);
+        $this->logMethodCall(__FUNCTION__);
 
         return $this->delegate->getCodepointsByBlock($block);
     }
@@ -81,8 +77,7 @@ class DebugRepository implements Repository
      */
     public function getCodepointsByCategory(GeneralCategory $category)
     {
-        $message = $this->composeMessage(__FUNCTION__);
-        $this->log($message);
+        $this->logMethodCall(__FUNCTION__);
 
         return $this->delegate->getCodepointsByCategory($category);
     }
@@ -92,8 +87,7 @@ class DebugRepository implements Repository
      */
     public function getCodepointsByScript(Script $script)
     {
-        $message = $this->composeMessage(__FUNCTION__);
-        $this->log($message);
+        $this->logMethodCall(__FUNCTION__);
 
         return $this->delegate->getCodepointsByScript($script);
     }
@@ -103,8 +97,7 @@ class DebugRepository implements Repository
      */
     public function count()
     {
-        $message = $this->composeMessage(__FUNCTION__);
-        $this->log($message);
+        $this->logMethodCall(__FUNCTION__);
 
         return $this->delegate->count();
     }
@@ -112,9 +105,19 @@ class DebugRepository implements Repository
     /**
      * @param string $method
      * @param array $details
+     */
+    protected function logMethodCall($method, array $details = [])
+    {
+        $message = $this->composeMessageFromMethodDetails($method, $details);
+        $this->log($message);
+    }
+
+    /**
+     * @param string $method
+     * @param array $details
      * @return string
      */
-    protected function composeMessage($method, array $details = [])
+    protected function composeMessageFromMethodDetails($method, array $details = [])
     {
         return sprintf('Repository::%s/%s', $method, json_encode($details));
     }
