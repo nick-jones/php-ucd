@@ -7,6 +7,7 @@ use PhpSpec\ObjectBehavior;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Codepoint\Range;
 use UCD\Exception\InvalidRangeException;
+use UCD\Unicode\TransformationFormat;
 
 /**
  * @mixin Range
@@ -55,6 +56,19 @@ class RangeSpec extends ObjectBehavior
 
         $this->expand()
             ->shouldIterateLike([Codepoint::fromInt(1), Codepoint::fromInt(2), Codepoint::fromInt(3)]);
+    }
+
+    public function it_can_be_instantiated_from_encoded_characters()
+    {
+        $start = 'a';
+        $end = 'z';
+        $encoding = TransformationFormat::ofType(TransformationFormat::EIGHT);
+
+        $this->beConstructedThrough('betweenEncodedCharacters', [$start, $end, $encoding]);
+
+        $this->shouldBeLike(
+            Range::between(Codepoint::fromInt(97), Codepoint::fromInt(122)
+        ));
     }
 
     private function givenTheRangeIsBetween(Codepoint $start, Codepoint $end)

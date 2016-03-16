@@ -4,6 +4,7 @@ namespace UCD\Unicode\Codepoint;
 
 use UCD\Unicode\Codepoint;
 use UCD\Exception\InvalidRangeException;
+use UCD\Unicode\TransformationFormat;
 
 class Range
 {
@@ -40,6 +41,20 @@ class Range
     public static function between(Codepoint $start, Codepoint $end)
     {
         return new self($start, $end);
+    }
+
+    /**
+     * @param string $start
+     * @param string $end
+     * @param TransformationFormat $encoding
+     * @return self
+     */
+    public static function betweenEncodedCharacters($start, $end, TransformationFormat $encoding)
+    {
+        return self::between(
+            Codepoint::fromEncodedCharacter($start, $encoding),
+            Codepoint::fromEncodedCharacter($end, $encoding)
+        );
     }
 
     /**
