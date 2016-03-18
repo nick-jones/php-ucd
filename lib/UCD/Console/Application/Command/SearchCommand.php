@@ -21,7 +21,6 @@ class SearchCommand extends RepositoryUtilisingCommand
     const ARGUMENT_CODEPOINT = 'codepoint';
     const OPTION_FROM = 'from';
     const OPTION_ENCODING = 'enc';
-    const OPTION_UTF8 = 'utf8';
     const ENCODING_DECIMAL = 'decimal';
     const ENCODING_HEXADECIMAL = 'hex';
 
@@ -105,7 +104,7 @@ class SearchCommand extends RepositoryUtilisingCommand
             array_shift($repositoryNames)
         );
 
-        $isHex = new InputOption(
+        $encoding = new InputOption(
             self::OPTION_ENCODING,
             null,
             InputOption::VALUE_OPTIONAL,
@@ -113,7 +112,7 @@ class SearchCommand extends RepositoryUtilisingCommand
             self::ENCODING_HEXADECIMAL
         );
 
-        return new InputDefinition([$codepoint, $from, $isHex]);
+        return new InputDefinition([$codepoint, $from, $encoding]);
     }
 
 }
