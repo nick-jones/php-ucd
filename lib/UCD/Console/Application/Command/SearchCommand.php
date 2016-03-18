@@ -109,7 +109,7 @@ class SearchCommand extends RepositoryUtilisingCommand
             self::OPTION_ENCODING,
             null,
             InputOption::VALUE_OPTIONAL,
-            'TransformationFormat of the supplied value',
+            'Encoding of the supplied value',
             self::ENCODING_HEXADECIMAL
         );
 
