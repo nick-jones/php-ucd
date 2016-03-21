@@ -14,6 +14,7 @@ use UCD\Database;
 use UCD\Unicode\Character\Repository\CharacterNotFoundException;
 use UCD\Unicode\Codepoint;
 use UCD\Exception\InvalidArgumentException;
+use UCD\Unicode\TransformationFormat;
 
 class SearchCommand extends RepositoryUtilisingCommand
 {
@@ -21,8 +22,9 @@ class SearchCommand extends RepositoryUtilisingCommand
     const ARGUMENT_CODEPOINT = 'codepoint';
     const OPTION_FROM = 'from';
     const OPTION_ENCODING = 'enc';
-    const ENCODING_DECIMAL = 'decimal';
+    const ENCODING_DECIMAL = 'dec';
     const ENCODING_HEXADECIMAL = 'hex';
+    const ENCODING_UTF8 = 'utf8';
 
     protected function configure()
     {
@@ -73,10 +75,10 @@ class SearchCommand extends RepositoryUtilisingCommand
     {
         if ($encoding === self::ENCODING_DECIMAL) {
             return Codepoint::fromInt((int)$value);
-        }
-
-        if ($encoding === self::ENCODING_HEXADECIMAL) {
+        } elseif ($encoding === self::ENCODING_HEXADECIMAL) {
             return Codepoint::fromHex($value);
+        } elseif ($encoding === self::ENCODING_UTF8) {
+            return Codepoint::fromUTF8($value);
         }
 
         throw new InvalidArgumentException(sprintf('Unknown encoding: %s', $encoding));
@@ -108,7 +110,7 @@ class SearchCommand extends RepositoryUtilisingCommand
             self::OPTION_ENCODING,
             null,
             InputOption::VALUE_OPTIONAL,
-            'Encoding of the supplied value',
+            'Encoding of the supplied value. Choose from: dec, hex, utf8',
             self::ENCODING_HEXADECIMAL
         );
 
