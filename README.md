@@ -9,7 +9,7 @@ It provides a means to lookup, filter, and interrogate the metadata & properties
 
 ## Installation
 
-You can install this library via [composer](http://getcomposer.org):
+You can install this [library](https://packagist.org/packages/nick-jones/php-ucd) via [composer](http://getcomposer.org):
 
 `composer require nick-jones/php-ucd`
 
@@ -149,6 +149,9 @@ foreach ($assigned->getCharacters() as $character) {
 //  U+62: LATIN SMALL LETTER B
 //  U+63: LATIN SMALL LETTER C
 ```
+
+Factory methods are available on the `Codepoint` and `Codepoint\Collection` classes to construct instances based on UTF-8,
+UTF-16BE, UTF-16LE, UTF-32BE and UTF-32LE encoded character(s).
 
 ### Regex Building
 
