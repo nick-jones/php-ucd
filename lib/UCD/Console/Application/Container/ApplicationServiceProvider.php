@@ -12,6 +12,7 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use UCD\Console\Application\Command\PropertiesCommand;
 use UCD\Console\Application\Command\RepositoryTransferCommand;
 use UCD\Console\Application\Command\SearchCommand;
 use UCD\Console\Application\Container as UCDContainer;
@@ -70,6 +71,9 @@ class ApplicationServiceProvider extends ServiceProvider
             },
             'command.search' => function (UCDContainer $container) {
                 return new SearchCommand($container);
+            },
+            'command.props' => function (UCDContainer $container) {
+                return new PropertiesCommand($container);
             }
         ]);
     }
@@ -84,6 +88,7 @@ class ApplicationServiceProvider extends ServiceProvider
                 $application = new Application('Unicode Character Database', PHPUCD_VERSION);
                 $application->add($container['command.repository_transfer']);
                 $application->add($container['command.search']);
+                $application->add($container['command.props']);
                 $definition = $application->getDefinition();
                 $option = new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Configuration file', null);
                 $definition->addOption($option);

@@ -7,6 +7,8 @@ use UCD\Console\Application\Container\RepositoryServiceProvider;
 
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties\General\Block;
+use UCD\Unicode\Character\Properties\General\GeneralCategory;
+use UCD\Unicode\Character\Properties\General\Script;
 use UCD\Unicode\Codepoint;
 use UCD\Unicode\Character\Properties;
 use UCD\Console\Application\Container;
@@ -70,14 +72,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * @param Codepoint $codepoint
      * @param Block $block
+     * @param GeneralCategory $cat
+     * @param Script $script
      * @return Character
      */
-    protected function buildCharacterWithCodepoint(Codepoint $codepoint, Block $block = null)
-    {
+    protected function buildCharacterWithCodepoint(
+        Codepoint $codepoint,
+        Block $block = null,
+        GeneralCategory $cat = null,
+        Script $script = null
+    ) {
         $age = new Properties\General\Version(Properties\General\Version::V8_0);
         $primary = new Properties\General\Name\Assigned('Name');
         $names = new Properties\General\Names($primary);
-        $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::OTHER_CONTROL);
+        $cat = $cat ?: new GeneralCategory(GeneralCategory::OTHER_CONTROL);
         $combining = new Properties\Normalization\Combining(Properties\Normalization\Combining::ABOVE);
         $classing = new Properties\Bidirectionality\Classing(Properties\Bidirectionality\Classing::COMMON_SEPARATOR);
         $mirroring = new Properties\Bidirectionality\Mirroring(true);
@@ -87,7 +95,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $decomp = new Properties\Normalization\Decomposition\Assigned($decompositionType, []);
         $numericType = new Properties\Numericity\NumericType(Properties\Numericity\NumericType::NONE);
         $numericity = new Properties\Numericity\NonNumeric($numericType);
-        $script = new Properties\General\Script(Properties\General\Script::COMMON);
+        $script = $script ?: new Script(Script::COMMON);
         $general = new Properties\General($names, $block ?: new Block(Block::BASIC_LATIN), $age, $cat, $script);
         $normalization = new Properties\Normalization($combining, $decomp);
         $joiningGroup = new Properties\Shaping\JoiningGroup(Properties\Shaping\JoiningGroup::NO_JOINING_GROUP);

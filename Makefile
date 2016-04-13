@@ -12,6 +12,9 @@ test-integration:
 
 test-smoke:
 	./bin/ucd search 2603 > /dev/null
+	./bin/ucd properties block Half_Marks > /dev/null
+	./bin/ucd properties category Sc > /dev/null
+	./bin/ucd properties script Perm > /dev/null
 
 clean:
 	rm -f resources/ucd.all.flat.*

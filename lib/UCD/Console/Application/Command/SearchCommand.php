@@ -116,5 +116,4 @@ class SearchCommand extends RepositoryUtilisingCommand
 
         return new InputDefinition([$codepoint, $from, $encoding]);
     }
-
 }
