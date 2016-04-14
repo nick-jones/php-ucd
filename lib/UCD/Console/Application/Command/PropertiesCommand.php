@@ -40,12 +40,15 @@ class PropertiesCommand extends RepositoryUtilisingCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $start = microtime(true);
         $propertyType = $input->getArgument(self::ARGUMENT_PROPERTY_TYPE);
         $searchBy = $input->getArgument(self::ARGUMENT_SEARCH_BY);
         $from = $input->getOption(self::OPTION_FROM);
         $repository = $this->getRepositoryByName($from);
         $db = new Database($repository);
         $characters = $this->resolveCodepoints($db, $propertyType, $searchBy);
+
+        $output->writeln(sprintf('<info>%s "%s"</info>', ucfirst($propertyType), $searchBy));
 
         foreach ($characters as $character) {
             $codepoint = $character->getCodepoint();
@@ -55,6 +58,9 @@ class PropertiesCommand extends RepositoryUtilisingCommand
             $message = sprintf('%s: %s - %s', $codepoint, $primary, $codepoint->toUTF8());
             $output->writeln($message);
         }
+
+        $output->writeln(sprintf('Memory peak: %.5f MB', memory_get_peak_usage() / 1048576));
+        $output->writeln(sprintf('Took: %.5f seconds', microtime(true) - $start));
     }
 
     /**
