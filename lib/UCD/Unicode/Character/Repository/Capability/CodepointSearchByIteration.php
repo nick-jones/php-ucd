@@ -42,6 +42,8 @@ trait CodepointSearchByIteration
      */
     protected function unionAgainstCodepoints(Codepoint\Collection $codepoints)
     {
+        $codepoints = $codepoints->takeSnapshot();
+
         foreach ($this->getAll() as $character) {
             if ($codepoints->has($character->getCodepoint())) {
                 yield $character;
