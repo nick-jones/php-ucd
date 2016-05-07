@@ -1,4 +1,4 @@
-.PHONY: all test clean db generate
+.PHONY: all test clean db
 
 all: test db
 
