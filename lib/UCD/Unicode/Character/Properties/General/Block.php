@@ -6,6 +6,7 @@ use UCD\Unicode\Character\Properties\Enumeration;
 
 class Block extends Enumeration
 {
+    const ADLAM = 'Adlam';
     const AEGEAN_NUMBERS = 'Aegean_Numbers';
     const AHOM = 'Ahom';
     const ALCHEMICAL_SYMBOLS = 'Alchemical';
@@ -30,6 +31,7 @@ class Block extends Enumeration
     const BASSA_VAH = 'Bassa_Vah';
     const BATAK = 'Batak';
     const BENGALI = 'Bengali';
+    const BHAIKSUKI = 'Bhaiksuki';
     const BLOCK_ELEMENTS = 'Block_Elements';
     const BOPOMOFO = 'Bopomofo';
     const BOPOMOFO_EXTENDED = 'Bopomofo_Ext';
@@ -70,6 +72,7 @@ class Block extends Enumeration
     const CYRILLIC = 'Cyrillic';
     const CYRILLIC_EXTENDED_A = 'Cyrillic_Ext_A';
     const CYRILLIC_EXTENDED_B = 'Cyrillic_Ext_B';
+    const CYRILLIC_EXTENDED_C = 'Cyrillic_Ext_C';
     const CYRILLIC_SUPPLEMENT = 'Cyrillic_Sup';
     const DESERET = 'Deseret';
     const DEVANAGARI = 'Devanagari';
@@ -98,6 +101,7 @@ class Block extends Enumeration
     const GEORGIAN = 'Georgian';
     const GEORGIAN_SUPPLEMENT = 'Georgian_Sup';
     const GLAGOLITIC = 'Glagolitic';
+    const GLAGOLITIC_SUPPLEMENT = 'Glagolitic_Sup';
     const GOTHIC = 'Gothic';
     const GRANTHA = 'Grantha';
     const GREEK_AND_COPTIC = 'Greek';
@@ -114,6 +118,7 @@ class Block extends Enumeration
     const HIGH_SURROGATES = 'High_Surrogates';
     const HIRAGANA = 'Hiragana';
     const IDEOGRAPHIC_DESCRIPTION_CHARACTERS = 'IDC';
+    const IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION = 'Ideographic_Symbols';
     const IMPERIAL_ARAMAIC = 'Imperial_Aramaic';
     const COMMON_INDIC_NUMBER_FORMS = 'Indic_Number_Forms';
     const INSCRIPTIONAL_PAHLAVI = 'Inscriptional_Pahlavi';
@@ -159,6 +164,7 @@ class Block extends Enumeration
     const MALAYALAM = 'Malayalam';
     const MANDAIC = 'Mandaic';
     const MANICHAEAN = 'Manichaean';
+    const MARCHEN = 'Marchen';
     const MATHEMATICAL_ALPHANUMERIC_SYMBOLS = 'Math_Alphanum';
     const MATHEMATICAL_OPERATORS = 'Math_Operators';
     const MEETEI_MAYEK = 'Meetei_Mayek';
@@ -177,6 +183,7 @@ class Block extends Enumeration
     const SPACING_MODIFIER_LETTERS = 'Modifier_Letters';
     const MODIFIER_TONE_LETTERS = 'Modifier_Tone_Letters';
     const MONGOLIAN = 'Mongolian';
+    const MONGOLIAN_SUPPLEMENT = 'Mongolian_Sup';
     const MRO = 'Mro';
     const MULTANI = 'Multani';
     const MUSICAL_SYMBOLS = 'Music';
@@ -186,6 +193,7 @@ class Block extends Enumeration
     const NABATAEAN = 'Nabataean';
     const NO_BLOCK = 'NB';
     const NEW_TAI_LUE = 'New_Tai_Lue';
+    const NEWA = 'Newa';
     const NKO = 'NKo';
     const NUMBER_FORMS = 'Number_Forms';
     const OPTICAL_CHARACTER_RECOGNITION = 'OCR';
@@ -200,6 +208,7 @@ class Block extends Enumeration
     const OLD_TURKIC = 'Old_Turkic';
     const ORIYA = 'Oriya';
     const ORNAMENTAL_DINGBATS = 'Ornamental_Dingbats';
+    const OSAGE = 'Osage';
     const OSMANYA = 'Osmanya';
     const PAHAWH_HMONG = 'Pahawh_Hmong';
     const PALMYRENE = 'Palmyrene';
@@ -250,6 +259,8 @@ class Block extends Enumeration
     const TAI_XUAN_JING_SYMBOLS = 'Tai_Xuan_Jing';
     const TAKRI = 'Takri';
     const TAMIL = 'Tamil';
+    const TANGUT = 'Tangut';
+    const TANGUT_COMPONENTS = 'Tangut_Components';
     const TELUGU = 'Telugu';
     const THAANA = 'Thaana';
     const THAI = 'Thai';

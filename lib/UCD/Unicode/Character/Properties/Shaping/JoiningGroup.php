@@ -6,6 +6,9 @@ use UCD\Unicode\Character\Properties\Enumeration;
 
 class JoiningGroup extends Enumeration
 {
+    const AFRICAN_FEH = 'African_Feh';
+    const AFRICAN_QAF = 'African_Qaf';
+    const AFRICAN_NOON = 'African_Noon';
     const AIN = 'Ain';
     const ALAPH = 'Alaph';
     const ALEF = 'Alef';

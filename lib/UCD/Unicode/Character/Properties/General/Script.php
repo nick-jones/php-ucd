@@ -6,6 +6,7 @@ use UCD\Unicode\Character\Properties\Enumeration;
 
 class Script extends Enumeration
 {
+    const ADLAM = 'Adlm';
     const CAUCASIAN_ALBANIAN = 'Aghb';
     const AHOM = 'Ahom';
     const ARABIC = 'Arab';
@@ -17,6 +18,7 @@ class Script extends Enumeration
     const BASSA_VAH = 'Bass';
     const BATAK = 'Batk';
     const BENGALI = 'Beng';
+    const BHAIKSUKI = 'Bhks';
     const BOPOMOFO = 'Bopo';
     const BRAHMI = 'Brah';
     const BRAILLE = 'Brai';
@@ -75,6 +77,7 @@ class Script extends Enumeration
     const MAHAJANI = 'Mahj';
     const MANDAIC = 'Mand';
     const MANICHAEAN = 'Mani';
+    const MARCHEN = 'Marc';
     const MENDE_KIKAKUI = 'Mend';
     const MEROITIC_CURSIVE = 'Merc';
     const MEROITIC_HIEROGLYPHS = 'Mero';
@@ -87,11 +90,13 @@ class Script extends Enumeration
     const MYANMAR = 'Mymr';
     const OLD_NORTH_ARABIAN = 'Narb';
     const NABATAEAN = 'Nbat';
+    const NEWA = 'Newa';
     const NKO = 'Nkoo';
     const OGHAM = 'Ogam';
     const OL_CHIKI = 'Olck';
     const OLD_TURKIC = 'Orkh';
     const ORIYA = 'Orya';
+    const OSAGE = 'Osge';
     const OSMANYA = 'Osma';
     const PALMYRENE = 'Palm';
     const PAU_CIN_HAU = 'Pauc';
@@ -122,6 +127,7 @@ class Script extends Enumeration
     const TAI_LE = 'Tale';
     const NEW_TAI_LUE = 'Talu';
     const TAMIL = 'Taml';
+    const TANGUT = 'Tang';
     const TAI_VIET = 'Tavt';
     const TELUGU = 'Telu';
     const TIFINAGH = 'Tfng';

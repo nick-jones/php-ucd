@@ -23,5 +23,6 @@ class Version extends Enumeration
     const V6_3 = '6.3';
     const V7_0 = '7.0';
     const V8_0 = '8.0';
+    const V9_0 = '9.0';
     const UNKNOWN = 'unknown';
 }
