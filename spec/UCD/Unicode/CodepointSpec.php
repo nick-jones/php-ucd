@@ -167,6 +167,14 @@ class CodepointSpec extends ObjectBehavior
             ->shouldReturn("\x77\xF3\x01\x00");
     }
 
+    public function it_can_provide_a_PHP_unicode_escape_sequence_representation_of_its_value()
+    {
+        $this->beConstructedThrough('fromInt', [0x1F377]);
+
+        $this->toUnicodeEscape()
+            ->shouldReturn('\u{1F377}');
+    }
+
     public function it_should_be_comparable()
     {
         $this->beConstructedThrough('fromInt', [0x10]);

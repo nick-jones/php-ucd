@@ -198,6 +198,14 @@ class Codepoint implements Comparable
     }
 
     /**
+     * @return string
+     */
+    public function toUnicodeEscape()
+    {
+        return sprintf('\u{%X}', $this->value);
+    }
+
+    /**
      * @return int
      */
     public function getValue()
