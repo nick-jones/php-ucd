@@ -2,6 +2,7 @@
 
 namespace UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser;
 
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\LetterCaseParser;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties;
 use UCD\Unicode\Codepoint;
@@ -19,6 +20,11 @@ class CharacterParser implements CodepointAwareParser
      * @var GeneralParser
      */
     private $generalParser;
+
+    /**
+     * @var LetterCaseParser
+     */
+    private $letterCaseParser;
 
     /**
      * @var NormalizationParser
@@ -42,6 +48,7 @@ class CharacterParser implements CodepointAwareParser
 
     /**
      * @param GeneralParser $generalParser
+     * @param LetterCaseParser $letterCaseParser
      * @param NormalizationParser $normalizationParser
      * @param NumericityParser $numericityParser
      * @param BidirectionalityParser $bidirectionalityParser
@@ -49,12 +56,14 @@ class CharacterParser implements CodepointAwareParser
      */
     public function __construct(
         GeneralParser $generalParser,
+        LetterCaseParser $letterCaseParser,
         NormalizationParser $normalizationParser,
         NumericityParser $numericityParser,
         BidirectionalityParser $bidirectionalityParser,
         ShapingParser $shapingParser
     ) {
         $this->generalParser = $generalParser;
+        $this->letterCaseParser = $letterCaseParser;
         $this->normalizationParser = $normalizationParser;
         $this->numericityParser = $numericityParser;
         $this->bidirectionalityParser = $bidirectionalityParser;
@@ -69,11 +78,12 @@ class CharacterParser implements CodepointAwareParser
     public function parseElement(\DOMElement $element, Codepoint $codepoint)
     {
         $general = $this->generalParser->parseElement($element, $codepoint);
+        $case = $this->letterCaseParser->parseElement($element, $codepoint);
         $normalization = $this->normalizationParser->parseElement($element, $codepoint);
         $numericity = $this->numericityParser->parseElement($element, $codepoint);
         $bidirectionality = $this->bidirectionalityParser->parseElement($element, $codepoint);
         $shaping = $this->shapingParser->parseElement($element, $codepoint);
-        $properties = new Properties($general, $numericity, $normalization, $bidirectionality, $shaping);
+        $properties = new Properties($general, $case, $numericity, $normalization, $bidirectionality, $shaping);
 
         return new Character($codepoint, $properties);
     }

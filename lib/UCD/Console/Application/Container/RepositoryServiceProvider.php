@@ -23,6 +23,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParse
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\CodepointCountParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\NonCharacterParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\BidirectionalityParser;
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\LetterCaseParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\GeneralParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\NormalizationParser;
 use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\NumericityParser;
@@ -134,6 +135,9 @@ class RepositoryServiceProvider extends ServiceProvider
             'xr.element_parser.properties.general' => function () {
                 return new GeneralParser();
             },
+            'xr.element_parser.properties.letter_case' => function () {
+                return new LetterCaseParser();
+            },
             'xr.element_parser.properties.normalization' => function () {
                 return new NormalizationParser();
             },
@@ -149,6 +153,7 @@ class RepositoryServiceProvider extends ServiceProvider
             'xr.element_parser.character' => function (Container $container) {
                 return new CharacterParser(
                     $container['xr.element_parser.properties.general'],
+                    $container['xr.element_parser.properties.letter_case'],
                     $container['xr.element_parser.properties.normalization'],
                     $container['xr.element_parser.properties.numericity'],
                     $container['xr.element_parser.properties.bidirectionality'],

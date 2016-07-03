@@ -4,6 +4,7 @@ namespace spec\UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\E
 
 use PhpSpec\ObjectBehavior;
 
+use UCD\Infrastructure\Repository\CharacterRepository\XMLRepository\ElementParser\Properties\LetterCaseParser;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Properties;
 
@@ -44,6 +45,7 @@ XML;
     {
         $this->beConstructedWith(
             new GeneralParser(),
+            new LetterCaseParser(),
             new NormalizationParser(),
             new NumericityParser(),
             new BidirectionalityParser(),
@@ -53,37 +55,12 @@ XML;
 
     public function it_parses_a_char_element_into_into_a_character_object()
     {
-        $age = new Properties\General\Version(Properties\General\Version::V1_1);
-        $primary = new Properties\General\Name\Unassigned();
-        $nameV1 = new Properties\General\Name\Assigned('NULL');
-        $names = new Properties\General\Names($primary, [], $nameV1);
-        $block = new Properties\General\Block(Properties\General\Block::BASIC_LATIN);
-        $cat = new Properties\General\GeneralCategory(Properties\General\GeneralCategory::OTHER_CONTROL);
-        $combining = new Properties\Normalization\Combining(Properties\Normalization\Combining::NOT_REORDERED);
-        $classing = new Properties\Bidirectionality\Classing(Properties\Bidirectionality\Classing::BOUNDARY_NEUTRAL);
-        $mirroring = new Properties\Bidirectionality\Mirroring(false);
-        $bidi = new Properties\Bidirectionality($classing, $mirroring, false);
-        $dType = Properties\Normalization\DecompositionType::NONE;
-        $decompositionType = new Properties\Normalization\DecompositionType($dType);
-        $decomp = new Properties\Normalization\Decomposition\Void($decompositionType);
-        $numericType = new Properties\Numericity\NumericType(Properties\Numericity\NumericType::NONE);
-        $numericity = new Properties\Numericity\NonNumeric($numericType);
-        $script = new Properties\General\Script(Properties\General\Script::COMMON);
-        $general = new Properties\General($names, $block, $age, $cat, $script);
-        $normalization = new Properties\Normalization($combining, $decomp);
-        $joiningGroup = new Properties\Shaping\JoiningGroup(Properties\Shaping\JoiningGroup::NO_JOINING_GROUP);
-        $joiningType = new Properties\Shaping\JoiningType(Properties\Shaping\JoiningType::NON_JOINING);
-        $joining = new Properties\Shaping\Joining($joiningGroup, $joiningType, false);
-        $shaping = new Properties\Shaping($joining);
-        $properties = new Character\Properties($general, $numericity, $normalization, $bidi, $shaping);
         $codepoint = Codepoint::fromInt(0);
-        $character = new Character($codepoint, $properties);
-
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(self::XML_DATA);
         $element = $dom->getElementsByTagName('char')->item(0);
 
         $this->parseElement($element, $codepoint)
-            ->shouldBeLike($character);
+            ->shouldHaveType(Character::class);
     }
 }

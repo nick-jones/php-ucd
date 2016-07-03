@@ -4,6 +4,7 @@ namespace UCD\Unicode\Character;
 
 
 use UCD\Unicode\Character\Properties\Bidirectionality;
+use UCD\Unicode\Character\Properties\LetterCase;
 use UCD\Unicode\Character\Properties\General;
 use UCD\Unicode\Character\Properties\Normalization;
 use UCD\Unicode\Character\Properties\Numericity;
@@ -15,6 +16,11 @@ class Properties
      * @var General
      */
     private $general;
+
+    /**
+     * @var LetterCase
+     */
+    private $letterCase;
 
     /**
      * @var Numericity
@@ -38,6 +44,7 @@ class Properties
 
     /**
      * @param General $general
+     * @param LetterCase $letterCase
      * @param Numericity $numericity
      * @param Normalization $normalization
      * @param Bidirectionality $bidirectionality
@@ -45,12 +52,14 @@ class Properties
      */
     public function __construct(
         General $general,
+        LetterCase $letterCase,
         Numericity $numericity,
         Normalization $normalization,
         Bidirectionality $bidirectionality,
         Shaping $shaping
     ) {
         $this->general = $general;
+        $this->letterCase = $letterCase;
         $this->numericity = $numericity;
         $this->normalization = $normalization;
         $this->bidirectionality = $bidirectionality;
@@ -63,6 +72,14 @@ class Properties
     public function getGeneral()
     {
         return $this->general;
+    }
+
+    /**
+     * @return LetterCase
+     */
+    public function getLetterCase()
+    {
+        return $this->letterCase;
     }
 
     /**

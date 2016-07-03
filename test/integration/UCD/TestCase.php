@@ -70,40 +70,79 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Codepoint $codepoint
+     * @param Codepoint $cp
      * @param Block $block
      * @param GeneralCategory $cat
      * @param Script $script
      * @return Character
      */
     protected function buildCharacterWithCodepoint(
-        Codepoint $codepoint,
+        Codepoint $cp,
         Block $block = null,
         GeneralCategory $cat = null,
         Script $script = null
     ) {
+        $general = $this->buildGeneralProperties($block, $cat, $script);
+        $letterCase = $this->buildLetterCase($cp);
+        $numericity = $this->buildNumericity();
+        $normalization = $this->buildNormalization();
+        $bidi = $this->buildBidirectionality();
+        $shaping = $this->buildShaping();
+        $properties = new Character\Properties($general, $letterCase, $numericity, $normalization, $bidi, $shaping);
+
+        return new Character($cp, $properties);
+    }
+
+    protected function buildGeneralProperties(Block $block = null, GeneralCategory $cat = null, Script $script = null)
+    {
+        $cat = $cat ?: new GeneralCategory(GeneralCategory::OTHER_CONTROL);
+        $script = $script ?: new Script(Script::COMMON);
         $age = new Properties\General\Version(Properties\General\Version::V8_0);
         $primary = new Properties\General\Name\Assigned('Name');
         $names = new Properties\General\Names($primary);
-        $cat = $cat ?: new GeneralCategory(GeneralCategory::OTHER_CONTROL);
+
+        return new Properties\General($names, $block ?: new Block(Block::BASIC_LATIN), $age, $cat, $script);
+    }
+
+    protected function buildLetterCase(Codepoint $cp)
+    {
+        $mapping = new Properties\LetterCase\Mapping($cp, Codepoint\Collection::fromArray([$cp]));
+        $mappings = new Properties\LetterCase\Mappings($mapping, $mapping, $mapping, $mapping);
+
+        return new Properties\LetterCase($mappings);
+    }
+
+    protected function buildNumericity()
+    {
+        $numericType = new Properties\Numericity\NumericType(Properties\Numericity\NumericType::NONE);
+
+        return new Properties\Numericity\NonNumeric($numericType);
+    }
+
+    protected function buildNormalization()
+    {
         $combining = new Properties\Normalization\Combining(Properties\Normalization\Combining::ABOVE);
-        $classing = new Properties\Bidirectionality\Classing(Properties\Bidirectionality\Classing::COMMON_SEPARATOR);
-        $mirroring = new Properties\Bidirectionality\Mirroring(true);
-        $bidi = new Properties\Bidirectionality($classing, $mirroring, true);
         $dType = Properties\Normalization\DecompositionType::CANONICAL;
         $decompositionType = new Properties\Normalization\DecompositionType($dType);
         $decomp = new Properties\Normalization\Decomposition\Assigned($decompositionType, []);
-        $numericType = new Properties\Numericity\NumericType(Properties\Numericity\NumericType::NONE);
-        $numericity = new Properties\Numericity\NonNumeric($numericType);
-        $script = $script ?: new Script(Script::COMMON);
-        $general = new Properties\General($names, $block ?: new Block(Block::BASIC_LATIN), $age, $cat, $script);
-        $normalization = new Properties\Normalization($combining, $decomp);
+
+        return new Properties\Normalization($combining, $decomp);
+    }
+
+    protected function buildBidirectionality()
+    {
+        $classing = new Properties\Bidirectionality\Classing(Properties\Bidirectionality\Classing::COMMON_SEPARATOR);
+        $mirroring = new Properties\Bidirectionality\Mirroring(true);
+
+        return new Properties\Bidirectionality($classing, $mirroring, true);
+    }
+
+    protected function buildShaping()
+    {
         $joiningGroup = new Properties\Shaping\JoiningGroup(Properties\Shaping\JoiningGroup::NO_JOINING_GROUP);
         $joiningType = new Properties\Shaping\JoiningType(Properties\Shaping\JoiningType::NON_JOINING);
         $joining = new Properties\Shaping\Joining($joiningGroup, $joiningType, false);
-        $shaping = new Properties\Shaping($joining);
-        $properties = new Character\Properties($general, $numericity, $normalization, $bidi, $shaping);
 
-        return new Character($codepoint, $properties);
+        return new Properties\Shaping($joining);
     }
 }
