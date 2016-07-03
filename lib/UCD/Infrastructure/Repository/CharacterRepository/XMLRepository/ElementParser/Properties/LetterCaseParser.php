@@ -87,7 +87,7 @@ class LetterCaseParser extends BaseParser
 
     /**
      * @param string $attribute
-     * @return Codepoint\Collection
+     * @return Codepoint[]
      */
     private function parseMapping($attribute)
     {
@@ -96,9 +96,7 @@ class LetterCaseParser extends BaseParser
             $this->codepoint
         );
 
-        return Codepoint\Collection::fromArray(
-            $this->parseCodepointList($list)
-        );
+        return $this->parseCodepointList($list);
     }
 
 

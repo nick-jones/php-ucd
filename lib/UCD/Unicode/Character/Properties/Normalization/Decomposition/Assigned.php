@@ -25,10 +25,12 @@ class Assigned extends Decomposition
     }
 
     /**
-     * @return Codepoint[]
+     * @return Codepoint\Collection|Codepoint[]
      */
     public function getMappedTo()
     {
-        return $this->mappedTo;
+        return Codepoint\Collection::fromArray(
+            $this->mappedTo
+        );
     }
 }

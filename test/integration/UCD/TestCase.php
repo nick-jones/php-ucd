@@ -106,7 +106,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     protected function buildLetterCase(Codepoint $cp)
     {
-        $mapping = new Properties\LetterCase\Mapping($cp, Codepoint\Collection::fromArray([$cp]));
+        $mapping = new Properties\LetterCase\Mapping($cp, [$cp]);
         $mappings = new Properties\LetterCase\Mappings($mapping, $mapping, $mapping, $mapping);
 
         return new Properties\LetterCase($mappings);

@@ -26,14 +26,12 @@ XML;
     public function it_parses_case_properties()
     {
         $codepoint = Codepoint::fromInt(0);
-        $codepoints = Codepoint\Collection::fromArray([$codepoint]);
         $lower = Codepoint::fromHex('65');
-        $lowers = Codepoint\Collection::fromArray([$lower]);
         $mappings = new LetterCase\Mappings(
-            new LetterCase\Mapping($lower, $lowers),
-            new LetterCase\Mapping($codepoint, $codepoints),
-            new LetterCase\Mapping($codepoint, $codepoints),
-            new LetterCase\Mapping($codepoint, $codepoints)
+            new LetterCase\Mapping($lower, [$lower]),
+            new LetterCase\Mapping($codepoint, [$codepoint]),
+            new LetterCase\Mapping($codepoint, [$codepoint]),
+            new LetterCase\Mapping($codepoint, [$codepoint])
         );
         $expected = new LetterCase($mappings);
 

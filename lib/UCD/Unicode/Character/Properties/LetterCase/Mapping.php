@@ -12,11 +12,15 @@ class Mapping
     private $simple;
 
     /**
-     * @var Codepoint\Collection
+     * @var Codepoint[]
      */
     private $standard;
 
-    public function __construct(Codepoint $simple, Codepoint\Collection $standard)
+    /**
+     * @param Codepoint $simple
+     * @param Codepoint[] $standard
+     */
+    public function __construct(Codepoint $simple, array $standard)
     {
         $this->simple = $simple;
         $this->standard = $standard;
@@ -31,10 +35,12 @@ class Mapping
     }
 
     /**
-     * @return Codepoint\Collection
+     * @return Codepoint\Collection|Codepoint[]
      */
     public function getStandard()
     {
-        return $this->standard;
+        return Codepoint\Collection::fromArray(
+            $this->standard
+        );
     }
 }
