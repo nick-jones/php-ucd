@@ -187,6 +187,63 @@ var_dump(preg_match($regex, '১')); // int(1)
 var_dump(preg_match($regex, '1')); // int(0)
 ```
 
+### Map Building
+
+This library can be used for building maps for various purposes. One such example is building a lowercase → uppercase
+character map. This is relatively simple to achieve; interrogate the properties of each character to check whether
+a mapping to a different character exists - if one does, print it out in PHP syntax:
+
+```php
+use UCD\Database;
+
+$characters = Database::fromDisk()
+    ->onlyCharacters();
+
+echo 'static $map = [' . PHP_EOL;
+
+foreach ($characters as $character) {
+    $codepoint = $character->getCodepoint();
+    $properties = $character->getProperties();
+    $case = $properties->getLetterCase();
+    $mappings = $case->getMappings();
+    $upperMapping = $mappings->getUppercase();
+    $upper = $upperMapping->getSimple();
+
+    if (!$upper->equals($codepoint)) {
+        $from = $codepoint->toUnicodeEscape();
+        $to = $upper->toUnicodeEscape();
+        printf('    "%s" => "%s",', $from, $to);
+        echo PHP_EOL;
+    }
+}
+
+echo '];';
+
+// outputting:
+//  static $map = [
+//      "\u{61}" => "\u{41}",
+//      "\u{62}" => "\u{42}",
+//      "\u{63}" => "\u{43}",
+//      <snip>
+//      "\u{1E942}" => "\u{1E920}",
+//      "\u{1E943}" => "\u{1E921}",
+//  ];
+```
+
+This can then be leveraged as follow:
+
+```php
+$lower = 'aς!';
+$upper = '';
+
+for ($i = 0; $i < mb_strlen($lower); $i++) {
+    $char = mb_substr($lower, $i, 1);
+    $upper .= $map[$char] ?? $char;
+}
+
+var_dump($upper); // string(4) "AΣ!"
+```
+
 ## Executable
 
 The primary intention of this project is to act as a library, however a small utility command is available for testing
