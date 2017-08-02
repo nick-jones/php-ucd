@@ -57,6 +57,7 @@ class Block extends Enumeration
     const CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C = 'CJK_Ext_C';
     const CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D = 'CJK_Ext_D';
     const CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E = 'CJK_Ext_E';
+    const CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F = 'CJK_Ext_F';
     const CJK_RADICALS_SUPPLEMENT = 'CJK_Radicals_Sup';
     const CJK_STROKES = 'CJK_Strokes';
     const CJK_SYMBOLS_AND_PUNCTUATION = 'CJK_Symbols';
@@ -130,6 +131,7 @@ class Block extends Enumeration
     const JAVANESE = 'Javanese';
     const KAITHI = 'Kaithi';
     const KANA_SUPPLEMENT = 'Kana_Sup';
+    const KANA_EXTENDED_A = 'Kana_Ext_A';
     const KANBUN = 'Kanbun';
     const KANGXI_RADICALS = 'Kangxi';
     const KANNADA = 'Kannada';
@@ -165,6 +167,7 @@ class Block extends Enumeration
     const MANDAIC = 'Mandaic';
     const MANICHAEAN = 'Manichaean';
     const MARCHEN = 'Marchen';
+    const MASARAM_GONDI = 'Masaram_Gondi';
     const MATHEMATICAL_ALPHANUMERIC_SYMBOLS = 'Math_Alphanum';
     const MATHEMATICAL_OPERATORS = 'Math_Operators';
     const MEETEI_MAYEK = 'Meetei_Mayek';
@@ -196,6 +199,7 @@ class Block extends Enumeration
     const NEWA = 'Newa';
     const NKO = 'NKo';
     const NUMBER_FORMS = 'Number_Forms';
+    const NUSHU = 'Nushu';
     const OPTICAL_CHARACTER_RECOGNITION = 'OCR';
     const OGHAM = 'Ogham';
     const OL_CHIKI = 'Ol_Chiki';
@@ -235,6 +239,7 @@ class Block extends Enumeration
     const SINHALA_ARCHAIC_NUMBERS = 'Sinhala_Archaic_Numbers';
     const SMALL_FORM_VARIANTS = 'Small_Forms';
     const SORA_SOMPENG = 'Sora_Sompeng';
+    const SOYOMBO = 'Soyombo';
     const SPECIALS = 'Specials';
     const SUNDANESE = 'Sundanese';
     const SUNDANESE_SUPPLEMENT = 'Sundanese_Sup';
@@ -250,6 +255,7 @@ class Block extends Enumeration
     const SUTTON_SIGNWRITING = 'Sutton_SignWriting';
     const SYLOTI_NAGRI = 'Syloti_Nagri';
     const SYRIAC = 'Syriac';
+    const SYRIAC_SUPPLEMENT = 'Syriac_Sup';
     const TAGALOG = 'Tagalog';
     const TAGBANWA = 'Tagbanwa';
     const TAGS = 'Tags';
@@ -280,4 +286,5 @@ class Block extends Enumeration
     const YI_RADICALS = 'Yi_Radicals';
     const YI_SYLLABLES = 'Yi_Syllables';
     const YIJING_HEXAGRAM_SYMBOLS = 'Yijing';
+    const ZANABAZAR_SQUARE = 'Zanabazar_Square';
 }

@@ -40,6 +40,7 @@ class Script extends Enumeration
     const ETHIOPIC = 'Ethi';
     const GEORGIAN = 'Geor';
     const GLAGOLITIC = 'Glag';
+    const MASARAM_GONDI = 'Gonm';
     const GOTHIC = 'Goth';
     const GRANTHA = 'Gran';
     const GREEK = 'Grek';
@@ -92,6 +93,7 @@ class Script extends Enumeration
     const NABATAEAN = 'Nbat';
     const NEWA = 'Newa';
     const NKO = 'Nkoo';
+    const NUSHU = 'Nshu';
     const OGHAM = 'Ogam';
     const OL_CHIKI = 'Olck';
     const OLD_TURKIC = 'Orkh';
@@ -119,6 +121,7 @@ class Script extends Enumeration
     const KHUDAWADI = 'Sind';
     const SINHALA = 'Sinh';
     const SORA_SOMPENG = 'Sora';
+    const SOYOMBO = 'Soyo';
     const SUNDANESE = 'Sund';
     const SYLOTI_NAGRI = 'Sylo';
     const SYRIAC = 'Syrc';
@@ -142,6 +145,7 @@ class Script extends Enumeration
     const OLD_PERSIAN = 'Xpeo';
     const CUNEIFORM = 'Xsux';
     const YI = 'Yiii';
+    const ZANABAZAR = 'Zanb';
     const INHERITED = 'Zinh';
     const COMMON = 'Zyyy';
     const UNKNOWN = 'Zzzz';
