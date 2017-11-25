@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-define('PHPUCD_VERSION', '1.1.0');
-define('PHPUCD_UNICODE_VERSION', '9.0');
+define('PHPUCD_VERSION', '2.0.0');
+define('PHPUCD_UNICODE_VERSION', '10.0');
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
