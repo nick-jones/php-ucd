@@ -1,23 +1,17 @@
 {
     "name": "nick-jones/php-ucd",
-
     "description": "Interface into the Unicode Character Database",
-
     "keywords": ["ucd", "unicode", "character", "database"],
-
     "authors": [{
         "name": "Nicholas Jones"
     }],
-
     "license": "MIT",
-
     "require": {
         "php": ">=5.6",
         "ext-iconv": "*",
         "psr/log": "^1.0",
         "judev/php-intervaltree": "^2.0"
     },
-
     "require-dev": {
         "symfony/console": "^2.7",
         "pimple/pimple": "^3.0",
@@ -31,13 +25,11 @@
         "nick-jones/phpspec-matcher-loader-extension": "^1.0",
         "nick-jones/phpspec-git-extension": "^1.0"
     },
-
     "autoload": {
         "psr-4": {
             "UCD\\": "lib/UCD"
         }
     },
-
     "autoload-dev": {
         "psr-4": {
             "integration\\UCD\\": "test/integration/UCD",
