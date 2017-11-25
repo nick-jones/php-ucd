@@ -6,7 +6,7 @@ use UCD\Unicode\Character\Properties\Normalization;
 use UCD\Unicode\Character\Properties\Normalization\Combining;
 use UCD\Unicode\Character\Properties\Normalization\Decomposition;
 use UCD\Unicode\Character\Properties\Normalization\Decomposition\Assigned;
-use UCD\Unicode\Character\Properties\Normalization\Decomposition\Void;
+use UCD\Unicode\Character\Properties\Normalization\Decomposition\Nil;
 use UCD\Unicode\Character\Properties\Normalization\DecompositionType;
 
 class NormalizationParser extends BaseParser
@@ -36,10 +36,10 @@ class NormalizationParser extends BaseParser
         $placeholders = $this->parsePlaceholders($mapping, $this->codepoint);
         $decompositionMap = $this->parseCodepointList($placeholders);
         $count = count($decompositionMap);
-        $isVoid = $count === 0 || ($count === 1 && $decompositionMap[0]->equals($this->codepoint));
+        $isNil = $count === 0 || ($count === 1 && $decompositionMap[0]->equals($this->codepoint));
 
-        if ($isVoid) {
-            return new Void($decompositionType);
+        if ($isNil) {
+            return new Nil($decompositionType);
         }
 
         return new Assigned($decompositionType, $decompositionMap);
