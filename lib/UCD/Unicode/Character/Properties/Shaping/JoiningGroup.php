@@ -35,6 +35,17 @@ class JoiningGroup extends Enumeration
     const KNOTTED_HEH = 'Knotted_Heh';
     const LAM = 'Lam';
     const LAMADH = 'Lamadh';
+    const MALAYALAM_NGA = 'Malayalam_Nga';
+    const MALAYALAM_JA = 'Malayalam_Ja';
+    const MALAYALAM_NYA = 'Malayalam_Nya';
+    const MALAYALAM_TTA = 'Malayalam_Tta';
+    const MALAYALAM_NNA = 'Malayalam_Nna';
+    const MALAYALAM_NNNA = 'Malayalam_Nnna';
+    const MALAYALAM_BHA = 'Malayalam_Bha';
+    const MALAYALAM_RA = 'Malayalam_Ra';
+    const MALAYALAM_LLA = 'Malayalam_Lla';
+    const MALAYALAM_LLLA = 'Malayalam_Llla';
+    const MALAYALAM_SSA = 'Malayalam_Ssa';
     const MANICHAEAN_ALEPH = 'Manichaean_Aleph';
     const MANICHAEAN_AYIN = 'Manichaean_Ayin';
     const MANICHAEAN_BETH = 'Manichaean_Beth';
