@@ -12,5 +12,6 @@ install:
   - composer install --dev --no-interaction
 
 script:
-  - ./vendor/bin/phpspec run --format=dot
-  - ./vendor/bin/phpunit
+  - make test-spec
+  - make test-integration
+  - make test-smoke
