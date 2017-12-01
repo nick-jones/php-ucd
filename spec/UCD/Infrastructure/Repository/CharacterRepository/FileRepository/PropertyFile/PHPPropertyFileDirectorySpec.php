@@ -19,7 +19,7 @@ class PHPPropertyFileDirectorySpec extends ObjectBehavior
     {
         $fs = new FileSystem();
         $fs->createDirectory('/props');
-        $fs->createFile('/props/block.php');
+        $fs->createFile('/props/block.php.gz');
         $dbPath = new \SplFileInfo($fs->path('/props'));
 
         $this->beConstructedThrough('fromPath', [$dbPath]);
@@ -29,7 +29,7 @@ class PHPPropertyFileDirectorySpec extends ObjectBehavior
     public function it_can_have_new_files_added_to_it_by_property_details()
     {
         $dbPath = new \SplFileInfo('/props');
-        $fileInfo = new \SplFileInfo('/props/block.php');
+        $fileInfo = new \SplFileInfo('/props/block.php.gz');
         $propertyFiles = new PropertyFiles();
         $property = Property::ofType(Property::BLOCK);
 

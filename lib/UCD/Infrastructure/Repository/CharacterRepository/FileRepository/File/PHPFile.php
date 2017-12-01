@@ -44,7 +44,9 @@ class PHPFile implements File
      */
     private function readFile()
     {
-        return require $this->fileInfo->getPathname();
+        $pathname = $this->fileInfo->getPathname();
+
+        return require $this->isZippedFile() ? 'compress.zlib://' . $pathname : $pathname;
     }
 
     /**
@@ -68,7 +70,11 @@ class PHPFile implements File
     public function writeArray(array $items)
     {
         $content = $this->generateFileContentForArray($items);
-        $file = $this->fileInfo->openFile('w');
+
+        $fileInfo = $this->isZippedFile()
+            ? new \SplFileInfo('compress.zlib://' . $this->fileInfo->getPathname())
+            : $this->fileInfo;
+        $file = $fileInfo->openFile('w');
         $file->fwrite($content);
 
         return $file->fflush();
@@ -101,5 +107,19 @@ class PHPFile implements File
     public function getInfo()
     {
         return $this->fileInfo;
+    }
+
+    /**
+     * @param array $items
+     * @return boolean
+     */
+    private function isZippedFile()
+    {
+        if (preg_match('`^phpvfs[0-9a-z]*://`i', $this->fileInfo->getPathname())) {
+            // php-vfs does not support combining stream wrappers
+            return false;
+        }
+
+        return $this->fileInfo->getExtension() === 'gz';
     }
 }

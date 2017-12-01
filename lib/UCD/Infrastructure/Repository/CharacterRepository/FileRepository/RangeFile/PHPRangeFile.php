@@ -9,8 +9,8 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
 
 class PHPRangeFile extends RangeFile
 {
-    const FILE_NAME_REGEX  = '/^(?P<start>\d+)-(?P<end>\d+)!(?P<total>\d+)\.php$/';
-    const FILE_PATH_FORMAT = '%s/%08d-%08d!%04d.php';
+    const FILE_NAME_REGEX  = '/^(?P<start>\d+)-(?P<end>\d+)!(?P<total>\d+)\.php\.gz$/';
+    const FILE_PATH_FORMAT = '%s/%08d-%08d!%04d.php.gz';
 
     /**
      * @param \SplFileInfo $fileInfo

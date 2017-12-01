@@ -21,7 +21,7 @@ class PHPRangeFileDirectorySpec extends ObjectBehavior
     {
         $fs = new FileSystem();
         $fs->createDirectory('/db');
-        $fs->createFile('/db/00000001-00000010!0010.php');
+        $fs->createFile('/db/00000001-00000010!0010.php.gz');
         $dbPath = new \SplFileInfo($fs->path('/db'));
 
         $this->beConstructedThrough('fromPath', [$dbPath]);
@@ -35,7 +35,7 @@ class PHPRangeFileDirectorySpec extends ObjectBehavior
     {
         $total = 10;
         $dbPath = new \SplFileInfo('/db');
-        $fileInfo = new \SplFileInfo('/db/00000001-00000010!0010.php');
+        $fileInfo = new \SplFileInfo('/db/00000001-00000010!0010.php.gz');
         $range = new Range(1, 10);
 
         $this->beConstructedWith($dbPath, new RangeFiles());

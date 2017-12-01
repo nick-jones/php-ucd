@@ -9,6 +9,7 @@
     "require": {
         "php": ">=5.6",
         "ext-iconv": "*",
+        "ext-zlib": "*",
         "psr/log": "^1.0",
         "judev/php-intervaltree": "^2.0"
     },

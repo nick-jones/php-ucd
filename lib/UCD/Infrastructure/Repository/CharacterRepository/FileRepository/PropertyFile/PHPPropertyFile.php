@@ -9,8 +9,8 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFil
 
 class PHPPropertyFile extends PropertyFile
 {
-    const FILE_NAME_REGEX  = '/^(?P<type>[A-Za-z_-]+)\.php$/';
-    const FILE_PATH_FORMAT = '%s/%s.php';
+    const FILE_NAME_REGEX  = '/^(?P<type>[A-Za-z_-]+)\.php\.gz$/';
+    const FILE_PATH_FORMAT = '%s/%s.php.gz';
 
     /**
      * @param \SplFileInfo $fileInfo
