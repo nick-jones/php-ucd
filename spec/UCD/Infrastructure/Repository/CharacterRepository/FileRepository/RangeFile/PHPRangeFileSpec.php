@@ -15,7 +15,7 @@ class PHPRangeFileSpec extends ObjectBehavior
 {
     public function it_can_be_constructed_file_path_information()
     {
-        $fileInfo = new \SplFileInfo('/db/00000001-00000010!0010.php');
+        $fileInfo = new \SplFileInfo('/db/00000001-00000010!0010.php.gz');
 
         $this->beConstructedThrough('fromFileInfo', [$fileInfo]);
         $this->shouldImplement(PHPRangeFile::class);

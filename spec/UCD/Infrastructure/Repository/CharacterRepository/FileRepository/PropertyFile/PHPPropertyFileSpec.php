@@ -14,7 +14,7 @@ class PHPPropertyFileSpec extends ObjectBehavior
 {
     public function it_can_be_constructed_file_path_information()
     {
-        $fileInfo = new \SplFileInfo('/props/block.php');
+        $fileInfo = new \SplFileInfo('/props/block.php.gz');
 
         $this->beConstructedThrough('fromFileInfo', [$fileInfo]);
         $this->shouldImplement(PHPPropertyFile::class);

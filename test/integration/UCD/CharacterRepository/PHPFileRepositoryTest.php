@@ -15,22 +15,22 @@ class PHPFileRepositoryTest extends TestCase
         mkdir($propsPath);
 
         $codepoint = Codepoint::fromInt(0);
-        $path = $this->fs->path('/db/00000000-00000000!0001.php');
+        $path = $this->fs->path('/db/00000000-00000000!0001.php.gz');
         $character = $this->buildCharacterWithCodepoint($codepoint);
         $content = sprintf("<?php\nreturn %s;", var_export([0 => serialize($character)], true));
         file_put_contents($path, $content);
 
-        $path = $this->fs->path('/props/block.php');
+        $path = $this->fs->path('/props/block.php.gz');
         $collection = Codepoint\Range\Collection::fromArray([Codepoint\Range::between($codepoint, $codepoint)]);
         $content = sprintf("<?php\nreturn %s;", var_export(['ASCII' => serialize($collection->toArray())], true));
         file_put_contents($path, $content);
 
-        $path = $this->fs->path('/props/gc.php');
+        $path = $this->fs->path('/props/gc.php.gz');
         $collection = Codepoint\Range\Collection::fromArray([Codepoint\Range::between($codepoint, $codepoint)]);
         $content = sprintf("<?php\nreturn %s;", var_export(['Cc' => serialize($collection->toArray())], true));
         file_put_contents($path, $content);
 
-        $path = $this->fs->path('/props/script.php');
+        $path = $this->fs->path('/props/script.php.gz');
         $collection = Codepoint\Range\Collection::fromArray([Codepoint\Range::between($codepoint, $codepoint)]);
         $content = sprintf("<?php\nreturn %s;", var_export(['Zyyy' => serialize($collection->toArray())], true));
         file_put_contents($path, $content);
