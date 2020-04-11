@@ -3,6 +3,7 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use UCD\Exception;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\FileCache;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties;
@@ -54,6 +55,11 @@ class FileRepository implements WritableRepository
     private $sliceSize;
 
     /**
+     * @var FileCache
+     */
+    private $fileCache;
+
+    /**
      * @param RangeFileDirectory $charactersDirectory
      * @param PropertyFileDirectory $propertiesDirectory
      * @param PropertyAggregators $aggregators
@@ -72,6 +78,7 @@ class FileRepository implements WritableRepository
         $this->sliceSize = $sliceSize;
         $this->propertiesDirectory = $propertiesDirectory;
         $this->aggregators = $aggregators;
+        $this->fileCache = new FileCache();
     }
 
     /**
@@ -81,7 +88,7 @@ class FileRepository implements WritableRepository
     {
         $value = $codepoint->getValue();
         $file = $this->getFileByCodepoint($codepoint);
-        $characters = $file->read();
+        $characters = $this->fileCache->read($file);
 
         if (!array_key_exists($value, $characters)) {
             throw CharacterNotFoundException::withCodepoint($codepoint);
@@ -232,7 +239,7 @@ class FileRepository implements WritableRepository
         $files = $this->charactersDirectory->getFiles();
 
         foreach ($files as $file) {
-            $characters = $file->read();
+            $characters = $this->fileCache->read($file);
 
             foreach ($characters as $i => $character) {
                 yield $i => $this->serializer->unserialize($character);
