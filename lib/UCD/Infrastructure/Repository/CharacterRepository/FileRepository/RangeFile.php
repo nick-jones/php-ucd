@@ -71,4 +71,12 @@ class RangeFile
     {
         return $this->total;
     }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->file->getInfo()->getPathname();
+    }
 }
