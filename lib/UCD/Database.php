@@ -124,8 +124,8 @@ class Database
 
     /**
      * @param Block $block
-     * @throws Repository\BlockNotFoundException
      * @return Codepoint\Range\Collection
+     * @throws Repository\BlockNotFoundException
      */
     public function getCodepointsByBlock(Block $block)
     {
@@ -146,8 +146,8 @@ class Database
 
     /**
      * @param GeneralCategory $category
-     * @throws Repository\BlockNotFoundException
      * @return Codepoint\Range\Collection
+     * @throws Repository\BlockNotFoundException
      */
     public function getCodepointsByCategory(GeneralCategory $category)
     {
@@ -168,8 +168,8 @@ class Database
 
     /**
      * @param Script $script
-     * @throws Repository\BlockNotFoundException
      * @return Codepoint\Range\Collection
+     * @throws Repository\BlockNotFoundException
      */
     public function getCodepointsByScript(Script $script)
     {
@@ -218,7 +218,16 @@ class Database
         $propertiesDirectory = FileRepository\PropertyFile\PHPPropertyFileDirectory::fromPath($propsPathInfo);
         $aggregators = new FileRepository\PropertyAggregators();
         $serializer = new PHPSerializer();
+        $sliceSize = FileRepository::DEFAULT_SLICE_SIZE;
+        $fileCache = new FileRepository\RangeFileCache();
 
-        return new FileRepository($charactersDirectory, $propertiesDirectory, $aggregators, $serializer);
+        return new FileRepository(
+            $charactersDirectory,
+            $propertiesDirectory,
+            $aggregators,
+            $serializer,
+            $sliceSize,
+            $fileCache
+        );
     }
 }

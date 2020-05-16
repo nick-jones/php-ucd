@@ -3,7 +3,6 @@
 namespace UCD\Infrastructure\Repository\CharacterRepository;
 
 use UCD\Exception;
-use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\FileCache;
 use UCD\Unicode\Character;
 use UCD\Unicode\Character\Collection;
 use UCD\Unicode\Character\Properties;
@@ -20,6 +19,7 @@ use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyAgg
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\PropertyFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Range;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFile;
+use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileCache;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\RangeFileDirectory;
 use UCD\Infrastructure\Repository\CharacterRepository\FileRepository\Serializer;
 
@@ -55,7 +55,7 @@ class FileRepository implements WritableRepository
     private $sliceSize;
 
     /**
-     * @var FileCache
+     * @var RangeFileCache
      */
     private $fileCache;
 
@@ -65,20 +65,22 @@ class FileRepository implements WritableRepository
      * @param PropertyAggregators $aggregators
      * @param Serializer $serializer
      * @param int $sliceSize
+     * @param RangeFileCache|null $fileCache
      */
     public function __construct(
         RangeFileDirectory $charactersDirectory,
         PropertyFileDirectory $propertiesDirectory,
         PropertyAggregators $aggregators,
         Serializer $serializer,
-        $sliceSize = self::DEFAULT_SLICE_SIZE
+        $sliceSize = self::DEFAULT_SLICE_SIZE,
+        RangeFileCache $fileCache = null
     ) {
         $this->charactersDirectory = $charactersDirectory;
         $this->serializer = $serializer;
         $this->sliceSize = $sliceSize;
         $this->propertiesDirectory = $propertiesDirectory;
         $this->aggregators = $aggregators;
-        $this->fileCache = new FileCache();
+        $this->fileCache = $fileCache;
     }
 
     /**
@@ -88,7 +90,7 @@ class FileRepository implements WritableRepository
     {
         $value = $codepoint->getValue();
         $file = $this->getFileByCodepoint($codepoint);
-        $characters = $this->fileCache->read($file);
+        $characters = $this->fileCache ? $this->fileCache->read($file) : $file->read();
 
         if (!array_key_exists($value, $characters)) {
             throw CharacterNotFoundException::withCodepoint($codepoint);
@@ -239,7 +241,7 @@ class FileRepository implements WritableRepository
         $files = $this->charactersDirectory->getFiles();
 
         foreach ($files as $file) {
-            $characters = $this->fileCache->read($file);
+            $characters = $this->fileCache ? $this->fileCache->read($file) : $file->read();
 
             foreach ($characters as $i => $character) {
                 yield $i => $this->serializer->unserialize($character);
