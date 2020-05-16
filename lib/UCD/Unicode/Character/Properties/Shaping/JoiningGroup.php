@@ -25,6 +25,8 @@ class JoiningGroup extends Enumeration
     const GAF = 'Gaf';
     const GAMAL = 'Gamal';
     const HAH = 'Hah';
+    const HANIFI_ROHINGYA_KINNA_YA = 'Hanifi_Rohingya_Kinna_Ya';
+    const HANIFI_ROHINGYA_PA = 'Hanifi_Rohingya_Pa';
     const HE = 'He';
     const HEH = 'Heh';
     const HEH_GOAL = 'Heh_Goal';

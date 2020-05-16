@@ -8,6 +8,7 @@ class Combining extends Enumeration
 {
     const NOT_REORDERED = 0;
     const OVERLAY = 1;
+    const HAN_READING = 6;
     const NUKTA = 7;
     const KANA_VOICING = 8;
     const VIRAMA = 9;

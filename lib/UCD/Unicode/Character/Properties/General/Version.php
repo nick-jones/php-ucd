@@ -25,5 +25,9 @@ class Version extends Enumeration
     const V8_0 = '8.0';
     const V9_0 = '9.0';
     const V10_0 = '10.0';
+    const V11_0 = '11.0';
+    const V12_0 = '12.0';
+    const V12_1 = '12.1';
+    const V13_0 = '13.0';
     const UNKNOWN = 'unknown';
 }

@@ -2,7 +2,7 @@
 <?php
 
 define('PHPUCD_VERSION', '3.0.1');
-define('PHPUCD_UNICODE_VERSION', '10.0');
+define('PHPUCD_UNICODE_VERSION', '13.0');
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

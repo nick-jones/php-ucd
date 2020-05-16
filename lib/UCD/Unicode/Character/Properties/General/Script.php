@@ -29,17 +29,22 @@ class Script extends Enumeration
     const CARIAN = 'Cari';
     const CHAM = 'Cham';
     const CHEROKEE = 'Cher';
+    const CHORASMIAN = 'Chrs';
     const COPTIC = 'Copt';
     const CYPRIOT = 'Cprt';
     const CYRILLIC = 'Cyrl';
     const DEVANAGARI = 'Deva';
+    const DIVES_AKURU = 'Diak';
+    const Dogra = 'Dogr';
     const DESERET = 'Dsrt';
     const DUPLOYAN = 'Dupl';
     const EGYPTIAN_HIEROGLYPHS = 'Egyp';
     const ELBASAN = 'Elba';
+    const ELYMAIC = 'Elym';
     const ETHIOPIC = 'Ethi';
     const GEORGIAN = 'Geor';
     const GLAGOLITIC = 'Glag';
+    const GUNJALA_GONDI = 'Gong';
     const MASARAM_GONDI = 'Gonm';
     const GOTHIC = 'Goth';
     const GRANTHA = 'Gran';
@@ -54,6 +59,7 @@ class Script extends Enumeration
     const HIRAGANA = 'Hira';
     const ANATOLIAN_HIEROGLYPHS = 'Hluw';
     const PAHAWH_HMONG = 'Hmng';
+    const NYIAKENG_PUACHUE_HMONG = 'Hmnp';
     const KATAKANA_OR_HIRAGANA = 'Hrkt';
     const OLD_HUNGARIAN = 'Hung';
     const OLD_ITALIC = 'Ital';
@@ -63,6 +69,7 @@ class Script extends Enumeration
     const KHAROSHTHI = 'Khar';
     const KHMER = 'Khmr';
     const KHOJKI = 'Khoj';
+    const KHITAN_SMALL_SCRIPT = 'Kits';
     const KANNADA = 'Knda';
     const KAITHI = 'Kthi';
     const TAI_THAM = 'Lana';
@@ -76,9 +83,11 @@ class Script extends Enumeration
     const LYCIAN = 'Lyci';
     const LYDIAN = 'Lydi';
     const MAHAJANI = 'Mahj';
+    const MAKASAR = 'Maka';
     const MANDAIC = 'Mand';
     const MANICHAEAN = 'Mani';
     const MARCHEN = 'Marc';
+    const MEDEFAIDRIN = 'Medf';
     const MENDE_KIKAKUI = 'Mend';
     const MEROITIC_CURSIVE = 'Merc';
     const MEROITIC_HIEROGLYPHS = 'Mero';
@@ -89,6 +98,7 @@ class Script extends Enumeration
     const MEETEI_MAYEK = 'Mtei';
     const MULTANI = 'Mult';
     const MYANMAR = 'Mymr';
+    const NANDINAGARI = 'Nand';
     const OLD_NORTH_ARABIAN = 'Narb';
     const NABATAEAN = 'Nbat';
     const NEWA = 'Newa';
@@ -110,6 +120,7 @@ class Script extends Enumeration
     const MIAO = 'Plrd';
     const INSCRIPTIONAL_PARTHIAN = 'Prti';
     const REJANG = 'Rjng';
+    const HANIFI_ROHINGYA = 'Rohg';
     const RUNIC = 'Runr';
     const SAMARITAN = 'Samr';
     const OLD_SOUTH_ARABIAN = 'Sarb';
@@ -121,6 +132,8 @@ class Script extends Enumeration
     const KHUDAWADI = 'Sind';
     const SINHALA = 'Sinh';
     const SORA_SOMPENG = 'Sora';
+    const SOGDIAN = 'Sogd';
+    const OLD_SOGDIAN = 'Sogo';
     const SOYOMBO = 'Soyo';
     const SUNDANESE = 'Sund';
     const SYLOTI_NAGRI = 'Sylo';
@@ -142,8 +155,10 @@ class Script extends Enumeration
     const UGARITIC = 'Ugar';
     const VAI = 'Vaii';
     const WARANG_CITI = 'Wara';
+    const WANCHO = 'Wcho';
     const OLD_PERSIAN = 'Xpeo';
     const CUNEIFORM = 'Xsux';
+    const YEZI = 'Yezi';
     const YI = 'Yiii';
     const ZANABAZAR = 'Zanb';
     const INHERITED = 'Zinh';
